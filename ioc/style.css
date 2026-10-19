@@ -1,0 +1,774 @@
+/* tpl-presenter-mode-reveal · scoped styles
+ * 《管理驾驶舱的进化》管理层汇报 deck.
+ * Inherits tokens from active theme (corporate-clean).
+ */
+
+.tpl-presenter-mode-reveal .slide {
+  padding: 72px 96px;
+}
+
+.tpl-presenter-mode-reveal .kicker {
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+  color: var(--text-3);
+  letter-spacing: 0.14em;
+  margin: 0 0 18px 0;
+}
+
+.tpl-presenter-mode-reveal .h1 {
+  font-size: clamp(44px, 5.6vw, 76px);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px 0;
+}
+
+.tpl-presenter-mode-reveal .h2 {
+  font-size: clamp(30px, 3.2vw, 44px);
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  margin: 0 0 24px 0;
+}
+
+.tpl-presenter-mode-reveal .lede {
+  font-size: 20px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+.tpl-presenter-mode-reveal .mono {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.9em;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--accent-2);
+}
+
+.tpl-presenter-mode-reveal .accent {
+  color: var(--accent-2);
+  font-weight: 700;
+}
+
+.tpl-presenter-mode-reveal .speaker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+.tpl-presenter-mode-reveal .speaker .av {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--grad);
+}
+.tpl-presenter-mode-reveal .speaker b {
+  display: block;
+  font-size: 16px;
+}
+.tpl-presenter-mode-reveal .speaker span {
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+/* Agenda / generic list rows */
+.tpl-presenter-mode-reveal .agenda-row {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 13px 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: var(--surface);
+}
+.tpl-presenter-mode-reveal .agenda-row .num {
+  font-family: var(--font-mono, monospace);
+  font-size: 14px;
+  color: var(--accent-2);
+  font-weight: 700;
+}
+.tpl-presenter-mode-reveal .agenda-row .t {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text-1);
+}
+.tpl-presenter-mode-reveal .agenda-row .d {
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+/* Cards */
+.tpl-presenter-mode-reveal .card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 22px;
+}
+.tpl-presenter-mode-reveal .card-accent {
+  border-top: 3px solid var(--accent-2);
+}
+.tpl-presenter-mode-reveal .card h4 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: var(--text-1);
+}
+.tpl-presenter-mode-reveal .card .dim {
+  color: var(--text-2);
+  font-size: 14.5px;
+  line-height: 1.62;
+  margin: 0;
+}
+.tpl-presenter-mode-reveal .card .dim b,
+.tpl-presenter-mode-reveal .card .dim strong { color: var(--accent-2); }
+
+/* Feature rows */
+.tpl-presenter-mode-reveal .feature-row {
+  display: flex;
+  gap: 14px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+}
+.tpl-presenter-mode-reveal .feature-row:last-child { border-bottom: none; }
+.tpl-presenter-mode-reveal .feature-row .num {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.tpl-presenter-mode-reveal .feature-row b {
+  display: block;
+  font-size: 16.5px;
+  margin-bottom: 4px;
+  color: var(--text-1);
+}
+.tpl-presenter-mode-reveal .feature-row .dim {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.55;
+  margin: 0;
+}
+.tpl-presenter-mode-reveal .blue { color: #1d4ed8; }
+.tpl-presenter-mode-reveal .green { color: var(--good, #0e9f6e); }
+.tpl-presenter-mode-reveal .orange { color: var(--warn, #d97706); }
+.tpl-presenter-mode-reveal .purple { color: #7c3aed; }
+.tpl-presenter-mode-reveal .red { color: var(--bad, #dc2626); }
+
+/* Rule / list rows (numbered statements) */
+.tpl-presenter-mode-reveal .rule-row {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 20px;
+  align-items: start;
+  padding: 16px 22px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  background: var(--surface);
+}
+.tpl-presenter-mode-reveal .rule-row .num {
+  font-size: 28px;
+  font-weight: 800;
+  font-family: var(--font-mono, monospace);
+  line-height: 1;
+}
+.tpl-presenter-mode-reveal .rule-row b {
+  display: block;
+  font-size: 17.5px;
+  margin-bottom: 6px;
+  color: var(--text-1);
+}
+.tpl-presenter-mode-reveal .rule-row .dim {
+  font-size: 14.5px;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Grid helpers */
+.tpl-presenter-mode-reveal .grid { display: grid; gap: 18px; }
+.tpl-presenter-mode-reveal .grid.g2 { grid-template-columns: 1fr 1fr; }
+.tpl-presenter-mode-reveal .grid.g3 { grid-template-columns: repeat(3, 1fr); }
+.tpl-presenter-mode-reveal .grid.g4 { grid-template-columns: repeat(4, 1fr); }
+
+.tpl-presenter-mode-reveal .mt-m { margin-top: 20px; }
+.tpl-presenter-mode-reveal .mt-l { margin-top: 30px; }
+.tpl-presenter-mode-reveal .mt-s { margin-top: 10px; }
+.tpl-presenter-mode-reveal .tc { text-align: center; }
+
+/* ============ 本片新增组件 ============ */
+
+/* 结论条：完整句结论 */
+.tpl-presenter-mode-reveal .concl {
+  margin-top: 24px;
+  padding: 15px 22px;
+  background: var(--surface-2);
+  border-left: 4px solid var(--accent-2);
+  border-radius: 8px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-1);
+}
+.tpl-presenter-mode-reveal .concl b { color: var(--accent-2); }
+
+/* 分层架构堆叠图 */
+.tpl-presenter-mode-reveal .layers {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 4px;
+}
+.tpl-presenter-mode-reveal .layer {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 18px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.tpl-presenter-mode-reveal .layer .lname {
+  font-weight: 700;
+  font-size: 15.5px;
+  color: var(--text-1);
+}
+.tpl-presenter-mode-reveal .layer .ldesc {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+.tpl-presenter-mode-reveal .layer-new {
+  background: var(--grad);
+  border: none;
+  box-shadow: var(--shadow);
+}
+.tpl-presenter-mode-reveal .layer-new .lname,
+.tpl-presenter-mode-reveal .layer-new .ldesc { color: #fff; }
+.tpl-presenter-mode-reveal .layer-sem {
+  border: 2px solid var(--accent-2);
+  background: var(--surface-2);
+}
+.tpl-presenter-mode-reveal .layer-sem .lname { color: var(--accent-2); }
+.tpl-presenter-mode-reveal .layer-dim { opacity: 0.72; }
+
+/* 时代演进横向流 */
+.tpl-presenter-mode-reveal .era-flow {
+  display: grid;
+  grid-template-columns: 1fr 38px 1fr 38px 1fr;
+  align-items: stretch;
+  margin-top: 26px;
+}
+.tpl-presenter-mode-reveal .era-box {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 22px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.tpl-presenter-mode-reveal .era-box .etag {
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  color: var(--text-3);
+  letter-spacing: 0.1em;
+}
+.tpl-presenter-mode-reveal .era-box h4 {
+  margin: 8px 0 8px 0;
+  font-size: 21px;
+  color: var(--text-1);
+}
+.tpl-presenter-mode-reveal .era-box p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+.tpl-presenter-mode-reveal .era-hot {
+  border-top: 4px solid var(--accent-2);
+}
+.tpl-presenter-mode-reveal .era-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  color: var(--accent-2);
+  font-weight: 700;
+}
+
+/* 进化回路（环形流程的横向表达） */
+.tpl-presenter-mode-reveal .loop {
+  display: grid;
+  grid-template-columns: 1fr 26px 1fr 26px 1fr 26px 1fr 26px 1fr;
+  align-items: stretch;
+  margin-top: 22px;
+}
+.tpl-presenter-mode-reveal .loop .node {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 8px;
+  text-align: center;
+  background: var(--surface);
+}
+.tpl-presenter-mode-reveal .loop .node b {
+  display: block;
+  font-size: 16.5px;
+  color: var(--text-1);
+  margin-bottom: 4px;
+}
+.tpl-presenter-mode-reveal .loop .node span {
+  font-size: 12.5px;
+  color: var(--text-3);
+  line-height: 1.45;
+  display: block;
+}
+.tpl-presenter-mode-reveal .loop .node-hot {
+  border: 1.5px solid var(--accent-2);
+  background: var(--surface-2);
+}
+.tpl-presenter-mode-reveal .loop .node-hot b { color: var(--accent-2); }
+.tpl-presenter-mode-reveal .loop .arr {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-2);
+  font-weight: 700;
+  font-size: 20px;
+}
+.tpl-presenter-mode-reveal .loop-back {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 15.5px;
+  color: var(--accent-2);
+  font-weight: 600;
+}
+
+/* 五级落地阶梯 */
+.tpl-presenter-mode-reveal .ladder {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-top: 26px;
+  height: 400px;
+}
+.tpl-presenter-mode-reveal .ladder .step {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-bottom: 3px solid var(--border-strong, var(--border));
+  border-radius: 10px 10px 0 0;
+  background: var(--surface);
+  padding: 14px 16px;
+}
+.tpl-presenter-mode-reveal .ladder .step .lv {
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-2);
+}
+.tpl-presenter-mode-reveal .ladder .step b {
+  display: block;
+  font-size: 17px;
+  margin: 4px 0 6px 0;
+  color: var(--text-1);
+}
+.tpl-presenter-mode-reveal .ladder .step p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+.tpl-presenter-mode-reveal .ladder .step-hot {
+  border: 2px solid var(--accent-2);
+  border-bottom: 4px solid var(--accent-2);
+  background: var(--surface-2);
+}
+.tpl-presenter-mode-reveal .badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--accent-2);
+  color: var(--accent-ink, #fff);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* 三源一出 */
+.tpl-presenter-mode-reveal .src3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.tpl-presenter-mode-reveal .src-card {
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent-2);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 16px 18px;
+}
+.tpl-presenter-mode-reveal .src-card .stag {
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  color: var(--accent-2);
+  font-weight: 700;
+}
+.tpl-presenter-mode-reveal .src-card b {
+  display: block;
+  font-size: 17px;
+  margin: 6px 0 6px 0;
+  color: var(--text-1);
+}
+.tpl-presenter-mode-reveal .src-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+.tpl-presenter-mode-reveal .down-arrow {
+  text-align: center;
+  font-size: 26px;
+  color: var(--accent-2);
+  line-height: 1;
+  margin: 12px 0;
+  font-weight: 700;
+}
+.tpl-presenter-mode-reveal .out-card {
+  background: var(--grad);
+  border-radius: 10px;
+  padding: 16px 22px;
+  color: #fff;
+  text-align: center;
+  font-size: 17px;
+  line-height: 1.6;
+}
+.tpl-presenter-mode-reveal .out-card b { color: #fff; }
+
+/* 对比表 / 换代表 */
+.tpl-presenter-mode-reveal table.cmp {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 22px;
+  font-size: 15.5px;
+}
+.tpl-presenter-mode-reveal table.cmp th {
+  background: var(--accent);
+  color: var(--accent-ink, #fff);
+  font-weight: 700;
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 15px;
+}
+.tpl-presenter-mode-reveal table.cmp th.hl { background: var(--accent-2); }
+.tpl-presenter-mode-reveal table.cmp td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-2);
+  line-height: 1.55;
+  vertical-align: top;
+}
+.tpl-presenter-mode-reveal table.cmp td:first-child {
+  font-weight: 700;
+  color: var(--text-1);
+  white-space: nowrap;
+}
+.tpl-presenter-mode-reveal table.cmp td.hl {
+  background: var(--surface-2);
+  color: var(--text-1);
+}
+.tpl-presenter-mode-reveal table.cmp tr:last-child td { border-bottom: none; }
+
+/* 路线图 */
+.tpl-presenter-mode-reveal .roadmap {
+  display: grid;
+  grid-template-columns: 1fr 34px 1fr 34px 1fr;
+  align-items: stretch;
+  margin-top: 26px;
+}
+.tpl-presenter-mode-reveal .phase {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.tpl-presenter-mode-reveal .phase .ph-head {
+  background: var(--grad);
+  color: #fff;
+  padding: 12px 18px;
+}
+.tpl-presenter-mode-reveal .phase .ph-head b { font-size: 17px; }
+.tpl-presenter-mode-reveal .phase .ph-head span {
+  display: block;
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+.tpl-presenter-mode-reveal .phase .ph-body { padding: 14px 18px; }
+.tpl-presenter-mode-reveal .phase .ph-body ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.tpl-presenter-mode-reveal .phase .ph-body li {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--text-2);
+  margin-bottom: 6px;
+}
+.tpl-presenter-mode-reveal .phase .ph-body li b { color: var(--accent-2); }
+.tpl-presenter-mode-reveal .rm-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: var(--accent-2);
+  font-weight: 700;
+}
+
+/* 大数字 */
+.tpl-presenter-mode-reveal .bignum {
+  font-size: clamp(96px, 10vw, 150px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 金句页 */
+.tpl-presenter-mode-reveal .center-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.tpl-presenter-mode-reveal .quote-big {
+  font-size: clamp(34px, 3.8vw, 52px);
+  line-height: 1.6;
+  font-weight: 700;
+  color: var(--text-1);
+  max-width: 1440px;
+}
+.tpl-presenter-mode-reveal .reveal-line {
+  margin-top: 30px;
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 800;
+  color: var(--accent-2);
+}
+
+/* 两栏布局（图 + 特征） */
+.tpl-presenter-mode-reveal .split2 {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 28px;
+  align-items: start;
+  margin-top: 22px;
+}
+
+/* 代码块（保留但适配浅色） */
+.tpl-presenter-mode-reveal .code-block {
+  background: #0a2540;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 26px;
+  font-family: var(--font-mono, "SF Mono", monospace);
+  font-size: 15px;
+  line-height: 1.8;
+  color: #e6edf3;
+  white-space: pre-wrap;
+  text-align: left;
+}
+.tpl-presenter-mode-reveal .code-block .comment { color: #8b949e; }
+.tpl-presenter-mode-reveal .code-block .cmd { color: #7dd3fc; font-weight: 600; }
+.tpl-presenter-mode-reveal .code-block .flag { color: #fbbf24; }
+
+/* Stack helper */
+.tpl-presenter-mode-reveal .stack > * + * { margin-top: 0; }
+
+/* 战略沙盘：能力框架树 */
+.tpl-presenter-mode-reveal .sandbox {
+  margin-top: 36px;
+}
+.tpl-presenter-mode-reveal .sandbox-root {
+  width: max-content;
+  margin: 0 auto;
+  padding: 16px 56px;
+  border-radius: 12px;
+  background: var(--grad);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: var(--shadow);
+}
+.tpl-presenter-mode-reveal .sandbox-stem {
+  width: 2px;
+  height: 32px;
+  margin: 0 auto;
+  background: var(--border-strong);
+}
+.tpl-presenter-mode-reveal .sandbox-rail {
+  height: 2px;
+  margin: 0 8.3333%; /* 第一列中心 → 最后一列中心 */
+  background: var(--border-strong);
+}
+.tpl-presenter-mode-reveal .sandbox-leaves {
+  display: flex;
+  align-items: flex-start;
+}
+.tpl-presenter-mode-reveal .sandbox .tcol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 7px;
+}
+.tpl-presenter-mode-reveal .sandbox .tick {
+  flex-shrink: 0;
+  width: 2px;
+  height: 66px; /* 从横轨一直连到节点顶部（六列一致，节点同一水平线） */
+  margin: 0 auto;
+  background: var(--border-strong);
+}
+.tpl-presenter-mode-reveal .sandbox .tnode {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  text-align: center;
+  padding: 18px 8px 14px;
+}
+.tpl-presenter-mode-reveal .sandbox .tnode b {
+  display: block;
+  font-size: 19px;
+  color: var(--text-1);
+}
+.tpl-presenter-mode-reveal .sandbox .tnode span {
+  display: block;
+  margin-top: 5px;
+  font-size: 12.5px;
+  color: var(--text-3);
+  line-height: 1.45;
+}
+.tpl-presenter-mode-reveal .sandbox .tgroup {
+  flex: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  position: relative;
+  padding: 34px 0 14px; /* 顶部空隙 = 虚线框与横向连线的间距 */
+}
+/* 虚线框用伪元素绘制：与横轨脱开，下沉包住组内节点 */
+.tpl-presenter-mode-reveal .sandbox .tgroup::before {
+  content: "";
+  position: absolute;
+  top: 34px;
+  left: -6px;
+  right: -6px;
+  bottom: 0;
+  border: 2px dashed var(--accent-2);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent-2) 6%, transparent);
+}
+.tpl-presenter-mode-reveal .sandbox .tgroup .tcol {
+  padding: 0 5px;
+  position: relative; /* 组内连接线与节点绘制在虚线框之上 */
+}
+.tpl-presenter-mode-reveal .sandbox .tgroup .tick {
+  margin-top: -34px; /* 组内连接线跨出虚线框顶，接住横向连线 */
+}
+.tpl-presenter-mode-reveal .sandbox .tnode-hot {
+  border: 1.5px solid var(--accent-2);
+}
+.tpl-presenter-mode-reveal .sandbox .tnode-hot b { color: var(--accent-2); }
+.tpl-presenter-mode-reveal .sandbox .tnote {
+  flex: 1 1 100%;
+  margin-top: 12px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent-2);
+}
+.tpl-presenter-mode-reveal .sandbox .tnote b { color: var(--accent-2); }
+
+/* 问题→华为解法：上下两行对照卡（行动建议页） */
+.tpl-presenter-mode-reveal .row-cap {
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--text-3);
+  margin: 0 0 10px 2px;
+}
+.tpl-presenter-mode-reveal .hw-card { background: var(--surface-2); }
+.tpl-presenter-mode-reveal .hw-card .stag {
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent-2);
+  margin: 0 0 10px 0;
+}
+.tpl-presenter-mode-reveal .hw-card .org {
+  display: block;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-1);
+  margin: 0 0 4px 0;
+}
+.tpl-presenter-mode-reveal .hw-card .org-sub {
+  display: block;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-3);
+  margin: 0 0 10px 0;
+}
+.tpl-presenter-mode-reveal .hw-card .how {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.62;
+  color: var(--text-2);
+}
+.tpl-presenter-mode-reveal .hw-card .how b { color: var(--accent-2); }
+
+/* 凸字形虚线框（行动建议页专属）：上段窄框包住组内节点，下段宽框包住下方三个部门卡片。
+ * 上段沿用 .tgroup::before（去掉底边、下探到肩线），下段挂在 .cap-cards 上（左右下三边），
+ * 肩线 = 宽框顶边露在窄框两侧的两段，由 .cap-cards::after 与 .cap-shoulder-r 补齐。
+ * 横向定位公式：沙盘 4 个叶子项（3 个 tcol 各有 14px 水平 padding、tgroup 无），flex 均分后
+ * 每份 share = (W−42px)/6，窄框左边界 = share+8px、右边界 = 4·share+20px，两端各外扩 18px、
+ * 压边 2px 封接缝。若改动 tcol padding 或叶子列数需同步这两个公式。 */
+.tpl-presenter-mode-reveal .sandbox-cap .tgroup::before {
+  bottom: -14px; /* 下探到肩线（沙盘底部 14px），与宽框衔接 */
+  border-bottom: none; /* 凸字形内部连通，不封口 */
+  border-radius: 14px 14px 0 0;
+}
+.tpl-presenter-mode-reveal .cap-cards {
+  position: relative;
+  margin-top: 26px; /* 留出肩部过渡空间 */
+}
+.tpl-presenter-mode-reveal .cap-cards::before {
+  content: "";
+  position: absolute;
+  top: -12px; /* 肩线在卡片顶部上方 12px */
+  left: -18px;
+  right: -18px;
+  bottom: -12px;
+  border: 2px dashed var(--accent-2);
+  border-top: none;
+  border-radius: 0 0 14px 14px;
+  background: color-mix(in srgb, var(--accent-2) 6%, transparent);
+}
+.tpl-presenter-mode-reveal .cap-cards::after {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: -18px;
+  width: calc((100% - 42px) / 6 + 28px); /* 至窄框左边框（share+8px），压边 2px 封住接缝 */
+  border-top: 2px dashed var(--accent-2);
+}
+.tpl-presenter-mode-reveal .cap-cards .cap-shoulder-r {
+  position: absolute;
+  top: -12px;
+  left: calc(66.6667% - 10px); /* 自窄框右边框（4·share+20px）起，压边 2px 封住接缝 */
+  width: calc(33.3333% + 28px);
+  border-top: 2px dashed var(--accent-2);
+}

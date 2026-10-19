@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>08 · AI带来的四个变化</title>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../assets/animations/animations.css">
+<link rel="stylesheet" href="../style.css">
+<style>
+/* 本页专属：表头行文字居中（不影响其他使用 cmp 表格的页面） */
+.tpl-presenter-mode-reveal table.cmp th{text-align:center}
+/* 本页专属：对比表与 ChatBI 截图左右分栏；表格保持原定高 531px，仅收紧标题↔内容、
+   内容↔结论条两处间隔；取消基样的垂直居中，内容贴顶，收出的空白落到页面底部 */
+.tpl-presenter-mode-reveal .slide.p7{display:flex;flex-direction:column;justify-content:flex-start}
+.tpl-presenter-mode-reveal .slide.p7 .h2{margin-bottom:55px}
+.tpl-presenter-mode-reveal .p7-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:40px;align-items:center;margin-top:0;padding-bottom:55px}
+.tpl-presenter-mode-reveal .p7-concl{margin-top:0;padding:14px 22px;font-size:16.5px}
+.tpl-presenter-mode-reveal .p7-grid table.cmp{margin-top:0;height:531px;font-size:17px}
+.tpl-presenter-mode-reveal .p7-grid table.cmp th{padding:12px 16px;font-size:16px;height:54px}
+.tpl-presenter-mode-reveal .p7-grid table.cmp td{padding:14px 16px;line-height:1.65;vertical-align:middle}
+.tpl-presenter-mode-reveal .p7-fig{min-width:0;margin:0}
+.tpl-presenter-mode-reveal .p7-fig .img-frame{--img-ratio:2427/1332;border-radius:12px}
+.tpl-presenter-mode-reveal .p7-fig .img-cap{margin-top:10px;text-align:center}
+</style>
+</head>
+<body class="tpl-presenter-mode-reveal">
+<div class="deck">
+
+<section class="slide p7" data-title="AI带来的四个变化">
+    <p class="kicker">智能化阶段的管理驾驶舱</p>
+    <h2 class="h2">管理驾驶舱 2.0：<span class="accent">四个变化</span></h2>
+    <p>2024-2025 年 ChatBI 产品密集发布：阿里云 Quick BI、腾讯云 ChatBI、火山引擎 Data Agent​、百度 Sugar BI、华为 DataArts Insight，等等。​</p>
+    <div class="p7-grid">
+      <table class="cmp">
+        <tr><th style="width:15%;background:#fff;color:#1a1a1a">维度</th><th class="hl" style="width:40%">数字化时代</th><th style="width:45%">智能化时代</th></tr>
+        <tr><td>交互方式</td><td>人找数：固定看板 + 手动钻取</td><td class="hl"><b>对话问数</b><br/>自然语言直达数据，管理者开口即得</td></tr>
+        <tr><td>告警机制</td><td>人工设阈值，超限才报，误报漏报难免</td><td class="hl"><b>异常检测 + 自动归因</b><br/>从"人盯异常"变为"异常找人"</td></tr>
+        <tr><td>报告产出</td><td>分析师人工撰写周报月报</td><td class="hl"><b>AI 生成带归因的经营简报</b><br/>先给结论，人做审核</td></tr>
+        <tr><td>处置闭环</td><td>告警 → 人排查 → 人建单 → 人处理</td><td class="hl"><b>告警 → Agent 诊断并给建议 → 人审批后执行</b></td></tr>
+      </table>
+      <figure class="p7-fig">
+        <div class="img-frame contain"><img src="../assets/chatbi.webp" alt="阿里云 AI Native 智能商业分析 Quick BI 工具界面"></div>
+        <figcaption class="img-cap">阿里云发布的 AI Native 智能商业分析 Quick BI 工具</figcaption>
+      </figure>
+    </div>
+    <div class="concl p7-concl">数字化阶段驾驶舱的四个痛点，根子是同一件事：<b>每个环节都缺不了人</b>。2.0 的关键变化，就是把 AI 放进这条链路。用管理者的决策思维训练出一个<b>"数字分身"</b>，代替人跑完找数、看数、串动因、盯异常的全过程，把散落的数据直接加工成<b>可拍板的结论</b>；管理者从过程里退出来，<b>只做最后一道判断</b>。</div>
+    <div class="deck-footer">
+      <span class="mono">ERA 2 · 变化总览</span>
+      <span class="slide-number" data-current="7" data-total="17"></span>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/runtime.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>12 · 参考答案：华为数据之道</title>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../assets/animations/animations.css">
+<link rel="stylesheet" href="../style.css">
+<style>
+/* 本页专属：华为数据之道——数据底座参考架构（左：底座纵向流；右：治理 + 痛点对照） */
+.tpl-presenter-mode-reveal .dw-flow .layer { grid-template-columns: 168px 1fr; padding: 11px 16px; }
+.tpl-presenter-mode-reveal .dw-flow .layer .ldesc b { color: var(--accent-2); }
+.tpl-presenter-mode-reveal .dw-flow .layer-new .ldesc b { color: #fff; }
+.tpl-presenter-mode-reveal .dw-sources { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.tpl-presenter-mode-reveal .dw-src { border: 1px dashed var(--border); border-radius: 8px; padding: 9px 13px; background: var(--surface); }
+.tpl-presenter-mode-reveal .dw-src b { display: block; font-size: 14.5px; color: var(--text-1); }
+.tpl-presenter-mode-reveal .dw-src span { display: block; margin-top: 2px; font-size: 12px; line-height: 1.45; color: var(--text-3); }
+.tpl-presenter-mode-reveal .dw-arrow { display: flex; align-items: baseline; gap: 12px; color: var(--accent-2); font-weight: 700; font-size: 17px; line-height: 1.3; margin: 8px 0; }
+.tpl-presenter-mode-reveal .dw-gate { font-family: var(--font-mono, monospace); font-size: 11.5px; font-weight: 400; color: var(--text-3); letter-spacing: 0.01em; }
+.tpl-presenter-mode-reveal .dw-map { display: grid; grid-template-columns: 178px 1fr; gap: 12px; align-items: start; padding: 10px 2px; border-bottom: 1px solid var(--border); }
+.tpl-presenter-mode-reveal .dw-map:last-child { border-bottom: none; padding-bottom: 2px; }
+.tpl-presenter-mode-reveal .dw-map .p { font-size: 13.5px; font-weight: 700; line-height: 1.5; color: var(--warn, #d97706); }
+.tpl-presenter-mode-reveal .dw-map .a { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--text-2); }
+.tpl-presenter-mode-reveal .dw-map .a b { color: var(--accent-2); }
+.tpl-presenter-mode-reveal .dw-right .card { padding: 14px 18px; }
+.tpl-presenter-mode-reveal .dw-right .card .dim { font-size: 13.5px; }
+.tpl-presenter-mode-reveal .dw-right .concl { margin-top: 14px; padding: 12px 20px; font-size: 16px; }
+</style>
+</head>
+<body class="tpl-presenter-mode-reveal">
+<div class="deck">
+
+<section class="slide" data-title="参考答案：华为数据之道">
+    <p class="kicker">当前的三类问题 · ① 数据 · 参考答案</p>
+    <h2 class="h2">华为数据之道：<span class="accent">数据底座承接唯一可信源，数据治理管住口径</span></h2>
+
+    <div class="split2" style="margin-top:8px">
+      <div class="dw-flow">
+        <p class="row-cap">数据底座 · 数据只入一次湖，全公司从一个口子取数</p>
+        <div class="dw-sources">
+          <div class="dw-src"><b>业务系统</b><span>ERP / MES / CRM 等各域系统</span></div>
+          <div class="dw-src"><b>线下表格 · 纸质单据</b><span>先结构化、数字化，再入湖</span></div>
+          <div class="dw-src"><b>外部数据</b><span>媒体、供应商、行业数据</span></div>
+        </div>
+        <div class="dw-arrow">▼<span class="dw-gate">入湖六标准：Owner · 数据标准 · 密级 · 数据源 · 质量评估 · 元数据注册　｜　五种方式：批量 / 复制 / 消息 / 流 / 虚拟化</span></div>
+        <div class="layer"><span class="lname">数据湖</span><span class="ldesc">原始汇聚、不做加工：逻辑统一 · 类型多样（结构化 + 非结构化）· 保留原始记录</span></div>
+        <div class="dw-arrow">▼</div>
+        <div class="layer layer-sem"><span class="lname">主题联接</span><span class="ldesc">原材料 → 成品，五类联接：<b>指标</b>（口径在此统一定义）· 多维模型 · 图模型 · 标签 · 算法模型</span></div>
+        <div class="dw-arrow">▼</div>
+        <div class="layer layer-new"><span class="lname">数据服务与自助消费</span><span class="ldesc"><b>数出一孔</b> · 数据地图（找得到、读得懂）· 自助分析（人人都是分析师）· "三个 1"承诺时效</span></div>
+      </div>
+
+      <div class="dw-right">
+        <p class="row-cap">底座之外 · 先立规矩，再建湖</p>
+        <div class="card card-accent">
+          <h4>数据治理：让底座"同源一致"</h4>
+          <p class="dim"><b>信息架构四组件</b>：数据资产目录 · 数据标准 · 数据模型 · 数据分布；<b>认证数据源</b>——一点录入、多点调用，企业唯一数据源头。</p>
+          <p class="dim" style="margin-top:8px"><b>每类数据唯一业务 Owner</b>：口径一处定义、处处引用，争议有裁决；<b>质量六性</b>兜底——完整、及时、准确、一致、唯一、有效。</p>
+        </div>
+
+        <p class="row-cap" style="margin-top:16px">上一页的痛点 → 这套体系在哪里接住</p>
+        <div class="card">
+          <div class="dw-map"><span class="p">散落多系统、线下表格</span><p class="a"><b>六项标准入湖</b>、一次汇聚；线下数据先结构化再进湖，不再是孤本。</p></div>
+          <div class="dw-map"><span class="p">同一指标各算各</span><p class="a"><b>数据标准 + 唯一 Owner + 认证数据源</b>：一个数字只有一个口径。</p></div>
+          <div class="dw-map"><span class="p">时间对不齐、不及时</span><p class="a"><b>"及时性"列入质量六性</b>；流式入湖 + 数据服务"三个 1"（1 天 / 1 周 / 1 月）。</p></div>
+          <div class="dw-map"><span class="p">管理看不到准数</span><p class="a"><b>数出一孔 + 自助分析</b>：管理者从统一底座直接取数，不靠人工对账。</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="concl">这套体系正对上一页的两笔欠账：<b>缺唯一可信源</b>——数据底座就是 SSOT 的载体，数据只入一次湖；<b>指标体系缺位</b>——指标作为五类主题联接之一统一定义、处处引用。且口径统一靠<b>组织与标准先立起来</b>，不是买一套平台就能自动完成。</div>
+    <div class="deck-footer">
+      <span class="mono">三类问题 · 数据 · 参考答案</span>
+      <span class="slide-number" data-current="12" data-total="16"></span>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/runtime.js"></script>
+</body>
+</html>

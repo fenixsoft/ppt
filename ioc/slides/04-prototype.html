@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>04 · 驾驶舱原型演示</title>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../assets/animations/animations.css">
+<link rel="stylesheet" href="../style.css">
+<style>
+/* —— 第 4 页专属：全幅嵌入 prototype/index.html（1920×1080 原型自带 scale-to-fit）—— */
+.p4-frame{position:absolute;inset:0;width:100%;height:100%;border:none;background:#fff}
+</style>
+</head>
+<body class="tpl-presenter-mode-reveal" data-interactive>
+<div class="deck">
+
+<section class="slide" data-title="驾驶舱原型演示" style="padding:0">
+    <iframe id="proto" class="p4-frame" src="../prototype/index.html" title="DS480 驾驶舱高保真原型"></iframe>
+  </section>
+
+</div>
+
+<script>
+/* 第 4 页包装层（薄壳）：本页与其他页完全一致，←/→ 等按键全部交还 shell
+ * 做 deck 翻页（preview-key）；原型五屏只通过鼠标点页签切换，不占键盘。
+ *  - 用户点进原型内容后焦点在原型文档里，原型会把按键转发上来(ioc-key)，原样转交 shell
+ *  - 离开本页时把焦点还给 shell(slide-hide → parent.focus())，避免困在隐藏 iframe */
+(function(){
+  const embedded=window.parent!==window;
+  function toShell(key){
+    if(!embedded)return;
+    try{parent.postMessage({type:'preview-key',key:key},'*')}catch(e){}
+  }
+  function toShellWheel(w){
+    if(!embedded)return;
+    try{parent.postMessage({type:'preview-wheel',deltaY:w.deltaY,deltaMode:w.deltaMode||0},'*')}catch(e){}
+  }
+  addEventListener('keydown',function(e){
+    if(e.metaKey||e.ctrlKey||e.altKey)return;
+    toShell(e.key);
+    if(['ArrowRight','ArrowLeft','PageUp','PageDown',' ','Enter','Backspace','Home','End'].includes(e.key))e.preventDefault();
+  });
+  addEventListener('wheel',function(e){toShellWheel(e);},{passive:true});
+  addEventListener('message',function(e){
+    if(!e.data)return;
+    if(e.data.type==='ioc-key'&&typeof e.data.key==='string'){toShell(e.data.key);}
+    else if(e.data.type==='ioc-wheel'&&typeof e.data.deltaY==='number'){toShellWheel(e.data);}
+    else if(e.data.type==='slide-hide'){try{parent.focus()}catch(err){}}
+  });
+})();
+</script>
+<script src="../../assets/runtime.js"></script>
+</body>
+</html>

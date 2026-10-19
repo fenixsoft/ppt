@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>13 · 行动建议：主要问题与参考答案</title>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../assets/animations/animations.css">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body class="tpl-presenter-mode-reveal">
+<div class="deck">
+
+<section class="slide" data-title="行动建议：主要问题与参考答案">
+    <p class="kicker">行动建议总结</p>
+    <h2 class="h2">总结：<span class="accent">主线问题</span>与<span class="accent">解决方案</span></h2>
+    <p class="row-cap">当前的问题</p>
+    <div class="grid g3">
+      <div class="card card-accent">
+        <h4>数据</h4>
+        <p class="dim">部分指标可从 IT 系统取数，但<b>不少仍靠手工统计、无法自动化</b>。</p>
+        <p class="dim" style="margin-top:8px">公司<b>没有数据湖</b>，缺 <b>Single source of truth</b>，同一口径没有唯一可信的数据源。</p>
+      </div>
+      <div class="card card-accent">
+        <h4>应用</h4>
+        <p class="dim"><b>部分系统缺位</b>，业务用 Excel、飞书多维表格线下操作。</p>
+        <p class="dim" style="margin-top:8px">连带三个问题：<b>控制力度弱</b>（权限、流程、校验缺失）、<b>脏数据多</b>、<b>口径不一致</b>。</p>
+      </div>
+      <div class="card card-accent">
+        <h4>架构设计</h4>
+        <p class="dim"><b>缺一份"系统家底"档案</b>：系统边界与集成、数据与业务支撑情况都没有信息源。</p>
+        <p class="dim" style="margin-top:8px">无法判断各系统的建设先后，缺全局视角，容易<b>"头痛医头、脚痛医脚"</b>。</p>
+      </div>
+    </div>
+
+    <p class="row-cap" style="margin-top:26px"><b>先立组织、再立规则、后建系统</b>，组织让问题有主人，规则让口径有标准，架构让投入有先后。</p>
+
+    <div class="sandbox sandbox-cap">
+      <div class="sandbox-root">企业数字化/智能化能力框架</div>
+      <div class="sandbox-stem"></div>
+      <div class="sandbox-rail"></div>
+      <div class="sandbox-leaves">
+        <div class="tcol">
+          <i class="tick"></i>
+          <div class="tnode"><b>流程</b><span>流程管理部<br/>端到端业务流程</span></div>
+        </div>
+        <div class="tgroup">
+          <div class="tcol">
+            <i class="tick"></i>
+            <div class="tnode tnode-hot"><b>数据</b><span>数据管理部<br/>数据资产与指标口径</span></div>
+          </div>
+          <div class="tcol">
+            <i class="tick"></i>
+            <div class="tnode tnode-hot"><b>IT应用</b><span>IT装备部与IT平台部<br/>应用系统布局</span></div>
+          </div>
+          <div class="tcol">
+            <i class="tick"></i>
+            <div class="tnode tnode-hot"><b>EA架构</b><span>企业架构部<br/>企业架构的标准规划</span></div>
+          </div>
+        </div>
+        <div class="tcol">
+          <i class="tick"></i>
+          <div class="tnode"><b>AI使能</b><span>AI 使能部<br/>AI 能力注入场景</span></div>
+        </div>
+        <div class="tcol">
+          <i class="tick"></i>
+          <div class="tnode"><b>安全</b><span>安全/隐私办公室<br/>网络安全、信息安全、隐私保护</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid g3 cap-cards">
+      <div class="card card-accent hw-card">
+        <span class="org">数据管理部</span>
+        <span class="org-sub">公司数据的管理组织，在流程 IT 和各业务领域设数据管理部，虚实结合</span>
+        <p class="how">代表公司制定<b>数据架构、数据质量、数据源</b>三大管理政策；建设<b>统一数据底座</b>作为唯一可信数据源，打破数据孤岛；每类数据指定<b>业务 Owner</b>：口径一处定义、处处引用。</p>
+      </div>
+      <div class="card card-accent hw-card">
+        <span class="org">产品数字化与 IT 装备部 / IT 平台部</span>
+        <span class="org-sub">前者把业务搬进系统，后者造研发工具链</span>
+        <p class="how">"<b>业务流程化、流程 IT 化</b>"：IPD、LTC、ISC 等端到端主干业务全部搬进系统，<b>权限、校验与集成</b>内建，线下表格只做补充；研发侧打造覆盖规划到发布的<b>全流程 IT 工具链</b>。</p>
+      </div>
+      <div class="card card-accent hw-card">
+        <span class="org">企业架构与变革管理部</span>
+        <span class="org-sub">企业架构制定的 Owner，变革指导委员会（ESC）的支撑与执行组织</span>
+        <p class="how">把 EA 方法<b>融入变革与 IT 规划流程</b>；集团到 BG / 区域<b>分层架构设计</b>，先有全局蓝图；方案按"<b>四位一体</b>"设计；变革项目<b>统一路标规划</b>，排定先后、裁决跨域边界冲突，正是治"头痛医头"的药方。</p>
+      </div>
+      <i class="cap-shoulder-r"></i>
+    </div>
+    <div class="deck-footer">
+      <span class="mono">行动 · 核心问题与参考答案</span>
+      <span class="slide-number" data-current="15" data-total="16"></span>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/runtime.js"></script>
+</body>
+</html>

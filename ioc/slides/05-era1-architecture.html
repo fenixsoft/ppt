@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>05 · 驾驶舱1.0全貌</title>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../assets/animations/animations.css">
+<link rel="stylesheet" href="../style.css">
+<style>
+  /* 本页专用：示意图样式 */
+  .tpl-presenter-mode-reveal .col-tag {
+    font-family: var(--font-mono, monospace);
+    font-size: 12.5px;
+    letter-spacing: 0.12em;
+    color: var(--text-3);
+    margin: 0 0 10px 0;
+  }
+  /* 本页专用：整幅架构图居中为主视觉（宽度 = 画布的 75%；.slide 左右各 96px 内边距，故在内容宽上补 144px） */
+  .tpl-presenter-mode-reveal .ds-wrap {
+    width: calc(75% + 144px);
+    margin: 20px auto 0;
+  }
+  .tpl-presenter-mode-reveal .ds-wrap .col-tag { text-align: center; }
+  .tpl-presenter-mode-reveal .ds-note {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 13.5px;
+    color: var(--text-2);
+    line-height: 1.5;
+  }
+  .tpl-presenter-mode-reveal .ds-note b { color: var(--accent-2); }
+
+  /* 本页专用：数据体系嵌套大框示意图 */
+  .tpl-presenter-mode-reveal .ds-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .tpl-presenter-mode-reveal .ds-box {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    padding: 11px 14px 12px;
+  }
+  .tpl-presenter-mode-reveal .ds-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .tpl-presenter-mode-reveal .ds-head b {
+    font-size: 15px;
+    color: var(--text-1);
+  }
+  .tpl-presenter-mode-reveal .ds-head span {
+    font-size: 12.5px;
+    color: var(--text-3);
+  }
+  .tpl-presenter-mode-reveal .ds-chips {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 8px;
+  }
+  .tpl-presenter-mode-reveal .ds-chips span {
+    padding: 8px 6px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface-2);
+    font-size: 14px;
+    color: var(--text-1);
+    text-align: center;
+    white-space: nowrap;
+  }
+  .tpl-presenter-mode-reveal .ds-cockpits {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 10px;
+    margin-top: 2px;
+  }
+  .tpl-presenter-mode-reveal .ds-cockpits span {
+    padding: 14px 6px;
+    border: 1.5px solid var(--accent-2);
+    border-radius: 10px;
+    background: var(--surface);
+    font-size: 15.5px;
+    font-weight: 600;
+    color: var(--accent-2);
+    text-align: center;
+    white-space: nowrap;
+  }
+  .tpl-presenter-mode-reveal .ds-chips span.more,
+  .tpl-presenter-mode-reveal .ds-cockpits span.more {
+    border: none;
+    background: none;
+    color: var(--text-3);
+    font-weight: 700;
+  }
+  .tpl-presenter-mode-reveal .ds-pipe {
+    text-align: center;
+    font-size: 12.5px;
+    color: var(--text-3);
+    line-height: 1.2;
+    margin: -3px 0;
+  }
+</style>
+</head>
+<body class="tpl-presenter-mode-reveal">
+<div class="deck">
+
+<section class="slide" data-title="驾驶舱1.0全貌">
+    <p class="kicker">数字化阶段的驾驶舱建设思路</p>
+    <h2 class="h2">管理驾驶舱 1.0：<span class="accent">典型架构</span></h2>
+    <div class="ds-wrap">
+      <p class="col-tag">IOC 应用 · 统一架构示意</p>
+      <div class="ds-stack">
+          <div class="ds-cockpits">
+            <span>经营驾驶舱</span><span>营销驾驶舱</span><span>产品驾驶舱</span><span>技术驾驶舱</span><span>项目驾驶舱</span><span class="more">……</span>
+          </div>
+          <div class="ds-box">
+            <div class="ds-head"><b>指标体系</b><span>唯一数据可信源，企业IOC唯一来源</span></div>
+            <div class="ds-chips"><span>指标定义</span><span>统一口径</span><span>维度规范</span><span>指标目录</span></div>
+          </div>
+          <div class="ds-box">
+            <div class="ds-head"><b>存储与计算</b><span>数据在这里分批/实时汇聚</span></div>
+            <div class="ds-chips"><span>数据湖</span><span>离线数仓</span><span>实时数仓</span><span>OLAP 分析引擎</span></div>
+          </div>
+          <div class="ds-pipe">↑ 数据采集：ETL 批量同步 · CDC 实时抽取 · 消息队列</div>
+          <div class="ds-box">
+            <div class="ds-head"><b>业务系统</b><span>数据从这里产生</span></div>
+            <div class="ds-chips"><span>ERP</span><span>CRM</span><span>MES</span><span>SRM</span><span>WMS</span><span>HRM</span><span class="more">……</span></div>
+          </div>
+        </div>
+      <div class="ds-note">▲ 五个驾驶舱共用同一套指标体系，<b>口径统一，数字才对得上</b></div>
+    </div>
+    <div class="concl">
+      <b>为什么不能建设孤立的IOC应用：</b>确保每一个 IOC 应用都从同一组指标中取数<b>口径一致</b>，<b>结果才可追溯</b>。如果把每个 IOC 都当作独立应用各自建设，初期也许更快，但边际成本很高：各应用的数据和计算逻辑难免互相冲突，数据一旦不准，就会失去用户信任，驾驶舱很快就会沦为花瓶。
+      <br/><br/>
+      <b>举个例子：</b>老板希望了解 X 产品的研发费用：ERP 里面有费用金额，PPM 里面有项目和工时，HRM 里面有人员和薪酬，PDM 里面有 BOM 信息，WMS 有领料记录，RDM 里面有需求和设计方案……这些信息具备天然的勾稽关系，是研发费用真实性的天然作证。
+    </div>
+    <div class="deck-footer">
+      <span class="mono">ERA 1 · 架构与特征</span>
+      <span class="slide-number" data-current="5" data-total="19"></span>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/runtime.js"></script>
+</body>
+</html>

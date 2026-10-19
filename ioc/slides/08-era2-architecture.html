@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>09 · 驾驶舱的架构变化</title>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../assets/animations/animations.css">
+<link rel="stylesheet" href="../style.css">
+<style>
+/* 本页专属：架构增量 + 三源一出 两块内容上下合并为一页的紧凑版式 */
+.tpl-presenter-mode-reveal .sub-h{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;color:var(--text-1);margin:18px 0 12px}
+.tpl-presenter-mode-reveal .sub-h .no{font-family:var(--font-mono,monospace);font-size:13px;font-weight:700;color:var(--accent-2);border:1px solid var(--accent-2);border-radius:6px;padding:1px 8px;white-space:nowrap}
+.tpl-presenter-mode-reveal .split2{margin-top:0}
+.tpl-presenter-mode-reveal .split2 .card{padding:14px 18px}
+.tpl-presenter-mode-reveal .split2 .card .dim{font-size:14px}
+.tpl-presenter-mode-reveal .layer{padding:10px 16px}
+.tpl-presenter-mode-reveal .down-arrow{margin:6px 0}
+.tpl-presenter-mode-reveal .out-card{padding:12px 22px}
+.tpl-presenter-mode-reveal .concl{margin-top:14px;padding:12px 20px;font-size:16px}
+</style>
+</head>
+<body class="tpl-presenter-mode-reveal">
+<div class="deck">
+
+<section class="slide" data-title="驾驶舱的架构变化">
+    <p class="kicker">智能化阶段的管理驾驶舱</p>
+    <h2 class="h2">管理驾驶舱 2.0：<span class="accent">架构增量</span></h2>
+
+    <p class="sub-h">架构增量一：从局部来看，新增 Agent 层，指标体系的重要性进一步增加</p>
+    <div class="split2">
+      <div class="layers">
+        <div class="layer layer-new"><span class="lname">★ Agent 应用层（新增）</span><span class="ldesc">ChatBI 智能问数 · 异动归因引擎 · 报告生成/处置 Agent</span></div>
+        <div class="layer layer-sem"><span class="lname">指标体系</span><span class="ldesc">地位跃升：成为 LLM 防幻觉的"事实锚点"。所有口径的唯一出处</span></div>
+        <div class="layer"><span class="lname">存储与计算</span><span class="ldesc">数据 API · 数据湖 · 权限（不变） · 新增向量库（存非结构化知识）</span></div>
+        <div class="layer layer-dim"><span class="lname">业务系统</span><span class="ldesc">基本不变</span></div>
+      </div>
+      <div>
+        <div class="card card-accent">
+          <h4>将新增的 Agent 理解为管理者的“数字分身”</h4>
+          <p class="dim">管理者的关注点在随着企业规模、产品阶段、技术发展而变化，决策逻辑也不是恒定的，让 AI 学习管理者，<b>模拟决策过程，拟合决策结果</b>是 IOC 应用发展的趋势。下一代 RSI 的 AI 应用针对这点进行了增强</p>
+          <br/>
+          <h4>指标体系是约束模型的关键</h4>
+          <p class="dim">大模型<b>不能直接吃明细数据</b>，表结构理解错一点，答案就错，这就是"一问就胡说"的来源。它必须吃<b>口径可信的指标</b>：指标定义统一、含义明确、出处唯一。</p>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <p class="sub-h">架构增量二：从整体来看，完全符合 AI 工厂生产智能的"三源一出"结构</p>
+    <div class="src3">
+      <div class="src-card">
+        <span class="stag">输入源 ①</span>
+        <b>指标体系 → 可信事实</b>
+        <p>口径校准的经营数字与含义，AI 一切判断的事实基础。</p>
+      </div>
+      <div class="src-card">
+        <span class="stag">输入源 ②</span>
+        <b>本体 + 案例库 → 知识经验</b>
+        <p>设备/订单/工序的关系规则，加上历史诊断处置案例。</p>
+      </div>
+      <div class="src-card">
+        <span class="stag">输入源 ③</span>
+        <b>模型 → 认知与推理</b>
+        <p>综合、归因、生成能力。算力只是成本项，买的是认知。</p>
+      </div>
+    </div>
+    <div class="down-arrow">▼</div>
+    <div class="out-card">输出 = <b>结论 + 证据链 + 备选方案</b>　→　决策<br/>这就是智能的具象化，结论必须可追溯：结论 → 指标 → 明细 → 凭证</div>
+    <div class="deck-footer">
+      <span class="mono">ERA 2 · 架构与结构</span>
+      <span class="slide-number" data-current="9" data-total="18"></span>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/runtime.js"></script>
+</body>
+</html>

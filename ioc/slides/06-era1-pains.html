@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>07 · 1.0的痛点</title>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../assets/animations/animations.css">
+<link rel="stylesheet" href="../style.css">
+<style>
+/* —— 第 7 页专属：左"靠人"痛点 / 右驾驶舱配图 —— */
+.p7-split{display:grid;grid-template-columns:1fr 400px;gap:32px;align-items:start;margin-top:8px}
+.p7-pains{display:flex;flex-direction:column;gap:14px;min-width:0}
+.p7-pains .rule-row{margin-bottom:0;align-items:center}
+.p7-pains .rule-row b{font-size:18px}
+.p7-pains .rule-row .dim{font-size:15px;line-height:1.65}
+/* style.css 的 .rule-row b 是 display:block（针对标题），正文行内加粗需还原为行内 */
+.p7-pains .rule-row .dim b{display:inline;font-size:inherit;margin-bottom:0;color:var(--accent-2)}
+.p7-fig{min-width:0;margin-top:-90px}
+.p7-fig .img-frame{--img-ratio:400/600;--img-pos:center 45%;border-radius:14px}
+</style>
+</head>
+<body class="tpl-presenter-mode-reveal">
+<div class="deck">
+
+<section class="slide" data-title="1.0的痛点">
+    <p class="kicker">数字化阶段的管理驾驶舱</p>
+    <h2 class="h2">管理驾驶舱 1.0：<span class="accent">找数靠人，判断靠人</span></h2>
+    <h4>数字化阶段的管理驾驶舱的痛点</h4>
+    <div class="p7-split">
+      <div class="p7-pains">
+        <div class="rule-row"><span class="num">01</span><div><b>人找数</b><p class="dim">数据散落在各业务系统里，老板想看一个数、核一个口径，要等人去捞数、拉表、对齐解释。<b>找数这件事，始终是人在做</b>。</p></div></div>
+        <div class="rule-row"><span class="num">02</span><div><b>人分析</b><p class="dim">屏上几十上百个指标只是<b>动因</b>，动因叠加之后"会导致什么结果"，要靠人脑在报表之间自己串联，1.0 是"报表集合"，不是"决策场景的结构化表达"。</p></div></div>
+        <div class="rule-row"><span class="num">03</span><div><b>人盯异常</b><p class="dim">异常要靠人守着才发现：人工设阈值，<b>误报漏报</b>不断，数字又多停留在 <b>T+1</b>，等异动被看见，处置窗口往往已经关闭。</p></div></div>
+        <div class="rule-row"><span class="num">04</span><div><b>人没省下来</b><p class="dim">约 <b>80% 工作量</b>花在数据治理与口径统一上；建完之后，找数、分析、盯盘、写报告、跑处置还得靠人。<b>驾驶舱建好了，人却没有省下来</b>。</p></div></div>
+      </div>
+      <figure class="p7-fig">
+        <div class="img-frame"><img src="../assets/cockpit.webp" alt="飞机驾驶舱：密布的仪表与开关"></div>
+        <figcaption class="img-cap">飞机驾驶舱：上百个仪表与开关，只有受过多年训练的飞行员读得懂——老板的驾驶舱，不应该是它的缩微版。</figcaption>
+      </figure>
+    </div>
+    <div class="concl">平心而论，能<b>正确地把数据展示出来</b>，1.0 已是巨大进步，但定位也止步于此：相当于把一架飞机驾驶舱交到老板手里，<b>找数、分析、判断仍全部交还给人</b>。面向老板 / CEO 的驾驶舱不应如此：2.0 的目标，是让老板<b>用最快速度发现企业经营中的异常、快速做出决策</b>。</div>
+    <div class="deck-footer">
+      <span class="mono">ERA 1 · 痛点</span>
+      <span class="slide-number" data-current="7" data-total="19"></span>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/runtime.js"></script>
+</body>
+</html>

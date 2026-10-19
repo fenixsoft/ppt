@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DS480 经营驾驶舱 · 项目驾驶舱体系</title>
+<script src="echarts.min.js"></script>
+<link rel="stylesheet" href="fonts.css">
+<style>
+/* ============ 设计 Token（唯一来源，详见 STYLE-GUIDE.md）============ */
+:root{
+  --brand-900:#0b5c2e;  --brand-700:#0e7b3d;  --brand-100:#e3f3e9;
+  --bg-page:#f5f6f8;    --surface:#ffffff;
+  --text-1:rgba(0,0,0,.88); --text-2:rgba(0,0,0,.65); --text-3:rgba(0,0,0,.45);
+  --border:#e5e6eb;     --split:rgba(5,5,5,.06);
+  --success:#52c41a;    --warning:#faad14;    --error:#ff4d4f;
+  --chart-1:#188a4c;    --chart-2:#2a78d6;    --chart-3:#eb6834;
+  --chart-neg:#d03b3b;  --chart-grid:#eef0f2;
+  --font:'Inter','Noto Sans SC',-apple-system,"Segoe UI","PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#fff}
+body{font-family:var(--font);color:var(--text-1)}
+
+/* ============ 1920×1080 舞台 + 等比缩放 ============ */
+.viewport{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center}
+.stage{width:1920px;height:1080px;background:var(--bg-page);display:flex;flex-direction:column;
+  transform-origin:center center;flex:none;position:relative}
+
+/* ============ 顶栏 ============ */
+.topbar{height:64px;background:var(--brand-900);display:flex;align-items:center;
+  padding:0 24px;gap:20px;flex:none}
+.brand{display:flex;align-items:center;gap:14px;min-width:0}
+.brand-mark{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.14);
+  display:flex;align-items:center;justify-content:center;flex:none}
+.brand-mark svg{display:block}
+.brand h1{font-size:22px;font-weight:600;color:#fff;letter-spacing:.5px;white-space:nowrap}
+.brand p{font-size:13px;color:rgba(255,255,255,.66);margin-top:2px;white-space:nowrap}
+.tabs{margin-left:auto;display:flex;gap:8px}
+.tab{height:36px;padding:0 18px;border-radius:18px;display:flex;align-items:center;
+  font-size:15px;font-weight:500;color:rgba(255,255,255,.85);cursor:pointer;
+  background:rgba(255,255,255,.10);border:1px solid transparent;user-select:none;
+  transition:background .15s,color .15s}
+.tab:hover{background:rgba(255,255,255,.18)}
+.tab.active{background:#fff;color:var(--brand-900);font-weight:600}
+.tab[disabled]{opacity:.45;cursor:not-allowed}
+.tab[disabled]:hover{background:rgba(255,255,255,.10)}
+
+/* ============ 内容区 ============ */
+.content{flex:1;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:206px 92px 368px 1fr;
+  gap:14px;padding:20px 24px 16px;min-height:0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  padding:14px 18px;min-height:0;min-width:0;display:flex;flex-direction:column}
+
+/* 章节头 */
+.sec-head{display:flex;align-items:center;gap:10px;flex:none}
+.sec-no{width:24px;height:24px;border-radius:6px;background:var(--brand-700);color:#fff;
+  font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none}
+.sec-head h2{font-size:17px;font-weight:600;letter-spacing:.3px}
+.sec-sub{font-size:12.5px;color:var(--text-3);margin-left:2px}
+.sec-head .spacer{flex:1}
+
+/* --- 一、项目基础信息 --- */
+.card.info{grid-column:span 4}
+.info-grid{flex:1;display:flex;flex-direction:column;justify-content:space-evenly;margin-top:6px}
+.info-row{display:flex;align-items:baseline;gap:12px;font-size:14px}
+.info-row dt{width:104px;flex:none;color:var(--text-3);font-size:13px}
+.info-row dd{color:var(--text-1);font-weight:500}
+.info-row dd.empty{color:var(--text-3);font-weight:400}
+
+/* --- 二、FR 财务综合意见 --- */
+.card.fr{grid-column:span 8}
+.badge-risk{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;
+  border-radius:4px;background:#fffbe6;border:1px solid #ffe58f;color:#874d00;
+  font-size:12.5px;font-weight:600;letter-spacing:.3px}
+.fr-cols{flex:1;display:grid;grid-template-columns:1fr 1.15fr 1.15fr;gap:0 22px;margin-top:8px;min-height:0}
+.fr-col{border-left:1px solid var(--split);padding-left:18px;min-width:0}
+.fr-col:first-child{border-left:none;padding-left:0}
+.fr-col h3{font-size:13.5px;font-weight:600;color:var(--brand-700);margin-bottom:6px;
+  display:flex;align-items:center;gap:6px}
+.fr-col h3::before{content:"";width:6px;height:6px;border-radius:2px;background:var(--brand-700)}
+.fr-col p,.fr-col li{font-size:13px;line-height:1.58;color:var(--text-2)}
+.fr-col ul{list-style:none}
+.fr-col li{margin-bottom:5px;padding-left:16px;position:relative}
+.fr-col li b{color:var(--text-1);font-weight:600}
+.fr-col li::before{content:attr(data-n);position:absolute;left:0;top:1px;font-size:11px;
+  color:var(--text-3);font-weight:600}
+.xx{font-style:normal;font-family:inherit;font-size:12px;padding:0 4px;border-radius:4px;
+  background:#fffbe6;border:1px solid #ffe58f;color:#874d00;white-space:nowrap}
+
+/* --- 三、投资回报指标 --- */
+.card.roi{grid-column:span 12;flex-direction:row;align-items:stretch;padding:0}
+.roi-tile{flex:1;display:flex;flex-direction:column;justify-content:center;padding:12px 26px;gap:3px}
+.roi-tile + .roi-tile{border-left:1px solid var(--split)}
+.roi-tile .lb{font-size:13px;color:var(--text-3)}
+.roi-tile .val{font-size:38px;font-weight:600;line-height:1.05;letter-spacing:-.5px}
+.roi-tile .val small{font-size:16px;font-weight:500;color:var(--text-2);margin-left:4px;letter-spacing:0}
+.roi-tile .val.empty{color:var(--text-3)}
+.roi-tile .sub{font-size:12px;color:var(--text-3)}
+.roi-note{width:250px;flex:none;display:flex;flex-direction:column;justify-content:center;gap:6px;
+  border-left:1px solid var(--split);padding:12px 22px;background:#fafafa;border-radius:0 8px 8px 0}
+.roi-note .row{display:flex;justify-content:space-between;font-size:12.5px;color:var(--text-3)}
+.roi-note .row b{color:var(--text-2);font-weight:500}
+
+/* --- 四、经营结果 / 五、投入情况 --- */
+.card.result{grid-column:span 12}
+.card-body{flex:1;display:flex;gap:18px;margin-top:8px;min-height:0}
+.charts{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;min-width:0}
+.chart-cell{border:1px solid var(--split);border-radius:6px;padding:8px 10px 4px;
+  display:flex;flex-direction:column;min-width:0;background:#fff}
+.chart-cell h4{font-size:13px;font-weight:600;color:var(--text-2);display:flex;align-items:baseline;gap:8px}
+.chart-cell h4 i{font-style:normal;font-size:11.5px;color:var(--text-3);font-weight:400}
+.chart-cell h4 .total{margin-left:auto;font-size:12px;color:var(--text-3);font-weight:400}
+.chart-cell .plot{flex:1;min-height:0}
+.tblwrap{flex:none;overflow:hidden}
+table.data{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+table.data th,table.data td{border-bottom:1px solid var(--split);padding:0 8px;height:26px;
+  font-size:12.5px;text-align:right;white-space:nowrap}
+table.data th{background:#fafafa;color:var(--text-2);font-weight:600}
+table.data th:first-child,table.data td:first-child{text-align:left}
+table.data td.ind{color:var(--text-2)}
+table.data td.num{font-weight:500}
+table.data td.empty{color:var(--text-3);font-weight:400}
+table.data tr.row-empty td{color:var(--text-3);font-weight:400}
+table.data tr.row-empty td.ind{color:var(--text-3)}
+table.data thead th{position:relative}
+table.data th .u{font-weight:400;color:var(--text-3);font-size:11px;margin-left:2px}
+.result .tblwrap{width:652px}
+.result table.data td{height:26px}
+.invest .charts{flex:0 0 540px}
+.invest .tblwrap{flex:1;min-width:0}
+.invest table.data td{height:25px}
+
+/* 脚注 */
+.footnote{position:absolute;right:26px;bottom:6px;font-size:12px;color:var(--text-3);
+  display:flex;gap:14px;align-items:center}
+.footnote .xx{font-size:11px;padding:0 3px}
+.page-note{position:absolute;left:26px;bottom:6px;font-size:12px;color:var(--text-3)}
+
+/* ============ P2-P5 扩展组件（受 STYLE-GUIDE 约束）============ */
+.card-h{display:flex;align-items:center;gap:10px;flex:none}
+.card-h h2{font-size:17px;font-weight:600;letter-spacing:.3px}
+.card-h .sub{font-size:12.5px;color:var(--text-3)}
+.card-h .spacer{flex:1}
+
+/* 上市区域 / 渠道块 */
+.region{border:1px solid var(--split);border-radius:6px;padding:8px 14px;display:flex;
+  flex-direction:column;gap:4px;min-width:0}
+.region .rh{display:flex;align-items:center;gap:10px;margin-bottom:2px}
+.region .rh b{font-size:15px}
+.chip-date{font-size:12px;color:var(--brand-700);background:var(--brand-100);
+  border-radius:4px;padding:1px 8px;font-weight:600}
+.chan{font-size:12px;line-height:1.4;color:var(--text-2)}
+.chan b{color:var(--text-3);font-weight:600}
+table.tight th,table.tight td{height:18px;font-size:12px}
+table.tight thead th{height:22px}
+
+/* 对比矩阵（文字左对齐） */
+table.cmp{border-collapse:collapse;width:100%;table-layout:fixed}
+table.cmp th,table.cmp td{border:1px solid var(--split);padding:3px 7px;font-size:12px;
+  line-height:1.45;text-align:left;vertical-align:top;word-break:break-all}
+table.cmp th{background:#fafafa;font-weight:600;text-align:center;color:var(--text-1)}
+table.cmp.compact th,table.cmp.compact td{padding:4px 8px;line-height:1.36}
+table.cmp td.c{text-align:center}
+table.cmp .pt b{display:block;font-size:12.5px;margin-bottom:2px}
+table.cmp .pt i{font-style:normal;color:var(--text-3);font-size:11px;display:block}
+table.cmp .sell b{color:var(--brand-700)}
+
+/* 里程碑节点表 */
+table.ms{border-collapse:collapse;width:100%;table-layout:fixed;font-variant-numeric:tabular-nums}
+table.ms th,table.ms td{border-bottom:1px solid var(--split);padding:5px 4px;font-size:12.5px;
+  text-align:center;white-space:nowrap;overflow:hidden}
+table.ms th{background:#fafafa;color:var(--text-2);font-weight:600;font-size:12px;line-height:1.3;white-space:normal}
+table.ms td.tit{text-align:left;color:var(--text-3);font-weight:600;width:76px}
+table.ms td.empty{color:var(--text-3)}
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;background:#0ca30c;vertical-align:middle}
+.mrow{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--split);
+  padding:6px 4px;font-size:12.5px;color:var(--text-3)}
+.mrow b{color:var(--text-2);font-weight:600}
+
+/* 求助 / 截断 等标记 */
+.ask{display:inline-block;font-size:11px;font-weight:600;color:#874d00;background:#fffbe6;
+  border:1px solid #ffe58f;border-radius:4px;padding:0 5px;margin-right:6px;font-style:normal}
+
+/* 子领域进展两列 */
+.subgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 26px}
+.subitem{border-bottom:1px solid var(--split);padding:7px 0;display:flex;gap:10px}
+.subitem .tag{flex:none;width:44px;height:22px;border-radius:4px;background:var(--brand-100);
+  color:var(--brand-700);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.subitem p{font-size:12.5px;line-height:1.5;color:var(--text-2)}
+
+/* 计划 vs 实际 双点图（同一色相两档） */
+.db{position:relative;padding-top:18px}
+.db-axis{position:relative;height:146px}
+.db-row{position:absolute;left:0;right:0;height:30px}
+.db-row .lb{position:absolute;left:0;top:50%;transform:translateY(-50%);width:52px;
+  font-size:12px;color:var(--text-2);text-align:right}
+.db-track{position:absolute;left:64px;right:6px;top:0;bottom:0}
+.db-grid{position:absolute;top:0;bottom:0;width:1px;background:var(--split)}
+.db-grid span{position:absolute;top:-16px;left:0;transform:translateX(-50%);font-size:10.5px;color:var(--text-3)}
+.db-seg{position:absolute;top:50%;height:2px;background:#c9ccd4;transform:translateY(-50%)}
+.db-dot{position:absolute;top:50%;width:10px;height:10px;border-radius:50%;transform:translate(-50%,-50%)}
+.db-dot.plan{background:#9ec5f4}
+.db-dot.act{background:#2a78d6;box-shadow:0 0 0 2px #fff,0 0 0 3px #2a78d6}
+.db-date{position:absolute;top:50%;transform:translate(-50%,-155%);font-size:10px;
+  color:var(--text-3);white-space:nowrap}
+.db-legend{display:flex;gap:16px;font-size:11.5px;color:var(--text-3);margin-top:6px;padding-left:64px}
+.db-legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+
+/* 达成率计量条（单比率对阈值） */
+.meter{position:relative;height:8px;border-radius:4px;background:#ffe7ba;margin-top:10px}
+.meter .fill{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:var(--warning)}
+.meter .tick{position:absolute;top:-3px;bottom:-3px;width:2px;background:#874d00}
+.meter-cap{font-size:11px;color:var(--text-3);margin-top:5px}
+
+/* 编号要点列表 */
+.klist{list-style:none;margin-top:6px}
+.klist li{position:relative;padding-left:18px;font-size:12.5px;line-height:1.55;
+  color:var(--text-2);margin-bottom:4px}
+.klist li::before{content:attr(data-n);position:absolute;left:0;top:1px;font-size:11px;
+  font-weight:600;color:var(--brand-700)}
+.klist b{color:var(--text-1);font-weight:600}
+
+/* 技术实现块 */
+.techblk h4{font-size:13px;font-weight:600;color:var(--text-1);margin-bottom:4px}
+.techblk h4 span{display:block;font-size:12px;margin-top:2px}
+.techblk p{font-size:12.5px;line-height:1.55;color:var(--text-2)}
+.techblk .meta{margin-top:5px;display:flex;gap:8px;align-items:center}
+.techblk .meta .xx{font-size:11px}
+.teamgrid{columns:2;column-gap:26px;margin-top:6px}
+.teamgrid p{font-size:12px;line-height:1.5;color:var(--text-2);margin-bottom:3px;
+  break-inside:avoid}
+
+/* 数据表左对齐列 */
+table.data th.lt,table.data td.lt{text-align:left}
+.page{position:relative}
+
+/* 页面切换（后续 4 页接入用） */
+.page{display:none;flex:1;min-height:0;position:relative}
+.page.current{display:grid}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="viewport"><div class="stage" id="stage">
+
+  <!-- ═══ 顶栏 ═══ -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M3 16.5V9.2M8.3 16.5V3.5M13.7 16.5V7M19 16.5H1" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <h1 id="pageTitle">DS480 经营驾驶舱</h1>
+        <p>MaxiCharger DS480 项目 · 汇报演示</p>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-page="finance">经营驾驶舱</button>
+      <button class="tab" data-page="marketing">营销驾驶舱</button>
+      <button class="tab" data-page="compete">产品竞争力</button>
+      <button class="tab" data-page="tech">技术驾驶舱</button>
+      <button class="tab" data-page="project">项目驾驶舱</button>
+    </nav>
+  </header>
+
+  <!-- ═══ 内容 ═══ -->
+  <main class="content page current" id="page-finance" style="grid-template-rows:214px 92px 370px 1fr">
+
+    <!-- 一、项目基础信息 -->
+    <section class="card info">
+      <div class="sec-head"><span class="sec-no">一</span><h2>项目基础信息</h2></div>
+      <dl class="info-grid">
+        <div class="info-row"><dt>项目名称</dt><dd>DS480项目</dd></div>
+        <div class="info-row"><dt>项目型号</dt><dd>DS480主机柜欧标、DT500双枪欧标</dd></div>
+        <div class="info-row"><dt>项目立项时间</dt><dd>2023年10月17日</dd></div>
+        <div class="info-row"><dt>产品上市时间</dt><dd class="empty">—</dd></div>
+        <div class="info-row"><dt>是否延期</dt><dd class="empty">—</dd></div>
+      </dl>
+    </section>
+
+    <!-- 二、FR 财务综合意见 -->
+    <section class="card fr">
+      <div class="sec-head"><span class="sec-no">二</span><h2>FR财务综合意见</h2>
+        <span class="spacer"></span><span class="badge-risk">▲ GO WITH RISK</span></div>
+      <div class="fr-cols">
+        <div class="fr-col">
+          <h3>投入产出</h3>
+          <p>欧洲预计3年累计收入<i class="xx">XX亿</i>，销量<i class="xx">XX套</i>；ROI <i class="xx">XX</i>，净利润<i class="xx">XX亿元</i>，欧版规模有限、研发投入较高（<i class="xx">XX%</i>）</p>
+        </div>
+        <div class="fr-col">
+          <h3>商业闭环及竞争力</h3>
+          <ul>
+            <li data-n="1"><b>商业闭环：</b>毛利<i class="xx">XX%</i>，商务假设为<i class="xx">XX万</i>一套（基于DS480平均成交价预估），高效模块+高功率+欧洲是高价值场景，应追求<i class="xx">XX%+</i>毛利水平</li>
+            <li data-n="2"><b>成本竞争力：</b>切换<i class="xx">XX</i>后，解决方案整体预算降本<i class="xx">XX万元</i>，可提升毛利<i class="xx">X Pct</i>；竞争激烈，目前欧洲反馈竞争底价为<i class="xx">XX万</i>，同时成本仍有差距，需持续挖掘降本空间</li>
+          </ul>
+        </div>
+        <div class="fr-col">
+          <h3>风险点及建议</h3>
+          <ul>
+            <li data-n="1"><b>市场策略：</b><i class="xx">XX</i>定价策略要明确（<i class="xx">XX%</i>效率差异化定价），相比自身需要做出差异化价值，相比AP要能支撑竞争</li>
+            <li data-n="2"><b>持续降本：</b>目标成本达标缺口<i class="xx">XX%</i>（<i class="xx">XX万/套</i>，<i class="xx">XX元/W</i>），持续挖掘降本手段</li>
+            <li data-n="3"><b>研发投入：</b>当前研发费用率较高（<i class="xx">XX%</i>），研发投入预算需详细拆解，以当前预测投入<i class="xx">XX万元</i>为约束</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 三、投资回报指标 -->
+    <section class="card roi">
+      <div style="display:flex;align-items:center;gap:10px;padding:0 6px 0 18px;flex:none">
+        <span class="sec-no">三</span><h2 style="font-size:17px;font-weight:600;white-space:nowrap">投资回报指标</h2>
+      </div>
+      <div class="roi-tile">
+        <span class="lb">开发周期 / 月</span>
+        <span class="val empty">—</span>
+        <span class="sub">目标 — · 实际 —</span>
+      </div>
+      <div class="roi-tile">
+        <span class="lb">项目回收期 / 月</span>
+        <span class="val empty">—</span>
+        <span class="sub">目标 — · 实际 —</span>
+      </div>
+      <div class="roi-tile">
+        <span class="lb">ROI</span>
+        <span class="val">0.6</span>
+        <span class="sub">目标 — · 实际 0.6</span>
+      </div>
+      <div class="roi-note">
+        <div class="row"><span>目标达成率</span><b>—</b></div>
+        <div class="row"><span>目标差异额</span><b>—</b></div>
+      </div>
+    </section>
+
+    <!-- 四、经营结果 -->
+    <section class="card result">
+      <div class="sec-head"><span class="sec-no">四</span><h2>经营结果</h2>
+        <span class="sec-sub">目标值 · 2025–2028（实际/达成率原表未填写）</span></div>
+      <div class="card-body">
+        <div class="charts">
+          <div class="chart-cell">
+            <h4>销售额 <i>万元</i><span class="total">合计 27,986</span></h4>
+            <div class="plot" id="chart-sales"></div>
+          </div>
+          <div class="chart-cell">
+            <h4>净利润 <i>万元</i><span class="total">合计 3,338</span></h4>
+            <div class="plot" id="chart-profit"></div>
+          </div>
+          <div class="chart-cell">
+            <h4>净利率 <i>%</i><span class="total">合计 12%</span></h4>
+            <div class="plot" id="chart-margin"></div>
+          </div>
+        </div>
+        <div class="tblwrap">
+          <table class="data">
+            <thead>
+              <tr><th style="width:132px">指标</th><th>2025</th><th>2026</th><th>2027</th><th>2028</th><th>合计</th><th>实际</th><th>达成率</th><th>差异额</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="ind">销售额 <span style="color:var(--text-3);font-size:11px">万元</span></td><td class="num">3,010</td><td class="num">5,986</td><td class="num">8,081</td><td class="num">10,909</td><td class="num">27,986</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+              <tr class="row-empty"><td class="ind">销量（套）</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr class="row-empty"><td class="ind">一套销售单价（万元）</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr class="row-empty"><td class="ind">一套单位成本（万元）</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr class="row-empty"><td class="ind">毛利额（万元）</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr class="row-empty"><td class="ind">毛利率</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr class="row-empty"><td class="ind">销售费用</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr class="row-empty"><td class="ind">管理费用</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr><td class="ind">研发投入 <span style="color:var(--text-3);font-size:11px">万元</span></td><td class="num">3,643</td><td class="num">1,213</td><td class="num">162</td><td class="num">162</td><td class="num">5,180</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+              <tr><td class="ind">净利润 <span style="color:var(--text-3);font-size:11px">万元</span></td><td class="num">-3,068</td><td class="num">660</td><td class="num">2,324</td><td class="num">2,890</td><td class="num">3,338</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+              <tr><td class="ind">净利率</td><td class="num">-102%</td><td class="num">11%</td><td class="num">29%</td><td class="num">26%</td><td class="num">12%</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 五、投入情况 -->
+    <section class="card invest result">
+      <div class="sec-head"><span class="sec-no">五</span><h2>投入情况</h2>
+        <span class="sec-sub">目标值 · 2025–2028（实际/执行监控原表未填写）</span></div>
+      <div class="card-body" style="display:flex">
+        <div class="charts" style="grid-template-columns:520px">
+          <div class="chart-cell wide">
+            <h4>人力投入 <i>人月</i><span class="total">合计 542</span></h4>
+            <div class="plot" id="chart-manpower"></div>
+          </div>
+        </div>
+        <div class="tblwrap">
+          <table class="data">
+            <thead>
+              <tr><th style="width:150px">指标</th><th>2025</th><th>2026</th><th>2027</th><th>2028</th><th>合计</th><th>实际</th><th>达成率</th><th>2025预算<br>执行率</th><th>2025差距额<br><span style="font-weight:400;font-size:10.5px">+超支 / −节省</span></th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="ind">人力投入 <span style="color:var(--text-3);font-size:11px">人月</span></td><td class="num">434</td><td class="num">108</td><td class="num">36</td><td class="num">36</td><td class="num">542</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+              <tr class="row-empty"><td class="ind">人力投入（万元）</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr class="row-empty"><td class="ind">物料投入（万元）</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr class="row-empty"><td class="ind">测试认证（万元）</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr class="row-empty"><td class="ind">软件服务（万元）</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr class="row-empty"><td class="ind">其他投入（万元）</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr class="row-empty"><td class="ind">合计（万元）</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══ P2 营销驾驶舱（2.png）═══ -->
+  <main class="content page" id="page-marketing" style="grid-template-rows:188px 1fr 238px">
+
+    <!-- 上市区域 / 目标客户渠道 -->
+    <section class="card" style="grid-column:span 12">
+      <div class="card-h"><h2>上市区域与目标客户 / 渠道</h2>
+        <span class="chip-date">产品名称：MaxiCharger DS480 欧标</span></div>
+      <div style="flex:1;display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-top:8px;min-height:0">
+        <div class="region">
+          <div class="rh"><b>欧洲</b><span class="chip-date">2024/09 上市</span></div>
+          <div class="chan"><b>CPO：</b>EVC、Evvy、ZENOBE、MFG、INSTAVOLT、Osperey、Floating、Podpoint、FastWay、Enefit、Neva、PowerGo、Vattenfall</div>
+          <div class="chan"><b>能源商：</b>BP、Shell、Enel X、EDF、Vinci、Moon Power、Becharge、AVIA VOLT</div>
+          <div class="chan"><b>车队：</b>Transdev、Petit Forestier、Milence</div>
+          <div class="chan"><b>经销商：</b>Baywa、PM.Service、WIBY、Life365、Expert、Unieuro、Memodo</div>
+        </div>
+        <div class="region">
+          <div class="rh"><b>小区域</b><span class="chip-date">2024/09 上市</span></div>
+          <div class="chan"><b>CPO：</b>Jet Charge、VINFAST、印尼现代、日本松尾</div>
+          <div class="chan"><b>能源商：</b>PAZ、Nofar、Adnoc、ENBW</div>
+          <div class="chan"><b>车队：</b>新加坡路管局、Dan Group</div>
+          <div class="chan"><b>经销商：</b>Sharge</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 产品核心竞争力对比 -->
+    <section class="card" style="grid-column:span 12;padding:10px 18px">
+      <div class="card-h"><h2>产品核心竞争力对比</h2>
+        <span class="sub">核心痛点 → 核心卖点 → 客户价值 → 竞品对比（AP / KP / S / T）</span></div>
+      <div style="flex:1;margin-top:8px;min-height:0;overflow:hidden">
+        <table class="cmp" style="font-size:11.5px;line-height:1.38">
+          <colgroup><col style="width:126px"><col style="width:256px"><col style="width:288px"><col style="width:238px"><col style="width:238px"><col style="width:214px"><col style="width:218px"></colgroup>
+          <thead>
+            <tr><th rowspan="2">核心痛点</th><th rowspan="2">核心卖点</th><th rowspan="2">客户价值</th><th colspan="4">竞争力对比</th></tr>
+            <tr><th>AP公司 · 400kW</th><th>KP公司 · 600kW</th><th>S公司 · 360kW</th><th>T公司 · 350kW</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="pt"><i>核心痛点一</i><b>故障率高、可靠性差</b></td>
+              <td class="sell"><b>极致可靠，极高质量：</b>系统可靠：模块化系统设计，全组件5分钟内部即可完成更换；通信可靠：不间断分布式通讯技术、双通道通信备份，数据高保真，无网可运维；车桩兼容：99.5%车桩兼容率，一次充电成功率行业领先</td>
+              <td>1.对运营商，高度模块化设计可以降低后期维护成本，可靠性提高也能增加场站的可用时间，提升盈利能力和利润；2.高可靠性是获得国家或地区充电建设补贴的条件，可以有效帮助CPO拿到补贴，降低运营成本；3.对车主，提升充电体验，快速补能，降低续航焦虑；4.对车队等非运营单位，可以保证出行计划不受影响，稳定高效</td>
+              <td>1.模块化设计很高，系统设计能力业界领先；2.可靠性高，Uptime业界领先</td>
+              <td>1.KP模块化设计程度较高；2.热设计能力一般，满足功率运行时间短，会降额到80%；3.谐波31%，对电网冲击大；4.整体可靠性一般</td>
+              <td>可靠性偏低，尤其是控制板、热设计、通信、模块故障率高</td>
+              <td>1.Uptime99.9%，可靠性全球最高；2.无矩阵设计</td>
+            </tr>
+            <tr>
+              <td class="pt"><i>核心痛点二</i><b>充电慢、体验差</b></td>
+              <td class="sell"><b>极速充电，极致体验：</b>1.即插即充：单枪480kW超高功率输出（650A），充电十分钟，畅行250M；2.来车即充：150-1000V宽电压范围，即插即充，出行无忧；3.液冷低噪：智能降噪，静态充电，充电噪音&lt;62dB</td>
+              <td>1.充得快，一杯咖啡时间即可完成续航补能；2.不挑车，任何车型都能充；3.噪音小，支付简单，交互简洁，充电体验好，满意度更高</td>
+              <td>最大功率400kW(单枪最高600A)，具备液冷选项，只有单体选项，不支持分体</td>
+              <td>1.单枪最大电流只有500A（液冷），单枪最大功率400kW（800V）；2.开创式CMS设计，用户体验好</td>
+              <td>1.单桩最高400KW，分体桩最高360KW，单枪最高输出电流仅500A；2.终端设计较小；3.支付体验一般</td>
+              <td>1.最高功率只有350KW，最高电流615A；2.车桩交互体验较好；3.枪线短，仅3米，无CMS；4.APP使用与支付体验差</td>
+            </tr>
+            <tr>
+              <td class="pt"><i>核心痛点三</i><b>投资收益低</b></td>
+              <td class="sell"><b>AI充电，降本增收：</b>1.充电预测：基于车型识别的充电曲线预测，优化充电策略，单车充电时间缩短10%，提升充电周转率；2.能量路由：全矩阵/全端口动态负载调节，减少10~20%配电要求，提升运营收入10%以上；3.智能运维：350+数字化诊断节点远程运维，减少30%上站需求，降低运维成本</td>
+              <td>1.缩短平均充电时间，增加充电周转率，充电收益更高；2.通过智能负载调节最大化利用电网容量资源，降低配电需求以及未来扩容成本，增加运营收入；3.智能远程运维减少昂贵的人工上站维护，降低运维成本</td>
+              <td>1.AP不具备智能车型识别及充电曲线识别，智能充电不是强项；2.AP的充电效率97.5%，业界最高</td>
+              <td>1.结合ChargeEye的充电曲线和车型识别是亮点功能；2.充电效率仅94%；3.具备并柜功率共享能力</td>
+              <td>1.具备基本的DLB功能；2.充电效率仅95.5%；3.不具备智能车型识别能力；4.DPA双层功率池技术，可实现功率共享，按需分配</td>
+              <td>1.支持200+故障信息数字化；2.自助ticketing系统支持备件及人员同时到站；3.远程诊断率99%</td>
+            </tr>
+            <tr>
+              <td class="pt"><i>核心痛点四</i><b>扩展性差，重复投资</b></td>
+              <td class="sell"><b>一次投资，长期受益：</b>1.功率扩展：240kW堆栈式扩展至1.44MW（MCS），满足未来十年充电配电需求，降低重复投资成本；2.形态扩展：一个产品，多种形态，可分可合，备件统一，最多支持12枪同时输出，多场景随心适配</td>
+              <td>1.一个产品满足多种充电场景需求，既能极速快充，也能匀速多充；2.面向未来，满足重卡、大巴等车型不断演变的充电需求，一次建站，长期可用，降低重复投资成本</td>
+              <td>1.可扩展性一般，不能够同时满足多充电堆需求，尤其是车队场景；2.不可并柜直接实现兆瓦充电，但AP已经部署单独的MCS产品</td>
+              <td>1.同时支持400KW一体式及400-600KW分体式；2.可适配200KW~1.2MW，支持MCS；3.终端设计小，目前业界领先的水平</td>
+              <td>主推360KW分体式，最多6路输出，不具备并柜至兆瓦级能力，不支持MCS充电，可扩展性一般</td>
+              <td>主机柜最大可以并柜到1MW，可扩展性好，MCS单独设计</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- GTM 上市管理 -->
+    <section class="card" style="grid-column:span 12;padding:10px 18px">
+      <div class="card-h"><h2>GTM 上市管理</h2><span class="sub">TR3 营销预热阶段 · 关键交付件与关键动作</span></div>
+      <div style="flex:1;margin-top:6px;overflow:hidden">
+        <table class="data tight" style="table-layout:fixed">
+          <colgroup><col style="width:104px"><col style="width:104px"><col><col style="width:120px"><col style="width:120px"><col style="width:110px"><col style="width:150px"><col style="width:100px"><col style="width:110px"></colgroup>
+          <thead><tr><th class="lt">关键节点</th><th class="lt">GTM管理</th><th class="lt">事项</th><th>开始时间</th><th>完成时间</th><th>总体进展</th><th>风险</th><th>责任人</th><th>求助项</th></tr></thead>
+          <tbody>
+            <tr><td class="lt" rowspan="9" style="font-weight:600">TR3营销预热阶段</td><td class="lt" rowspan="6">关键交付件</td><td class="lt">PR预热稿</td><td>1月20日</td><td>1月26日</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+            <tr><td class="lt">产品规格书</td><td>2月15日</td><td>3月15日</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+            <tr><td class="lt">产品特性清单</td><td>1月15日</td><td>2月20日</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+            <tr><td class="lt">产品KM</td><td>2月15日</td><td>3月15日</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+            <tr><td class="lt">竞品HTB分析</td><td>2月15日</td><td>3月15日</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+            <tr><td class="lt">Beta客户预热</td><td>3月1日</td><td>4月20日</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+            <tr><td class="lt" rowspan="3">关键动作</td><td class="lt">产品特性培训</td><td>3月20日</td><td>3月28日</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+            <tr><td class="lt">PR营销预热</td><td>3月15日</td><td>4月15日</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+            <tr><td class="lt">网络研讨会</td><td>3月1日</td><td>3月28日</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══ P3 产品竞争力驾驶舱（3.png）═══ -->
+  <main class="content page" id="page-compete" style="grid-template-rows:190px 1fr 6px">
+
+    <!-- 产品里程碑 -->
+    <section class="card" style="grid-column:span 12">
+      <div class="card-h"><h2>产品里程碑</h2><span class="sub">计划 vs 实际 · 状态灯</span>
+        <span class="spacer"></span><span class="sub">一句话进展&amp;风险：原表未填写</span></div>
+      <div style="flex:1;margin-top:6px;overflow:hidden">
+        <table class="ms">
+          <colgroup><col style="width:76px"><col><col><col><col><col style="width:4.6%"><col><col><col><col><col><col style="width:64px"></colgroup>
+          <thead><tr><th></th><th>立项</th><th>需求串讲</th><th>需求反串讲</th><th>备选方案评审</th><th>数字样机评审 / Demo</th><th>V3样机评审</th><th>V4样机评审</th><th>VN1样机评审</th><th>TR5评审</th><th>TR6评审</th><th>状态灯</th></tr></thead>
+          <tbody>
+            <tr><td class="tit">计划时间</td><td>2023/10/17</td><td>2023/11/5</td><td>2023/11/14</td><td>2023/12/15</td><td>2023/2/5</td><td>2024/3/4</td><td>2024/4/10</td><td>2024/6/20</td><td>2024/9/30</td><td>2024/12/30</td><td><span class="dot"></span></td></tr>
+            <tr><td class="tit">实际时间</td><td class="empty">/</td><td class="empty">/</td><td class="empty">/</td><td class="empty">/</td><td class="empty">/</td><td class="empty">/</td><td class="empty">/</td><td class="empty">/</td><td class="empty">/</td><td class="empty">/</td><td><span class="dot"></span></td></tr>
+          </tbody>
+        </table>
+        <div class="mrow"><b>产品E2E风险评审&amp;解决</b><span>—</span></div>
+      </div>
+    </section>
+
+    <!-- 产品竞争力指标 -->
+    <section class="card" style="grid-column:span 12">
+      <div class="card-h"><h2>产品竞争力指标</h2>
+        <span class="sub">客户痛点&amp;需求 → 产品竞争力 → 特性 → 分解 → 标准 → 五家对标 · 达标质量</span></div>
+      <div style="flex:1;margin-top:8px;min-height:0;overflow:hidden">
+        <table class="cmp" style="font-size:11px;line-height:1.3">
+          <colgroup><col style="width:96px"><col style="width:106px"><col style="width:212px"><col style="width:238px"><col style="width:190px"><col style="width:142px"><col style="width:146px"><col style="width:142px"><col style="width:128px"><col style="width:132px"><col style="width:58px"><col style="width:62px"></colgroup>
+          <thead>
+            <tr><th rowspan="2">客户痛点&amp;需求</th><th rowspan="2">产品竞争力</th><th rowspan="2">产品竞争力特性</th><th rowspan="2">竞争力分解</th><th rowspan="2">竞争力标准</th><th colspan="5">产品竞争力指标</th><th rowspan="2">完成率</th><th rowspan="2">达标质量</th></tr>
+            <tr><th>Autel</th><th>AP公司</th><th>KP公司</th><th>T公司</th><th>H公司</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="c" rowspan="19" style="font-weight:600;vertical-align:top;text-align:left;padding-top:10px">充电设备可靠性差</td>
+                <td class="c" rowspan="8" style="font-weight:600">设备高质量</td>
+                <td rowspan="4"><b>极致可靠，Uptime 98%</b><br><i style="font-style:normal;color:var(--text-3);font-size:10.5px">（公式：Uptime=【525,600−(T(outage)−Texcluded)】/525,600×100%，Texcluded只含不可抗力的电网/通信中断）</i></td>
+                <td>模块级可靠，产品失效率&lt;1%</td><td>失效率&lt;1%（GA+12）</td><td>失效率&lt;1%</td><td>失效率&lt;1%</td><td>1.1%~2.3%</td><td>失效率&lt;1%</td><td>失效率&lt;1%</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td>系统级可靠，单部件站上更换时间&lt;5mins，无系统主风扇</td><td>单部件站上更换时间&lt;5 mins</td><td>全模块，站上更换时间&lt;5mins，无系统主风扇</td><td>模块/矩阵/控制板更换&gt;20mins，隔离风道无主风扇</td><td>站上更换时间&lt;5mins，隔离风道无主风扇</td><td>部分单板&lt;5mins</td><td>部分单板&gt;5mins 液冷</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td>通信可靠，Uptime 99.9%</td><td>【业界第一】</td><td colspan="5">1.支持5G通讯，通信链路Uptime 99.9%，上电即上云，免配置【业界领先】；2.网络基础质量高于业界：发射功率&gt;20 dB（m），接收灵敏度-93 dB（m），组网能力最强，多链路互为备份；3.极端条件下，通信有保障，业务可执行，数据不丢失（极端条件定义：1.弱网：网络信号强度低于XXdBm 2.无网）</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td>POS机在线率99.9%</td><td>在线率99.9%</td><td>99.90%</td><td>99.90%</td><td>99.90%</td><td>99.90%</td><td>99.90%</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td rowspan="4"><b>高充电成功率&gt;96%</b><br><i style="font-style:normal;color:var(--text-3);font-size:10.5px">（公式：充电成功率=车桩兼容性×云服务SLA×支付成功率）</i></td>
+                <td>一次充电成功率&gt;95%</td><td>Y1：95%<br>Y3：99%<br>【业界第一】</td><td>√</td><td>有客户反馈一次充电成功率&lt;90%，部分车型一次成功率低，如Audi Etron</td><td>√ 具体技术值待技术分析</td><td>96.1%?</td><td>99%</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td>支付成功率 98%</td><td>98%</td><td>98%</td><td>98%</td><td>NA</td><td>98%</td><td>NA</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td>云服务SLA 99.9%</td><td>99.9%</td><td>99.9%</td><td>99.5%</td><td>99.5%</td><td>99.9%</td><td>99.9%</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td>车桩云兼容性99.5%</td><td>【业界第一】（按车型验收）</td><td>√</td><td>有客户反馈一次充电成功率&lt;90%</td><td>√ 具体技术值待技术分析</td><td>√ 除Tesla兼容性有挑战</td><td>√ 欧美标兼容性不佳</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td class="c" style="font-weight:600">安全可信</td>
+                <td>1.满足可信6要素“可靠、可用、安全、韧性、无害、隐私”；2.遭受攻击不出现大规模网络攻击事件；3.不产生经济损失</td><td>对标H公司，通过ISO27001,IEC62443-4-2 SL2工业网络安全全标准认证</td><td class="c">√</td><td class="c">√</td><td class="c">√</td><td class="c">√</td><td class="c">√</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td class="c" rowspan="10" style="font-weight:600;vertical-align:top;padding-top:8px">性能领先业界</td>
+                <td>峰值效率</td><td>97%</td><td>96.5%</td><td>97.5%</td><td>94%</td><td>96%</td><td>96%</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td>功率因数</td><td>0.99</td><td>0.99</td><td>0.99</td><td>0.99</td><td>0.99</td><td>0.99</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td>THDi</td><td>3%</td><td>5%</td><td>5%</td><td>30%</td><td>3%</td><td>3%</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td>矩阵可调度（市电利用率）</td><td>全矩阵100%</td><td>100%</td><td>&lt;90%</td><td>100%</td><td>/</td><td>88%(12枪)下一代100%</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td>主柜单柜功率480kW</td><td>480kW</td><td>480</td><td>400</td><td>200×2</td><td>350</td><td>600</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td>主柜功率密度750kW/m²</td><td>【业界第一】</td><td>750</td><td>620<br><i style="font-style:normal;color:var(--text-3);font-size:10.5px">下一代744</i></td><td>381<br><i style="font-style:normal;color:var(--text-3);font-size:10.5px">下一代609.6</i></td><td>280</td><td>441<br><i style="font-style:normal;color:var(--text-3);font-size:10.5px">下一代588</i></td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td>单枪最大480kW</td><td>480kW 持续</td><td>480</td><td>400</td><td>400</td><td>350</td><td>480</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td>液冷终端：双枪占地面积业界最小优于对手50%</td><td>【业界第一】</td><td>0.1</td><td>/</td><td>0.27</td><td>0.1×2</td><td>0.1×2</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td>风冷终端：占地面积对标Kempower</td><td>【业界第一】</td><td>0.1</td><td>/</td><td>0.1</td><td>0.1</td><td>0.1</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+            <tr><td>分体机支持12枪(单柜)</td><td>max 12</td><td>12</td><td>/</td><td>8</td><td>4</td><td>12</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="page-note">「数字样机评审」计划时间照录原表（2023/2/5）· 原表底部截断内容未收录</div>
+  </main>
+
+  <!-- ═══ P4 液冷充电模块 技术驾驶舱（4.png）═══ -->
+  <main class="content page" id="page-tech" style="grid-template-rows:324px 1fr 22px">
+
+    <section class="card" style="grid-column:span 7">
+      <div class="card-h"><h2>核心卖点 / 技术目标</h2><span class="sub">核心成员：原表未填写</span></div>
+      <div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly;margin-top:4px;min-height:0">
+        <div>
+          <h3 style="font-size:13.5px;font-weight:600;color:var(--brand-700);display:flex;align-items:center;gap:6px"><i style="width:6px;height:6px;border-radius:2px;background:var(--brand-700)"></i>核心卖点</h3>
+          <ul class="klist">
+            <li data-n="1"><b>极致可靠：</b>高可靠性，失效率业界领先（发货2万个以上之后考量，失效率1%）</li>
+            <li data-n="2"><b>提升体验：</b>液冷低噪(模块实现&lt;50dB)，助力整机实现超低噪音的充电体验</li>
+            <li data-n="3"><b>高效：</b>打造高效品牌,模块实现满载效率比H高1%指标（120KW ACDC+60KW DCDC液冷架构），降低客户运营电费成本</li>
+            <li data-n="4"><b>智能：</b>模块智能化:单模块OTA时间≤120S，OTA升级一次成功率≥99%（无供电异常情况）；黑匣子记录有效性≥90%</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="font-size:13.5px;font-weight:600;color:var(--brand-700);display:flex;align-items:center;gap:6px"><i style="width:6px;height:6px;border-radius:2px;background:var(--brand-700)"></i>技术目标</h3>
+          <ul class="klist">
+            <li data-n="1"><b>高可靠：</b>发货2万个以上之后考量，失效率1%</li>
+            <li data-n="2"><b>低噪音：</b>液冷低噪，模块实现&lt;50dB噪音指标</li>
+            <li data-n="3"><b>高效率：</b>最大效率可达96.7%指标，比H高1%</li>
+            <li data-n="4"><b>智能化：</b>单模块OTA≤120S，OTA升级一次成功率≥99%（无供电异常情况）</li>
+            <li data-n="5"><b>易演进：</b>理论设计叠光供电功率变化级数为2级，叠储为2~3级</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="grid-column:span 5">
+      <div class="card-h"><h2>TR 评审点</h2>
+        <span class="spacer"></span>
+        <span style="font-size:12.5px;color:var(--text-2)">进度：<b style="color:#0ca30c">正常</b>&nbsp;&nbsp;<span class="dot"></span></span></div>
+      <table class="ms" style="margin-top:8px">
+        <colgroup><col style="width:72px"><col><col><col><col></colgroup>
+        <thead><tr><th></th><th>立项（定…）</th><th>TR3（定需求）</th><th>TR4（研发…）</th><th>TR5</th></tr></thead>
+        <tbody>
+          <tr><td class="tit">计划时间</td><td>2023/12/15</td><td>2024/8/12</td><td>2025/3/29</td><td>2025/9/18</td></tr>
+          <tr><td class="tit">实际时间</td><td>2023/12/15</td><td>2024/8/12</td><td>2025/1/2</td><td>2025/6/25</td></tr>
+        </tbody>
+      </table>
+      <div class="db" style="flex:1;display:flex;flex-direction:column;justify-content:flex-end">
+        <div class="db-axis">
+          <div class="db-grid" style="left:calc(64px + (100% - 70px) * 0.111)"><span>2024</span></div>
+          <div class="db-grid" style="left:calc(64px + (100% - 70px) * 0.556)"><span>2025</span></div>
+          <div class="db-row" style="top:4px"><span class="lb">立项</span>
+            <span class="db-track"><span class="db-dot plan" style="left:9.1%"></span><span class="db-dot act" style="left:9.1%"></span><span class="db-date" style="left:9.1%">2023/12/15</span></span></div>
+          <div class="db-row" style="top:40px"><span class="lb">TR3</span>
+            <span class="db-track"><span class="db-dot plan" style="left:38.5%"></span><span class="db-dot act" style="left:38.5%"></span><span class="db-date" style="left:38.5%">2024/8/12</span></span></div>
+          <div class="db-row" style="top:76px"><span class="lb">TR4</span>
+            <span class="db-track"><span class="db-seg" style="left:55.7%;width:10.7%"></span><span class="db-dot plan" style="left:66.4%"></span><span class="db-dot act" style="left:55.7%"></span><span class="db-date" style="left:66.4%">计划 2025/3/29</span><span class="db-date" style="left:55.7%;transform:translate(-50%,30%)">实际 2025/1/2</span></span></div>
+          <div class="db-row" style="top:112px"><span class="lb">TR5</span>
+            <span class="db-track"><span class="db-seg" style="left:77%;width:10.4%"></span><span class="db-dot plan" style="left:87.4%"></span><span class="db-dot act" style="left:77%"></span><span class="db-date" style="left:87.4%">计划 2025/9/18</span><span class="db-date" style="left:77%;transform:translate(-50%,30%)">实际 2025/6/25</span></span></div>
+        </div>
+        <div class="db-legend"><span><i style="background:#9ec5f4"></i>计划时间</span><span><i style="background:#2a78d6"></i>实际时间</span><span style="color:var(--text-3)">TR4 / TR5 实际早于计划</span></div>
+      </div>
+    </section>
+
+    <section class="card" style="grid-column:span 12">
+      <div class="card-h"><h2>实现思路</h2><span class="sub">技术实现 × 4 · 团队组建</span></div>
+      <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin-top:8px;min-height:0">
+        <div class="techblk">
+          <h4>1. 通过电力电子高效拓扑和低损耗碳化硅实现高效率</h4>
+          <p>(1) PFC侧使用高效率TSSC拓扑+碳化硅模组，达成PFC效率提升0.5%的指标；(2) LLC侧使用新高压800V三相LLC拓扑+碳化硅开关管，达成DCDC效率提升0.5%的指标</p>
+          <div class="meta"><span class="chip-date">时间 2024/5/27</span><i class="xx">责任人 XX</i></div>
+        </div>
+        <div class="techblk">
+          <h4>2. 通过液冷技术实现高防护和低噪音</h4>
+          <p>(1) 搅拌摩擦焊密贴合技术；(2) 强散热型材铝+高密铲齿技术实现模组的强散热，较压铸好15度+</p>
+          <div class="meta"><span class="chip-date">时间 2024/5/27</span><i class="xx">责任人 XX</i></div>
+        </div>
+        <div class="techblk">
+          <h4>3. 通过电力电子软件算法，与硬件配合实现模块稳定、高效</h4>
+          <p>(1) PFC：三相TSSC控制实现低THD（THD&lt;5%）高PF（≥0.99）；(2) DCDC：LLC交错PWM控制算法，输出电压峰峰纹波小于±1%</p>
+          <div class="meta"><span class="chip-date">时间 2024/8/26</span><i class="xx">责任人 XX</i></div>
+        </div>
+        <div class="techblk">
+          <h4>4. 通过AI与电力电子技术结合，提升模块的数字化、智能化</h4>
+          <p>(1) 模块智能诊断与维护：①模块快OTA技术，升级时间&lt;120S；②运行环境与模块状态数据综合采集；③黑匣子技术+故障树分析 (2) 寿命预估+AI结合技术：①建立模块器件健康状态监测与寿命预估模型；②AI人工智能算法</p>
+          <div class="meta"><span class="chip-date">时间 2024/12/30</span><i class="xx">责任人 XX</i></div>
+        </div>
+        <div class="techblk" style="grid-column:span 2;border-top:1px solid var(--split);padding-top:8px">
+          <h4>团队组建 <span style="font-weight:400;color:var(--text-2)">主要依托深圳团队，在深圳建立全功能团队，在核心领域（电力电子，DSP，结构，LAYOUT，单板工艺，可靠性）招聘行业资深专家保障建能力和做指标，其余领域的人力予以配套</span></h4>
+          <div class="teamgrid">
+            <p>1. 高效率拓扑技术+碳化硅应用技术：1名专家负责整体拓扑、架构、可靠性（在岗），1名专家负责DCDC模块整体设计（在岗），1名专家负责PFC模块整体设计（在岗）</p>
+            <p>2. 高效率功率算法+PFC并机技术：功率软件专家3人，1名负责整体架构与智能化特性（在岗），1名ACDC软件专家（在岗）、1名DCDC软件专家（在岗）</p>
+            <p>3. 高可靠大尺寸压铸技术：1名专家（在岗），2名压铸专家（缺）</p>
+            <p>4. 低噪液冷冷却技术：1名专家（在岗）</p>
+            <p>5. 大功率LAYOUT技术：1名高级互联工程师（已到岗），1名专家（待入职）</p>
+            <p>6. 完善的测试体系：1名专家（缺）</p>
+            <p>7. 大功率单板工艺工艺技术：1名专家（缺）</p>
+            <p>8. 大功率EMC&amp;安规技术：2名专家（EMC已入职，安规待入职）</p>
+            <p>9. 光储充技术：1名硬件架构师（缺）</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="page-note">TR评审点列头（立项 / 定… / 研发…）在原截图中被截断，按可见文字收录 · 底部「对标产品现状 / 竞争力指标 / 合作进展」区域被截断，未收录</div>
+  </main>
+
+  <!-- ═══ P5 DS480 项目驾驶舱（5.png）═══ -->
+  <main class="content page" id="page-project" style="grid-template-rows:164px 126px 1fr 354px">
+
+    <!-- 里程碑节点 -->
+    <section class="card" style="grid-column:span 12">
+      <div class="card-h"><h2>里程碑节点</h2><span class="sub">计划 vs 实际 · 状态灯</span></div>
+      <div style="flex:1;margin-top:6px;overflow:hidden">
+        <table class="ms">
+          <colgroup><col style="width:64px"><col><col><col><col><col><col><col><col><col><col><col style="width:60px"></colgroup>
+          <thead><tr><th></th><th>Charter<br>产品立项</th><th>TR1~TR2<br>需求基线</th><th>CDCP<br>概念设计</th><th>TR3<br>计划排期</th><th>TR4<br>样机交付</th><th>TR4A<br>需求实现率</th><th>TR5<br>竞争力达成</th><th>EDCP<br>小批量发货</th><th>TR6<br>产品改进</th><th>ADCP<br>海量发货</th><th rowspan="2">状态灯</th></tr></thead>
+          <tbody>
+            <tr><td class="tit">计划</td><td>2023/10/17</td><td>2023/12/7</td><td>2023/12/15</td><td>2024/3/15</td><td>2024/6/8</td><td>2024/7/20</td><td>2024/9/25</td><td>2024/10/15</td><td>2024/12/25</td><td>2025/1/20</td><td rowspan="2"><span class="dot"></span></td></tr>
+            <tr><td class="tit">实际</td><td>2023/10/17</td><td>2023/12/30</td><td class="empty">/</td><td class="empty">/</td><td class="empty">/</td><td class="empty">/</td><td class="empty">/</td><td class="empty">/</td><td class="empty">/</td><td class="empty">/</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 项目状态 -->
+    <section class="card roi">
+      <div style="display:flex;align-items:center;gap:10px;padding:0 6px 0 18px;flex:none">
+        <h2 style="font-size:17px;font-weight:600;white-space:nowrap">项目状态</h2>
+      </div>
+      <div class="roi-tile">
+        <span class="lb">IR变更率</span>
+        <span class="val">5.88<small>%</small></span>
+        <span class="sub">最新版本V2.2 · IR总数357 · 较基线变更21</span>
+      </div>
+      <div class="roi-tile">
+        <span class="lb">DI值</span>
+        <span class="val">439.1</span>
+        <span class="sub">含单板测试/部件可靠/整机软测硬测/DFM · TR4A&lt;30 · TR5&lt;15</span>
+      </div>
+      <div class="roi-tile">
+        <span class="lb">成本达成率 <span style="color:var(--text-3)">当前T型机</span></span>
+        <span class="val">83<small>%</small></span>
+        <span class="sub">TR3&gt;85% · TR4A&gt;90% · TR5&gt;95%</span>
+        <div class="meter" style="max-width:220px"><span class="fill" style="width:83%"></span><span class="tick" style="left:90%"></span></div>
+        <span class="meter-cap">▍阈值 TR4A&gt;90%</span>
+      </div>
+      <div class="roi-tile">
+        <span class="lb">人月投入</span>
+        <span class="val empty">—</span>
+        <span class="sub">原表 “/”</span>
+      </div>
+      <div class="roi-tile">
+        <span class="lb">生产直通率</span>
+        <span class="val">90<small>%</small></span>
+        <span class="sub">目标：整机试产直通率90%</span>
+      </div>
+    </section>
+
+    <!-- 整体进展 & 子领域进展 -->
+    <section class="card" style="grid-column:span 12">
+      <div class="card-h"><h2>整体进展 &amp; 子领域进展</h2></div>
+      <div class="mrow" style="margin-top:6px"><b>整体进展</b><span style="color:var(--text-2)">1. 范围调整：优先480分体8枪、960分体16枪、DH240、DH480一体双枪（认证优先完成480一体机）</span></div>
+      <div class="subgrid" style="margin-top:2px">
+        <div class="subitem"><span class="tag">结构</span><p>1. 480一体机完成组装，需协调进行认证问题解决闭环；2. 风冷终端已回样，需求：结构V4-2样机设计完成并投样；（认证+NPI确认V4-1的问题点整改完成，核心认证）；（底线时间 7/31）</p></div>
+        <div class="subitem"><span class="tag">硬件</span><p>聚焦单板测试问题解决与V2版本投样：目标7/25前完成全部改板投样，底线时间7/31；Layout评估时间8/10完成。<i class="ask">求助</i>需提高layout资源与效率，否则会影响V4-2的整机验证，影响外发认证。</p></div>
+        <div class="subitem"><span class="tag">线束</span><p>480线束V4-2样机已试装，需要协调再完成一轮优化，目标7/25前完成投样。</p></div>
+        <div class="subitem"><span class="tag">硬测</span><p>1. 单板测试已完成；2. 器件可靠性测试：测试完成97%，剩余器件计划7月底完成测试；3. 分体整机功能与可靠性测试7/20完成。</p></div>
+        <div class="subitem"><span class="tag">软件</span><p><i class="ask">求助</i>7/20务必达成转测目标，务必完成自测。</p></div>
+        <div class="subitem"><span class="tag">软测</span><p>1. SDV3测试完成；2. 矩阵调度部分未转测；<i class="ask">求助</i>需预备资源，在V4样机及V3改造样机完成后，测试发往市场的样机，7/15开始，目标7/20前完成（升级+充电功能）</p></div>
+      </div>
+    </section>
+
+    <!-- 项目特性进展 -->
+    <section class="card" style="grid-column:span 12">
+      <div class="card-h"><h2>项目特性进展</h2><span class="sub">特性 · 目标 · 起止 · 状态 · 进展/风险</span></div>
+      <div style="flex:1;margin-top:8px;min-height:0;overflow:hidden">
+        <table class="cmp" style="font-size:12px">
+          <colgroup><col style="width:40px"><col style="width:128px"><col style="width:508px"><col style="width:56px"><col style="width:88px"><col style="width:88px"><col style="width:64px"><col style="width:52px"><col style="width:470px"></colgroup>
+          <thead><tr><th>序号</th><th>关键特性</th><th>目标</th><th>进度</th><th>开始时间</th><th>结束时间</th><th>特性FO</th><th>状态</th><th style="text-align:left">进展/风险</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="c">1</td><td class="c" style="font-weight:600">AI智能充电</td>
+              <td>1.智能提升充电效率：通过充电功率爬坡预测、模块按需预测等技术优化充电时间，充电效率相比现网Autel直流桩提升20%；2.智能曲线预测：充电曲线预测模型准确预测soc趋势以及功率变化趋势，准确度相比KP提升10%；3.智能AI车型识别：车型识别算法识别欧美90%车型，准确度相比KP提升10%</td>
+              <td class="c empty">—</td><td class="c">2023/11/10</td><td class="c">2024/9/30</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td>
+              <td>【进展】完成车型识别模型优化，减少了多标签的错失，功率预测完成了开机功率预测的模型，过程预测模型内部测试进行中；【关键风险】新加坡桩的车型识别效果不好，功率预测对于ford/kia/hyundai等车功率突变的情况预测不准确；【应对策略】新加坡安排专人出差数采两</td>
+            </tr>
+            <tr>
+              <td class="c">2</td><td class="c" style="font-weight:600">免维护枪线液冷系统</td>
+              <td>1.冷却液维护周期≥3年；2.风扇/泵支持5分钟快速更换；3.液冷系统IP65；4.支持5.5m枪线双枪500A持续充电</td>
+              <td class="c empty">—</td><td class="c">2023/10/17</td><td class="c">2024/7/20</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td>
+              <td>【进展】基于T型机验证完成，支持双枪500A充电；【关键风险】线束方案未验证；【应对策略】基于N+1 V3样机进行验证</td>
+            </tr>
+            <tr>
+              <td class="c">3</td><td class="c" style="font-weight:600">数字化液冷高效充电模块</td>
+              <td>1.高可靠：发货2万个以上之后考量，失效率1%；2.低噪音：液冷低噪，模块实现&lt;50dB噪音指标；3.高效率：最大效率可达96.7%指标，比H高1%；4.智能化：单模块OTA≤120S，OTA升级一次成功率≥99%（无供电异常情况）；5.易演进：理论设计叠光供电功率变化级数为2级，叠储为2~3级</td>
+              <td class="c empty">—</td><td class="c">2023/12/15</td><td class="c">2025/3/29</td><td class="c empty">—</td><td class="c"><span class="dot"></span></td>
+              <td>1. 调试单板已全部投样并回样；2. 正在进行单板测试，进展正常；3. 智能化代码已完成50%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="footnote">
+    <span><i class="xx">XX</i> = 原表待确认字段</span>
+    <span>— = 原表未填写</span>
+    <span>数据与口径均来自 Excel 原稿</span>
+  </div>
+</div></div>
+
+<script>
+/* ============ 舞台缩放：1920×1080 等比适配任意投影分辨率 ============ */
+(function(){
+  const stage=document.getElementById('stage');
+  function fit(){
+    const s=Math.min(innerWidth/1920,innerHeight/1080);
+    stage.style.transform='scale('+s+')';
+  }
+  addEventListener('resize',fit);fit();
+})();
+
+/* ============ 页面导航（后续 4 页接入：PAGES 登记 + tab 解除 disabled）============ */
+const PAGES=[
+  {id:'finance',   title:'DS480 经营驾驶舱', built:true},
+  {id:'marketing', title:'DS480 营销驾驶舱', built:true},
+  {id:'compete',   title:'DS480 产品竞争力驾驶舱', built:true},
+  {id:'tech',      title:'液冷充电模块 技术驾驶舱', built:true},
+  {id:'project',   title:'DS480 项目驾驶舱', built:true}
+];
+(function(){
+  /* 嵌入 ioc deck 第 4 页（slides/04-prototype.html）时，键盘不翻本页：
+   * 只把按键转发给外层包装页（由 shell 统一做 deck 翻页）；五屏切换仅靠鼠标点页签。
+   * 独立打开时保持原有方向键/数字键切屏行为。 */
+  const EMBEDDED=window.parent!==window;
+  const SWALLOW=['ArrowRight','ArrowLeft','PageUp','PageDown',' ','Enter','Backspace','Home','End','1','2','3','4','5'];
+  let cur=0;
+  function go(i){
+    if(i<0||i>=PAGES.length||!PAGES[i].built)return;
+    cur=i;
+    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.page===PAGES[i].id));
+    document.querySelectorAll('.page').forEach(p=>p.classList.toggle('current',p.id==='page-'+PAGES[i].id));
+    document.getElementById('pageTitle').textContent=PAGES[i].title;
+  }
+  document.getElementById('tabs').addEventListener('click',e=>{
+    const b=e.target.closest('.tab');if(!b)return;
+    go(PAGES.findIndex(p=>p.id===b.dataset.page));
+  });
+  addEventListener('keydown',e=>{
+    if(EMBEDDED){
+      if(!e.metaKey&&!e.ctrlKey&&!e.altKey&&SWALLOW.includes(e.key))e.preventDefault();
+      try{parent.postMessage({type:'ioc-key',key:e.key},'*')}catch(err){}
+      return;
+    }
+    if(['ArrowRight','PageDown'].includes(e.key)){let i=cur+1;while(i<PAGES.length&&!PAGES[i].built)i++;go(i);}
+    if(['ArrowLeft','PageUp'].includes(e.key)){let i=cur-1;while(i>=0&&!PAGES[i].built)i--;go(i);}
+    const n=parseInt(e.key);if(n>=1&&n<=5&&PAGES[n-1].built)go(n-1);
+  });
+  /* 嵌入态滚轮同样上交（本页不滚动，滚轮语义 = deck 翻页） */
+  addEventListener('wheel',function(e){
+    if(!EMBEDDED)return;
+    try{parent.postMessage({type:'ioc-wheel',deltaY:e.deltaY,deltaMode:e.deltaMode},'*')}catch(err){}
+  },{passive:true});
+})();
+
+/* ============ ECharts 主题（STYLE-GUIDE §5，所有图必须复用）============ */
+const FONT="'Inter','Noto Sans SC',-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif";
+const T1='rgba(0,0,0,.88)',T3='rgba(0,0,0,.45)',GRID='#eef0f2';
+const C1='#188a4c',C2='#2a78d6',CNEG='#d03b3b';
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function baseTheme(){
+  return {
+    animation:!reduceMotion, animationDuration:500,
+    textStyle:{fontFamily:FONT},
+    grid:{left:6,right:10,top:30,bottom:2,containLabel:true},
+    tooltip:{
+      trigger:'axis',axisPointer:{type:'shadow',shadowStyle:{color:'rgba(14,123,61,.06)'}},
+      backgroundColor:'#fff',borderColor:'#e5e6eb',borderWidth:1,padding:[8,12],
+      textStyle:{color:T1,fontSize:13,fontFamily:FONT},
+      valueFormatter:v=>typeof v==='number'?v.toLocaleString('en-US'):v
+    },
+    xAxis:{type:'category',axisLine:{show:false},axisTick:{show:false},
+      axisLabel:{color:T3,fontSize:12.5,fontFamily:FONT}},
+    yAxis:{type:'value',axisLine:{show:false},axisTick:{show:false},
+      splitLine:{show:true,lineStyle:{color:GRID,width:1,type:'solid'}},
+      axisLabel:{color:T3,fontSize:12,fontFamily:FONT,formatter:v=>v.toLocaleString('en-US')}}
+  };
+}
+function barChart(id,years,values,color,opt={}){
+  const c=echarts.init(document.getElementById(id),null,{devicePixelRatio:2});
+  const o=baseTheme();
+  o.series=[{
+    type:'bar',data:values,barWidth:22,
+    itemStyle:{color:color,borderRadius:[4,4,0,0]},
+    label:{show:true,position:'top',fontFamily:FONT,fontSize:13,fontWeight:600,color:T1,
+      formatter:p=>p.value.toLocaleString('en-US')+(opt.suffix||'')},
+    markLine:opt.zeroLine?{silent:true,symbol:'none',label:{show:false},
+      lineStyle:{color:'#c9ccd4',width:1,type:'solid'},data:[{yAxis:0}]}:undefined,
+    ...opt.extra
+  }];
+  if(opt.colorBySign){
+    o.series[0].data=values.map(v=>({value:v,itemStyle:{color:v<0?CNEG:color}}));
+  }
+  o.xAxis.data=years;
+  c.setOption(o);return c;
+}
+/* 四、经营结果 */
+barChart('chart-sales',['2025','2026','2027','2028'],[3010,5986,8081,10909],C1);
+barChart('chart-profit',['2025','2026','2027','2028'],[-3068,660,2324,2890],C1,{colorBySign:true,zeroLine:true});
+(function(){ /* 净利率：中性墨色折线（派生比率），极值+末期直接标注 */
+  const c=echarts.init(document.getElementById('chart-margin'),null,{devicePixelRatio:2});
+  const o=baseTheme();
+  o.series=[{
+    type:'line',data:[-102,11,29,26],smooth:false,
+    lineStyle:{color:'#595959',width:2,cap:'round',join:'round'},
+    itemStyle:{color:'#595959',borderColor:'#fff',borderWidth:2},
+    symbol:'circle',symbolSize:9,
+    label:{show:true,position:'top',fontFamily:FONT,fontSize:12.5,fontWeight:600,color:T1,
+      formatter:p=>[0,3].includes(p.dataIndex)?p.value+'%':''}
+  }];
+  o.tooltip.valueFormatter=v=>v+'%';
+  o.xAxis.data=['2025','2026','2027','2028'];
+  c.setOption(o);
+})();
+/* 五、投入情况 */
+barChart('chart-manpower',['2025','2026','2027','2028'],[434,108,36,36],C2);
+</script>
+</body>
+</html>

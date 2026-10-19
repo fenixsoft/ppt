@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>03 · 概念与用途</title>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../assets/animations/animations.css">
+<link rel="stylesheet" href="../style.css">
+<style>
+/* —— 第 3 页专属：两卡片上方加概念配图（统一 25:9 裁切）—— */
+.p3-col{display:flex;flex-direction:column;gap:8px;min-width:0}
+.p3-fig{margin:0;min-width:0}
+.p3-fig .img-cap{text-align:center;margin:4px 0 0;font-size:13px;line-height:1.4}
+.p3-img{--img-ratio:25/9;border-radius:12px}
+.p3-img-1{--img-pos:center 45%}   /* 产品图取中部仪表盘主体 */
+.p3-img-2{--img-pos:center 15%}   /* IOC 照片取上半屏幕墙，避开底部横幅 */
+/* 配图占位后收紧本页纵向间距 */
+.kicker{margin-bottom:10px}
+.h2{margin-bottom:10px}
+.p3-col .card{width:100%;flex:1;padding:12px 18px}
+.p3-col .card h4{margin-bottom:6px}
+.p3-col .card .mt-m{margin-top:10px}
+.p3-col .feature-row{padding:6px 0}
+.concl{margin-top:8px;padding:10px 18px}
+</style>
+</head>
+<body class="tpl-presenter-mode-reveal">
+<div class="deck">
+
+<section class="slide" data-title="概念与用途">
+    <p class="kicker">引言 · 概念</p>
+    <h2 class="h2"><span class="accent">管理驾驶舱</span> 与 <span class="accent">智能 IOC</span></h2>
+    <div class="grid g2" style="margin-top:10px">
+      <div class="p3-col">
+      <figure class="p3-fig">
+        <div class="img-frame p3-img p3-img-1"><img src="../assets/it-cockpit.webp" alt="管理驾驶舱产品界面：CEO Cockpit 仪表盘"></div>
+        <figcaption class="img-cap">管理驾驶舱</figcaption>
+      </figure>
+      <div class="card card-accent">
+        <h4>管理驾驶舱 <span class="mono">Management Cockpit</span></h4>
+        <p class="dim">面向管理层的一站式<b>决策支持系统</b>：像飞机驾驶舱把仪表集中到一屏，让高层<b>一屏看清全局、快速做出决策</b>。</p>
+        <div class="feature-row mt-m">
+          <span class="num blue">源</span>
+          <div>
+            <b>谁提出的</b>
+            <p class="dim">1998 年 SAP 提出，思想前身是 1980 年代的高管信息系统（EIS）。</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <span class="num green">用</span>
+          <div>
+            <b>用来干什么</b>
+            <p class="dim">KPI 集中可视化 · 实时经营监控 · 风险预警 · 高层协同决策。</p>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="p3-col">
+      <figure class="p3-fig">
+        <div class="img-frame p3-img p3-img-2"><img src="../assets/ioc.webp" alt="智能运营中心 IOC：大屏指挥大厅"></div>
+        <figcaption class="img-cap">智能 IOC</figcaption>
+      </figure>
+      <div class="card card-accent">
+        <h4>智能 IOC <span class="mono">Intelligent Operations Center</span></h4>
+        <p class="dim">集成 IoT、大数据、AI 的<b>运营指挥中枢</b>，把分散的系统聚成一体，让组织<b>看得见全域、调得动资源</b>，被称为城市/园区/企业的"大脑"。</p>
+        <div class="feature-row mt-m">
+          <span class="num purple">源</span>
+          <div>
+            <b>谁提出的</b>
+            <p class="dim">IBM 2011 年发布（源自其"智慧地球 / 智慧城市"战略），后由华为、阿里等厂商延伸到园区与企业场景。</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <span class="num orange">用</span>
+          <div>
+            <b>用来干什么</b>
+            <p class="dim">全域态势感知 · 监测预警 · 应急指挥调度 · 跨部门运营协同。</p>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="concl">一句话区分：<b>驾驶舱管"看数决策"</b>，<b>IOC 管"运行指挥"</b>，今天两者正在融合。两者均为产业实践术语，尚无国际/国家标准的统一定义。</div>
+    <div class="deck-footer">
+      <span class="mono">开场 · 概念与用途</span>
+      <span class="slide-number" data-current="3" data-total="19"></span>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/runtime.js"></script>
+</body>
+</html>
