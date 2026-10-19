@@ -230,7 +230,7 @@
       /* ----- page frames, stacked like .slide elements used to be ----- */
       const frameStyle = document.createElement('style');
       frameStyle.textContent =
-        '.deck-frame{position:absolute;inset:0;width:100%;height:100%;border:none;opacity:0;pointer-events:none;' +
+        '.deck-frame{position:absolute;inset:0;width:100%;height:100%;border:none;opacity:0;pointer-events:none;background:var(--bg);' +
         'transition:opacity .5s var(--ease),transform .5s var(--ease);transform:translateX(30px)}' +
         '.deck-frame.is-active{opacity:1;transform:translateX(0);z-index:2}' +
         '.deck-frame.is-prev{transform:translateX(-30px)}';
@@ -243,15 +243,26 @@
       }
       function postTo(i, msg) { try { frames[i].contentWindow.postMessage(msg, '*'); } catch (e) {} }
 
+      /* Lazy window: frames are created empty (no src) and only filled for
+       * [current-2, current+2]. A cold first open then fetches a few pages'
+       * resources instead of the whole deck (~300 requests / ~8.5MB). */
+      const LAZY_RADIUS = 2;
+      const loaded = entries.map(() => false);
       const frames = entries.map((en, i) => {
         const f = document.createElement('iframe');
         f.className = 'deck-frame';
         f.tabIndex = -1;
         f.title = en.title || ('Slide ' + (i + 1));
-        f.src = pageUrl(i);
         deck.appendChild(f);
         return f;
       });
+      function ensureLoaded(n) {
+        for (let j = Math.max(0, n - LAZY_RADIUS); j <= Math.min(total - 1, n + LAZY_RADIUS); j++) {
+          if (loaded[j]) continue;
+          loaded[j] = true;
+          frames[j].src = pageUrl(j);
+        }
+      }
 
       /* Per-page metadata reported by the pages themselves via the extended
        * preview-ready payload (notes / title / noLogo / interactive). */
@@ -275,7 +286,13 @@
           };
           if (meta[i].interactive && i === idx) frames[i].style.pointerEvents = 'auto';
           if (curTheme) postTo(i, { type: 'preview-theme', name: curTheme });
-          if (i === idx) pushMeta(i);
+          if (i === idx) {
+            /* Lazy-loaded current page arriving late: refresh what go() set
+             * from meta while the page was still loading. */
+            if (logoEl) logoEl.style.display = meta[i].noLogo ? 'none' : '';
+            notes.innerHTML = meta[i].notes || '';
+            pushMeta(i);
+          }
           return;
         }
         /* A page that owns the keyboard (interactive embed, e.g. a nested
@@ -382,6 +399,7 @@
       /* ===== navigation ===== */
       function go(n, fromRemote) {
         n = Math.max(0, Math.min(total - 1, n));
+        ensureLoaded(n);
         frames.forEach((f, i) => {
           f.classList.toggle('is-active', i === n);
           f.classList.toggle('is-prev', i < n);
