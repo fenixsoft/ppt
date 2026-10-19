@@ -382,6 +382,13 @@
   border-bottom: 4px solid var(--accent-2);
   background: var(--surface-2);
 }
+.tpl-presenter-mode-reveal .ladder .step-goal {
+  border: 2px solid var(--good);
+  border-bottom: 4px solid var(--good);
+  background: var(--surface-2);
+}
+.tpl-presenter-mode-reveal .ladder .step-goal .lv { color: var(--good); }
+.tpl-presenter-mode-reveal .ladder .step-goal .badge { background: var(--good); }
 .tpl-presenter-mode-reveal .badge {
   display: inline-block;
   margin-top: 8px;
@@ -732,7 +739,8 @@
 
 /* 凸字形虚线框（行动建议页专属）：上段窄框包住组内节点，下段宽框包住下方三个部门卡片。
  * 上段沿用 .tgroup::before（去掉底边、下探到肩线），下段挂在 .cap-cards 上（左右下三边），
- * 肩线 = 宽框顶边露在窄框两侧的两段，由 .cap-cards::after 与 .cap-shoulder-r 补齐。
+ * 肩线 = 宽框顶边露在窄框两侧的两段，由 .cap-cards::after 与 .cap-shoulder-r 补齐，
+ * 四角统一 14px 圆角：宽框顶部圆弧由其左右边框画出，肩线止于圆弧切点（各内缩 r=14px）。
  * 横向定位公式：沙盘 4 个叶子项（3 个 tcol 各有 14px 水平 padding、tgroup 无），flex 均分后
  * 每份 share = (W−42px)/6，窄框左边界 = share+8px、右边界 = 4·share+20px，两端各外扩 18px、
  * 压边 2px 封接缝。若改动 tcol padding 或叶子列数需同步这两个公式。 */
@@ -754,21 +762,21 @@
   bottom: -12px;
   border: 2px dashed var(--accent-2);
   border-top: none;
-  border-radius: 0 0 14px 14px;
+  border-radius: 14px; /* 四角同半径圆角；顶部圆弧由左右边框带出 */
   background: color-mix(in srgb, var(--accent-2) 6%, transparent);
 }
 .tpl-presenter-mode-reveal .cap-cards::after {
   content: "";
   position: absolute;
   top: -12px;
-  left: -18px;
-  width: calc((100% - 42px) / 6 + 28px); /* 至窄框左边框（share+8px），压边 2px 封住接缝 */
+  left: -4px; /* 止于左上圆弧切点（原 -18px 内缩 14px 圆角半径） */
+  width: calc((100% - 42px) / 6 + 14px); /* 至窄框左边框（share+8px），压边 2px 封住接缝 */
   border-top: 2px dashed var(--accent-2);
 }
 .tpl-presenter-mode-reveal .cap-cards .cap-shoulder-r {
   position: absolute;
   top: -12px;
   left: calc(66.6667% - 10px); /* 自窄框右边框（4·share+20px）起，压边 2px 封住接缝 */
-  width: calc(33.3333% + 28px);
+  width: calc(33.3333% + 14px); /* 右端止于右上圆弧切点（原 +28px 内缩 14px 圆角半径） */
   border-top: 2px dashed var(--accent-2);
 }

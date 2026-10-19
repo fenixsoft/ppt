@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>05 · 驾驶舱指标清单 · 取数评估</title>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../assets/animations/animations.css">
+<link rel="stylesheet" href="../style.css">
+<style>
+/* —— 第 11 页专属：全幅嵌入 prototype/data_index.html（长文档页，靠本页滚动条浏览）—— */
+.p11-frame{position:absolute;inset:0;width:100%;height:100%;border:none;background:#fff}
+</style>
+</head>
+<body class="tpl-presenter-mode-reveal" data-interactive>
+<div class="deck">
+
+<section class="slide" data-title="驾驶舱指标清单 · 取数评估" style="padding:0">
+    <iframe id="dataidx" class="p11-frame" src="../prototype/data_index.html" title="五大驾驶舱指标清单 · 取数评估"></iframe>
+  </section>
+
+</div>
+
+<script>
+/* 第 11 页包装层（薄壳）：与第 4 页同构，但滚轮语义相反——
+ *  - 滚轮：不向 shell 转发（无 preview-wheel），滚轮事件落在文档内，
+ *    原生长文档滚动；滚到头也不会翻页，翻页只能 ←/→。
+ *  - 按键：←/→ 等仍交还 shell 做 deck 翻页（preview-key）。
+ *    点击 iframe 内部后焦点会落进子文档，靠 iframe 的 focus 事件把焦点
+ *    拉回本包装页（window.focus），保证 ←/→ 始终可用；
+ *  - 离开本页时把焦点还给 shell(slide-hide → parent.focus())，避免困在隐藏 iframe */
+(function(){
+  const embedded=window.parent!==window;
+  const frame=document.getElementById('dataidx');
+  function toShell(key){
+    if(!embedded)return;
+    try{parent.postMessage({type:'preview-key',key:key},'*')}catch(e){}
+  }
+  addEventListener('keydown',function(e){
+    if(e.metaKey||e.ctrlKey||e.altKey)return;
+    toShell(e.key);
+    if(['ArrowRight','ArrowLeft','PageUp','PageDown',' ','Enter','Backspace','Home','End'].includes(e.key))e.preventDefault();
+  });
+  /* 焦点进入内嵌文档（点击 chips/折叠头）后拉回包装页，保证 ←/→ 不丢：
+   * 焦点事件不跨 frame 传播（iframe 元素收不到 focus），只能轮询 activeElement */
+  if(frame&&embedded)setInterval(function(){
+    if(document.activeElement===frame){try{window.focus()}catch(e){}}
+  },250);
+  addEventListener('message',function(e){
+    if(!e.data)return;
+    if(e.data.type==='slide-hide'){try{parent.focus()}catch(err){}}
+  });
+})();
+</script>
+<script src="../../assets/runtime.js"></script>
+</body>
+</html>
