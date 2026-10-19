@@ -70,8 +70,10 @@ class NoCacheHandler(http.server.SimpleHTTPRequestHandler):
         body = gzip.compress(body, compresslevel=6, mtime=0)
         headers = re.sub(rb'(?mi)^Content-Length: \d+\r\n',
                          b'Content-Length: %d\r\n' % len(body), headers)
-        headers += b'Content-Encoding: gzip\r\nVary: Accept-Encoding\r\n'
-        real_wfile.write(b'\r\n'.join((status_line, headers)) + sep + body)
+        # headers 末行无 \r\n（被分区吃掉），先补齐再追加新头；最后单独的
+        # \r\n 是头块结束的空行，之后紧跟 body，多一个少一个都会错帧。
+        headers += b'\r\nContent-Encoding: gzip\r\nVary: Accept-Encoding\r\n'
+        real_wfile.write(status_line + b'\r\n' + headers + b'\r\n' + body)
 
 
 class ThreadingTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
