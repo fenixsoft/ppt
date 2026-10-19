@@ -28,6 +28,8 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v6
+        with:
+          enablement: true
 
       # 纯静态站点，无需构建：仓库根即站点根，
       # 通过 ppt.icyfenix.cn/ioc/ 访问 ioc deck
