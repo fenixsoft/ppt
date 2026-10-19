@@ -1,0 +1,11 @@
+{
+  "name": "ppt-workspace",
+  "private": true,
+  "description": "静态 HTML PPT 工作区（package.json 仅用于 GitHub Actions 中的 CDN 刷新脚本依赖）",
+  "scripts": {
+    "cdn:refresh": "node scripts/cdn-refresh.js"
+  },
+  "dependencies": {
+    "tencentcloud-sdk-nodejs-cdn": "^4.1.200"
+  }
+}

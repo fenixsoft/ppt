@@ -1,3 +1,4 @@
 .history/
 .playwright-cli/
 *.log
+node_modules/
