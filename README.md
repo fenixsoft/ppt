@@ -21,6 +21,7 @@
 │   └── *-showcase.html          主题/布局/动画/模板 浏览器（打开按 ← → 翻阅）
 ├── scripts/
 │   ├── new-deck.sh              新建 deck 脚手架（自动重写 assets 相对路径并自检引用）
+│   ├── export-pdf.py            deck 导出矢量 PDF（分页 / 单文件 deck 通吃）
 │   └── render.sh                headless Chrome 截图导出 PNG
 └── <deck-name>/                 每个 deck 一个目录，index.html 为入口
     └── demo/                    工作区自带示例 deck，可随时删除
@@ -60,6 +61,23 @@ cd ~/ppt
 ```
 
 依赖本机 Chrome/Chromium（自动探测，或用 `CHROME_BIN=...` 指定）。
+
+## 导出 PDF
+
+```bash
+cd ~/ppt
+./scripts/export-pdf.py <deck-name>              # 生成 <deck-name>/<deck-name>-deck.pdf
+./scripts/export-pdf.py <deck-name> -o 自定.pdf  # 自定义输出路径
+```
+
+- **分页 deck**（`slides/` + `data-slides` 清单）：逐页经 Chromium `page.pdf()` 导出后合并；
+  页码自动修正为真实 `N/总页数`（单页文件里的页码由 runtime 动态写入，静态导出会失真），页脚保留。
+- **legacy 单文件 deck**：整份一次导出，`@media print` 样式保证一页一张 slide。
+- 输出为**矢量 PDF**（文字可选中复制，非截图拼合），页面尺寸 1920×1080（16:9）。
+- 全幅内嵌页（无 `deck-footer` 的页）导出后同样没有页码，与线上呈现一致。
+
+依赖：`python3 -m pip install playwright pypdf && python3 -m playwright install chromium`。
+逐页中间产物在 `.playwright-cli/pdf-<deck-name>/`（已 gitignore）。
 
 ## 约定
 
