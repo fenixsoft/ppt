@@ -1,0 +1,272 @@
+/* tpl-presenter-mode-reveal · scoped styles
+ * 《IPD-AI · AutoDevelopment》deck.
+ * Inherits tokens from active theme (corporate-clean).
+ */
+
+.tpl-presenter-mode-reveal .slide {
+  padding: 72px 96px;
+}
+
+.tpl-presenter-mode-reveal .kicker {
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+  color: var(--text-3);
+  letter-spacing: 0.14em;
+  margin: 0 0 18px 0;
+}
+
+.tpl-presenter-mode-reveal .h1 {
+  font-size: clamp(44px, 5.6vw, 76px);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px 0;
+}
+
+.tpl-presenter-mode-reveal .h2 {
+  font-size: clamp(30px, 3.2vw, 44px);
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  margin: 0 0 24px 0;
+}
+
+.tpl-presenter-mode-reveal .lede {
+  font-size: 20px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+.tpl-presenter-mode-reveal .lede b {
+  color: var(--accent-2);
+  font-weight: 700;
+}
+
+.tpl-presenter-mode-reveal .mono {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.9em;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--accent-2);
+}
+
+.tpl-presenter-mode-reveal .accent {
+  color: var(--accent-2);
+  font-weight: 700;
+}
+
+/* ============ AutoDevelopment 泳道架构图 ============ */
+
+/* 总网格：泳道标签列 + 主内容 + 两条纵向贯穿轨道 */
+.tpl-presenter-mode-reveal .arch {
+  display: grid;
+  grid-template-columns: 88px 1fr 64px 64px;
+  grid-template-rows: auto 44px auto 44px auto;
+  column-gap: 16px;
+  margin-top: 18px;
+}
+.tpl-presenter-mode-reveal .arch > .lt-human   { grid-area: 1 / 1; }
+.tpl-presenter-mode-reveal .arch > .human-lane { grid-area: 1 / 2; }
+.tpl-presenter-mode-reveal .arch > .varr-top   { grid-area: 2 / 2; }
+.tpl-presenter-mode-reveal .arch > .lt-ai      { grid-area: 3 / 1; }
+.tpl-presenter-mode-reveal .arch > .ai-zone    { grid-area: 3 / 2; }
+.tpl-presenter-mode-reveal .arch > .varr-mid   { grid-area: 4 / 2; }
+.tpl-presenter-mode-reveal .arch > .lt-infra   { grid-area: 5 / 1; }
+.tpl-presenter-mode-reveal .arch > .infra-lane { grid-area: 5 / 2; }
+.tpl-presenter-mode-reveal .arch > .rail.kb    { grid-area: 1 / 3 / -1; }
+.tpl-presenter-mode-reveal .arch > .rail.mg    { grid-area: 1 / 4 / -1; }
+
+/* 泳道标签 */
+.tpl-presenter-mode-reveal .lane-tag {
+  align-self: center;
+  justify-self: start;
+  font-family: var(--font-mono, monospace);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text-1);
+  white-space: nowrap;
+}
+
+/* 触点卡：人类泳道的 需求/产品 与 基础设施泳道的 工具/AI Infra（标题+说明居中竖排） */
+.tpl-presenter-mode-reveal .lane-card {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  padding: 12px 22px;
+}
+.tpl-presenter-mode-reveal .lane-card b {
+  font-size: 20px;
+  color: var(--text-1);
+  white-space: nowrap;
+}
+.tpl-presenter-mode-reveal .lane-card span {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+/* 人类泳道：左右两个触点，中间虚线示意"之间不占人力" */
+.tpl-presenter-mode-reveal .human-lane {
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+}
+.tpl-presenter-mode-reveal .h-dash {
+  flex: 0 0 56px;
+  align-self: center;
+  border-top: 2px dashed var(--border-strong, var(--border));
+}
+
+/* 泳道之间的纵向箭头行；::before 画出泳道分隔虚线（左探到标签列） */
+.tpl-presenter-mode-reveal .varr {
+  position: relative;
+}
+.tpl-presenter-mode-reveal .varr::before {
+  content: "";
+  position: absolute;
+  left: -104px;
+  right: 0;
+  top: 50%;
+  border-top: 1px dashed var(--border);
+}
+.tpl-presenter-mode-reveal .varr span {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-58%);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent-2);
+}
+
+/* 基础设施泳道：两张卡等宽 */
+.tpl-presenter-mode-reveal .infra-lane {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* AI 泳道：虚线框住的三层机器 */
+.tpl-presenter-mode-reveal .ai-zone {
+  border: 2px dashed color-mix(in srgb, var(--accent-2) 55%, transparent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent-2) 5%, transparent);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.tpl-presenter-mode-reveal .ai-row {
+  display: grid;
+  grid-template-columns: 104px 1fr;
+  gap: 14px;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 13px 18px;
+}
+.tpl-presenter-mode-reveal .ai-badge {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent-2);
+  white-space: nowrap;
+}
+.tpl-presenter-mode-reveal .ai-text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-1);
+}
+.tpl-presenter-mode-reveal .ai-text b { color: var(--accent-2); }
+.tpl-presenter-mode-reveal .ai-row.gate { border-left: 4px solid var(--accent-2); }
+
+/* 协作层：与门禁/角色同一网格结构，徽标列对齐 */
+.tpl-presenter-mode-reveal .ai-body { min-width: 0; }
+.tpl-presenter-mode-reveal .pipe {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  margin-top: 9px;
+}
+.tpl-presenter-mode-reveal .pchip {
+  font-family: var(--font-mono, monospace);
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 3px 11px;
+  border: 1px solid var(--border-strong, var(--border));
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text-1);
+  white-space: nowrap;
+}
+.tpl-presenter-mode-reveal .pipe i {
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-2);
+}
+.tpl-presenter-mode-reveal .pchip.pout {
+  background: var(--grad);
+  border: none;
+  color: var(--accent-ink, #fff);
+}
+
+/* 角色层的 Agent 胶囊 */
+.tpl-presenter-mode-reveal .role-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tpl-presenter-mode-reveal .rchip {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-1);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 15px;
+  white-space: nowrap;
+}
+.tpl-presenter-mode-reveal .rchip.rmore { color: var(--text-3); border-style: dashed; }
+
+/* 两条纵向贯穿平面（竖排文字） */
+.tpl-presenter-mode-reveal .rail {
+  writing-mode: vertical-rl;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 10px;
+  padding: 14px 0;
+  text-align: center;
+}
+.tpl-presenter-mode-reveal .rail b {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--text-1);
+  letter-spacing: 0.28em;
+}
+.tpl-presenter-mode-reveal .rail span {
+  font-size: 12.5px;
+  color: var(--text-2);
+  letter-spacing: 0.16em;
+}
+.tpl-presenter-mode-reveal .rail.kb {
+  border: 1.5px dashed color-mix(in srgb, var(--accent-2) 60%, transparent);
+  background: color-mix(in srgb, var(--accent-2) 6%, transparent);
+}
+.tpl-presenter-mode-reveal .rail.mg {
+  border: 1px dashed var(--border-strong, var(--border));
+  background: var(--surface-2);
+}

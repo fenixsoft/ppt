@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>01 · AI AutoDevelopment 整体架构</title>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../assets/animations/animations.css">
+<link rel="stylesheet" href="../style.css">
+<style>
+/* 本页专属：压缩标题区，给架构图让出高度 */
+.tpl-presenter-mode-reveal .kicker { margin-bottom: 10px; }
+.tpl-presenter-mode-reveal .h2 { font-size: 36px; margin-bottom: 8px; }
+.tpl-presenter-mode-reveal .lede { font-size: 17px; }
+</style>
+</head>
+<body class="tpl-presenter-mode-reveal">
+<div class="deck">
+
+<section class="slide" data-title="AI AutoDevelopment 整体架构">
+  <p class="kicker">IPD-AI · AUTODEVELOPMENT</p>
+  <h2 class="h2">AI AutoDevelopment <span class="accent">整体架构</span></h2>
+  <p >人做两件事：<b>提出问题</b>与<b>确认结果</b>，中间的研发全过程由 Agent 在 IPD 流程下完成协作</p>
+
+  <div class="arch">
+    <!-- 人类泳道：两个触点，中间不占人力 -->
+    <div class="lane-tag lt-human">人类</div>
+    <div class="human-lane">
+      <div class="lane-card"><b>输入</b><span>人提出问题</span></div>
+      <div class="lane-card"><b>输出</b><span>人确认结果</span></div>
+    </div>
+
+    <!-- 泳道间箭头：需求进入 AI，产品回到人确认 -->
+    <div class="varr varr-top">
+      <span style="left:24%">▼</span>
+      <span style="left:76%">▲</span>
+    </div>
+
+    <!-- AI 泳道：虚线框住的三层研发机器 -->
+    <div class="lane-tag lt-ai">AI</div>
+    <div class="ai-zone">
+      <div class="ai-row ">
+        <span class="ai-badge">质量门禁</span>
+        <p class="ai-text">以 <b>AI 对抗式</b>的形式，保证<b>需求、设计、开发、验证和交付物</b>的质量</p>
+      </div>
+      <div class="ai-row collab">
+        <span class="ai-badge">AI 协作层</span>
+        <div class="ai-body">
+          <p class="ai-text">组织各角色的 Agent，在 <b>IPD 流程</b>下相互协作，完成研发</p>
+          <div class="pipe">
+            <span class="pchip">Charter/PRD</span><i>→</i>
+            <span class="pchip">Product Spec</span><i>→</i>
+            <span class="pchip">Technical Spec</span><i>→</i>
+            <span class="pchip">PLAN</span><i>→</i>
+            <span class="pchip">TASKS</span><i>→</i>
+            <span class="pchip">CODE</span><i>→</i>
+            <span class="pchip">PRODUCT</span>
+          </div>
+        </div>
+      </div>
+      <div class="ai-row">
+        <span class="ai-badge">AI 角色</span>
+        <div class="role-chips">
+          <span class="rchip">需求Agent</span>
+          <span class="rchip">设计Agent</span>
+          <span class="rchip">开发Agent</span>
+          <span class="rchip">测试Agent</span>
+          <span class="rchip">验证Agent</span>
+          <span class="rchip">运维Agent</span>
+          <span class="rchip">代码审查Agent</span>
+          <span class="rchip">裁决Agent</span>
+          <span class="rchip rmore">……</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 泳道间箭头：Agent 调用工具与算力，结果返回协作层 -->
+    <div class="varr varr-mid">
+      <span style="left:25%">▼</span>
+      <span style="left:50%">▲</span>
+      <span style="left:75%">▼</span>
+    </div>
+
+    <!-- 基础设施泳道 -->
+    <div class="lane-tag lt-infra">基础设施</div>
+    <div class="infra-lane">
+      <div class="lane-card"><b>工具</b><span>研发工具 · 代码仓 · CI/CD 流水线 · 界面原型 · 嵌入式调试……</span></div>
+      <div class="lane-card"><b>AI Infra</b><span>算力 · 模型</span></div>
+    </div>
+
+    <!-- 两条纵向贯穿平面 -->
+    <div class="rail kb">
+      <b>研发知识库</b>
+      <span>企业私有知识·架构约束</span>
+    </div>
+    <div class="rail mg">
+      <b>管理面</b>
+      <span>流程改进·观测·运维</span>
+    </div>
+  </div>
+
+  <div class="notes">
+这一页是 IPD-AI 的整体架构，自上而下三条泳道。人类泳道只有两个动作：提出问题和确认结果——这两个框之间的空白是有意留出来的，中间的一切都不需要人参与。
+AI 泳道是这台研发机器的核心，共三层：最上面是质量门禁，用 AI 对抗式评审守住需求、设计、开发、验证和交付物的质量；中间是 AI 协作层，把研发组织成一条从 Charter/PRD 到 Product 的规格流水线；下面是角色层，需求、设计、开发、测试、验证、运维各角色 Agent 各司其职。
+最底层是基础设施：左边是研发工具链——代码仓、CI/CD 流水线、界面原型、嵌入式调试；右边是 AI Infra——算力与模型。Agent 向下调用工具和算力，结果再返回协作层。
+右侧两条纵向轨道贯穿全部泳道：研发知识库注入企业私有知识与架构约束，管理面负责流程改进、观测与运维——它们不是某一层的功能，而是所有层共用的能力。
+  </div>
+
+  <div class="deck-footer">
+    <span class="mono">IPD-AI · 整体架构</span>
+    <span class="slide-number" data-current="1" data-total="1"></span>
+  </div>
+</section>
+
+</div>
+
+<script src="../../assets/runtime.js"></script>
+</body>
+</html>
