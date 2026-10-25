@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>03 · 各域职责</title>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../assets/animations/animations.css">
+<link rel="stylesheet" href="../style.css">
+<style>
+/* —— 第 3 页专属：沿用第 2 页能力框架树，每个域节点下展开一层职责清单 —— */
+.kicker{margin-bottom:10px}
+.h2{margin-bottom:10px}
+.sandbox{margin-top:18px}
+/* 节点 → 职责卡 的短连接线，呼应树形结构 */
+.sandbox .tstem{width:2px;height:12px;margin:0 auto;background:var(--border-strong)}
+.sandbox .tduty{
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px 12px 11px;
+  text-align:left;
+}
+.sandbox .tduty li{
+  list-style:none;
+  position:relative;
+  padding-left:13px;
+  margin-top:6px;
+  font-size:12px;
+  line-height:1.45;
+  color:var(--text-2);
+}
+.sandbox .tduty li:first-child{margin-top:0}
+.sandbox .tduty li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:7px;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:var(--border-strong);
+}
+.sandbox .tduty li b{color:var(--text-1);font-weight:600}
+</style>
+</head>
+<body class="tpl-presenter-mode-reveal">
+<div class="deck">
+
+<section class="slide" data-title="各域职责">
+    <p class="kicker">引言 · 概览</p>
+    <h2 class="h2">企业数字化/智能化：<span class="accent">各域职责</span></h2>
+    <div class="sandbox">
+      <div class="sandbox-root">企业数字化/智能化能力</div>
+      <div class="sandbox-stem"></div>
+      <div class="sandbox-rail"></div>
+      <div class="sandbox-leaves">
+        <div class="tcol">
+          <i class="tick"></i>
+          <div class="tnode"><b>流程</b><span>流程管理部<br/>端到端业务流程</span></div>
+          <i class="tstem"></i>
+          <ul class="tduty">
+            <li><b>流程体系</b>：IPD/LTC/ITR 端到端</li>
+            <li><b>流程 Owner</b> · 审计与绩效</li>
+            <li><b>变革管理</b>：重大项目推进落地</li>
+            <li><b>质量运营</b>与内控</li>
+          </ul>
+        </div>
+        <div class="tgroup">
+          <div class="tcol">
+            <i class="tick"></i>
+            <div class="tnode tnode-hot"><b>数据</b><span>数据管理部<br/>数据资产与指标口径</span></div>
+            <i class="tstem"></i>
+            <ul class="tduty">
+              <li><b>治理体系</b>：标准·主数据·质量</li>
+              <li><b>数据底座</b>：同源·打破孤岛</li>
+              <li><b>资产目录</b> · 指标口径统一</li>
+              <li><b>经营分析</b>与数据服务</li>
+            </ul>
+          </div>
+          <div class="tcol">
+            <i class="tick"></i>
+            <div class="tnode tnode-hot"><b>IT应用</b><span>IT装备部与IT平台部<br/>应用系统布局</span></div>
+            <i class="tstem"></i>
+            <ul class="tduty">
+              <li><b>IT装备</b>：业务作战系统交付</li>
+              <li><b>IT平台</b>：公共底座与基础设施</li>
+              <li><b>运维服务</b>：全球 IT 保障</li>
+            </ul>
+          </div>
+          <div class="tcol">
+            <i class="tick"></i>
+            <div class="tnode tnode-hot"><b>EA架构</b><span>企业架构部<br/>企业架构的标准规划</span></div>
+            <i class="tstem"></i>
+            <ul class="tduty">
+              <li><b>4A 规划</b>：业务/应用/数据/技术</li>
+              <li><b>评审管控</b> · 防重复建设</li>
+              <li><b>转型蓝图</b>与演进路线</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tcol">
+          <i class="tick"></i>
+          <div class="tnode"><b>AI使能</b><span>AI 使能部<br/>AI 能力注入场景</span></div>
+          <i class="tstem"></i>
+          <ul class="tduty">
+            <li><b>AI 平台</b>：大模型工程化落地</li>
+            <li><b>场景推广</b>：挖掘并规模化</li>
+            <li><b>赋能</b>：AI 人才与全员素养</li>
+          </ul>
+        </div>
+        <div class="tcol">
+          <i class="tick"></i>
+          <div class="tnode"><b>安全</b><span>网络安全/隐私办公室<br/>网络安全、信息安全、隐私保护</span></div>
+          <i class="tstem"></i>
+          <ul class="tduty">
+            <li><b>网络安全</b>防护与安全运营</li>
+            <li><b>信息安全</b> · 隐私与合规</li>
+            <li><b>安全红线</b> · 内控与审计</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="deck-footer">
+      <span class="mono">开场 · 各域职责</span>
+      <span class="slide-number" data-current="3" data-total="18"></span>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/runtime.js"></script>
+</body>
+</html>
