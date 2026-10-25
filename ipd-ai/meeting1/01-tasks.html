@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>01 · 闭环任务盘点</title>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../assets/animations/animations.css">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="style.css">
+<style>
+/* 本页专属：压缩标题区，给两组任务让出高度 */
+.tpl-presenter-mode-reveal .kicker { margin-bottom: 8px; }
+.tpl-presenter-mode-reveal .h2 { font-size: 34px; margin-bottom: 6px; }
+.tpl-presenter-mode-reveal .title-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+</style>
+</head>
+<body class="tpl-presenter-mode-reveal">
+<div class="deck">
+
+<section class="slide" data-title="闭环任务盘点">
+  <div class="title-row">
+    <div>
+      <p class="kicker">IPD-AI · MEETING 1</p>
+      <h2 class="h2">闭环任务盘点</h2>
+    </div>
+    <div class="legend">
+      <span class="lbl">按闭环时间着色</span>
+      <span class="dl-chip dl-done">本次闭环</span>
+      <span class="dl-chip dl-w27">10.27</span>
+      <span class="dl-chip dl-w29">10.29</span>
+    </div>
+  </div>
+
+  <!-- 10.21 会议 -->
+  <div class="meet-head">
+    <span class="meet-date">10.21</span>
+    <span class="meet-name"><span class="mtag">临时</span>IPD 开发流程智能化工作规划汇报<span class="mroom">@1931</span></span>
+  </div>
+  <div class="task-row t-w29">
+    <span class="dl-chip dl-w29">10.29</span>
+    <div class="task-body">
+      <b>Auto Development 规划和架构设计</b>
+      <span>以 Claude Code 为标杆，选一个纯净软件项目（云端 / 平台类）做试点，输出规划并跑通端到端流程</span>
+    </div>
+    <div class="task-own"><span class="own-chip">@周志明 Felix</span></div>
+  </div>
+  <div class="task-row t-done">
+    <span class="dl-chip dl-done">本次闭环</span>
+    <div class="task-body">
+      <b>组建高精尖小分队</b>
+      <span>人员须懂 Software Engineering 和大模型，不要什么事都一个人干，跨部门找最有能力的人，HR 配合拉资源</span>
+    </div>
+    <div class="task-own"><span class="own-chip">@周志明 Felix</span><span class="own-chip">@孙心怡</span></div>
+  </div>
+
+  <!-- 10.23 会议 -->
+  <div class="meet-head">
+    <span class="meet-date">10.23</span>
+    <span class="meet-name"><span class="mtag">临时会</span>数智化相关事项思考<span class="mroom">@1931</span></span>
+  </div>
+  <div class="task-row t-done">
+    <span class="dl-chip dl-done">本次闭环</span>
+    <div class="task-body">
+      <b>Auto D / Auto R 智能化汇报机制</b>
+      <span>每两天汇报，10/25 下午首次汇报</span>
+    </div>
+    <div class="task-own"><span class="own-chip">@周志明 Felix</span></div>
+  </div>
+  <div class="task-row t-w27">
+    <span class="dl-chip dl-w27">10.27</span>
+    <div class="task-body">
+      <b>各产品线编程现状摸底</b>
+      <span>纯软件与嵌入式分别在用什么平台和工具、token 消耗、所遇问题，形成系统性汇报</span>
+    </div>
+    <div class="task-own"><span class="own-chip">@周志明 Felix</span><span class="own-chip">@各产品线</span></div>
+  </div>
+  <div class="task-row t-w27">
+    <span class="dl-chip dl-w27">10.27</span>
+    <div class="task-body">
+      <b>Auto D 试点项目</b>
+      <span>与王鹏、刘倍源对齐并选定 Auto D 试点项目，从刘倍源负责的平台类产品中确定试点对象</span>
+    </div>
+    <div class="task-own"><span class="own-chip">@周志明 Felix</span><span class="own-chip">@王鹏</span><span class="own-chip">@Bryan</span></div>
+  </div>
+
+  <div class="notes">
+这一页盘点两次临时会议留下的闭环任务，颜色代表闭环时间：绿色是本次会议已闭环，黄色 10.27 前闭环，蓝色 10.29 前闭环。
+10.21 的规划会定了两件事：一是试点规划，以 Claude Code 为标杆选一个纯净软件项目跑通端到端，10.29 交；二是组建高精尖小分队，跨部门找既懂软件工程又懂大模型的人，这件事本次已闭环。
+10.23 的思考会定了三件事：汇报机制本次闭环，每两天汇报一次，10 月 25 日下午首次汇报；产品线编程现状摸底和 Auto D 试点项目选定，都在 10.27 前闭环。
+  </div>
+
+  <div class="deck-footer">
+    <span class="mono">IPD-AI · MEETING 1 · 闭环任务</span>
+    <span class="slide-number" data-current="1" data-total="4"></span>
+  </div>
+</section>
+
+</div>
+
+<script src="../../assets/runtime.js"></script>
+</body>
+</html>

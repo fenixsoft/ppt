@@ -35,7 +35,7 @@
 ## 对现有 IPD 流程的具体改造
     引入SDD：IPD 里靠人传话的文档链，改成靠 SPEC 做机器+人共同消费的“意图契约”。
     Claude Code 式的 SDD 核心是：先有 SPEC.md / PLAN.md / tasks.md，AI 按 spec 实现，再用测试/审查门禁验证。
-    IPD 的核心是：Charter → Concept → Plan → Develop → Qualify → Launch，中间有 DCP（商业决策）和 TR（技术评审），PDT 跨职能对商业结果负责。
+    IPD 的核心是：Charter → Concept → Plan → Develop → Qualify → Launch  → Lifecycle，中间有 DCP（商业决策）和 TR（技术评审），PDT 跨职能对商业结果负责。
     SDD 不取代 IPD，而是把 IPD 的“计划/开发/验证”阶段从文档驱动升级为 spec-anchored 驱动。
 
     IPD 环节	                    改造方向

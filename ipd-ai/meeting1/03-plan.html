@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>03 · 概要计划</title>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../assets/animations/animations.css">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="style.css">
+<style>
+/* 本页专属：压缩标题区 */
+.tpl-presenter-mode-reveal .kicker { margin-bottom: 8px; }
+.tpl-presenter-mode-reveal .h2 { font-size: 34px; margin-bottom: 6px; }
+/* 本页专属：时间列"进行中 / 2周，11.15"上下两行 */
+.plan-table .when .date-now { display: block; width: fit-content; margin-bottom: 6px; }
+.plan-table .when .date-now + .date-chip { display: inline-block; }
+</style>
+</head>
+<body class="tpl-presenter-mode-reveal">
+<div class="deck">
+
+<section class="slide" data-title="概要计划">
+  <p class="kicker">IPD-AI · MEETING 1 · 规划</p>
+  <h2 class="h2">落地计划概要</h2>
+  <p class="lede" style="font-size:17px">阶段一<b>纯软件</b>先行，验证后推广至阶段二<b>嵌入式</b>，最终覆盖阶段三各职能域的<b>数字员工</b></p>
+
+  <table class="plan-table">
+    <thead>
+      <tr>
+        <th style="width:84px">阶段</th>
+        <th style="width:250px">领域</th>
+        <th style="width:84px">环节</th>
+        <th>工作内容</th>
+        <th style="width:130px">时间</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="stg" rowspan="5">阶段一</td>
+        <td class="dom" rowspan="5"><b>研发 IPD 领域</b><span>纯软件</span></td>
+        <td class="step">概念</td>
+        <td class="what">领导与 IPD 小组对智能化的概念 / 目标对齐</td>
+        <td class="when"><span class="date-done">✓ 已结束</span></td>
+      </tr>
+      <tr class="row-now">
+        <td class="step">计划</td>
+        <td class="what">
+          完成 AutoD 概要设计、系统设计。充分参考/复制 Claude Code 的架构，最大可能保持一致
+          <ul>
+            <li>本周四汇报对 Anthropic Engineering Mehtod：Human-AI Collabloration Architectury 的洞察分析</li>
+            <li>计划 11.1 - 11.7 期间，设计在 IPD 小组内，以及跨部门与王鹏、杨伟明等充分讨论</li>
+            <li>计划 11.7 - 11.15 系统设计定稿输出，明确精确的 SOW 清单</li>
+          </ul>
+        </td>
+        <td class="when">
+          <span class="date-now">进行中</span>
+          <span class="date-chip">2周，至11.15</span></td>
+      </tr>
+      <tr>
+        <td class="step">实现</td>
+        <td class="what">以自研的方式实现 AutoD 流水线</td>
+        <td class="when"><span class="date-chip">2月，至1.15</span></td>
+      </tr>
+      <tr>
+        <td class="step">验证</td>
+        <td class="what">试验局项目验证</td>
+        <td class="when"><span class="date-chip">1月，至2.15</span></td>
+      </tr>
+      <tr>
+        <td class="step">发布</td>
+        <td class="what">面向公司各事业部/产品线线推广，启动阶段二</td>
+        <td class="when"><span class="tbd">—</span></td>
+      </tr>
+      <tr>
+        <td class="stg">阶段二</td>
+        <td class="dom"><b>研发 IPD 领域</b><span>嵌入式开发</span></td>
+        <td class="tbd" colspan="3">待阶段一验证后展开</td>
+      </tr>
+      <tr>
+        <td class="stg">阶段三</td>
+        <td class="dom"><b>采供制、营销副、财经、人资、行政办公</b><span>数字员工</span></td>
+        <td class="tbd" colspan="3">待阶段一验证后展开</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="notes">
+这是整体概要计划，分三个阶段，节奏是先用纯软件把路蹚出来，再往嵌入式和其他职能域推广。
+阶段一是研发 IPD 领域的纯软件，内部按概念、计划、实现、验证、发布五步走：概念阶段与领导、IPD 小组对齐目标和概念，已经结束；现在是计划阶段，要拿出 AutoD 的概要设计和系统设计，设计上与 Claude Code 保持一致，11 月 15 日完成；实现阶段以自研方式做 AutoD 流水线，12 月 31 日；验证放在试验局项目上，1 月 31 日；最后面向公司所有产品线发布推广。
+阶段二是研发领域的嵌入式开发，阶段三是采供、营销、财经、人资、行政办公这些职能域的数字员工——这两块的细化安排，等阶段一验证后再展开。
+  </div>
+
+  <div class="deck-footer">
+    <span class="mono">IPD-AI · MEETING 1 · 概要计划</span>
+    <span class="slide-number" data-current="3" data-total="4"></span>
+  </div>
+</section>
+
+</div>
+
+<script src="../../assets/runtime.js"></script>
+</body>
+</html>
