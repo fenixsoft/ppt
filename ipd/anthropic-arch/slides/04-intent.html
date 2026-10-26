@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>04 · 第①层 · 人的意图层</title>
+<link rel="stylesheet" href="../../../assets/fonts.css">
+<link rel="stylesheet" href="../../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../../assets/animations/animations.css">
+<style>
+.role{border:1px solid var(--border);border-radius:10px;padding:18px 20px;background:var(--bg-soft)}
+.role .tag{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-2);font-weight:700}
+.role h4{font-size:17px;margin-top:6px}
+.role p{font-size:13.5px;line-height:1.6;color:var(--text-2);margin-top:8px}
+.role .so{margin-top:10px;padding-top:9px;border-top:1px dashed var(--border);font-size:13px;color:var(--text-2)}
+.role .so b{color:var(--text-1)}
+.band{border-left:3px solid var(--accent);padding:12px 18px;background:var(--bg-soft);font-size:14.5px;line-height:1.7;color:var(--text-2)}
+.band b{color:var(--text-1)}
+.big{font-size:29px;font-weight:700;line-height:1.4}
+.big b{color:var(--accent-2)}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<section class="slide" data-title="第①层 · 人的意图层" style="padding:48px 96px 56px">
+  <p class="kicker">第①层 / Human Intent Layer · 人的意图层</p>
+  <p class="big mt-s anim-fade-up" data-anim="fade-up">人只输入两样东西：说清"<b>要什么</b>"，把住"<b>放不放行</b>"。</p>
+  <div class="grid g4 mt-m anim-stagger-list" data-anim-target>
+    <div class="role">
+      <span class="tag">产品 / 业务</span>
+      <h4>目标与验收</h4>
+      <p>目标、优先级、成功标准、验收标准</p>
+      <div class="so">决定 AI 做出来的东西<b>"对不对"</b></div>
+    </div>
+    <div class="role">
+      <span class="tag">架构 / PM</span>
+      <h4>路标与边界</h4>
+      <p>架构决策记录（ADR）、系统边界、风险分级、权衡取舍</p>
+      <div class="so">决定 AI"<b>按哪条路走</b>"，把代价高的弯路提前拦下</div>
+    </div>
+    <div class="role">
+      <span class="tag">人类评审</span>
+      <h4>放行与否决</h4>
+      <p>安全、隐私、合规、重大设计、发布批准</p>
+      <div class="so">高风险节点上<b>说"不"</b>的权力，不可委托给 AI</div>
+    </div>
+    <div class="role">
+      <span class="tag">运维 / SRE</span>
+      <h4>底线与回退</h4>
+      <p>SLO、回滚预案、生产环境门禁</p>
+      <div class="so">线上事故的<b>最后防线</b>，定义"什么状态必须回滚"</div>
+    </div>
+  </div>
+  <div class="band mt-l">
+    <b>管理含义：</b>意图层的产出（目标、边界、风险分级）是后续全部自动化环节的"<b>宪法</b>"。
+    写不清楚的意图，AI 会替你脑补——错误往往在最后一公里才暴露，返工成本最高。
+    <b>组织要做的是把"定义与裁决"变成显式岗位产出物，而不是靠开会口头对齐。</b>
+  </div>
+  <div class="deck-footer"><span class="dim2">Anthropic 工程方法 · 2026-10</span><span class="slide-number" data-current="4" data-total="12"></span></div>
+  <div class="notes">四种角色对应四类产出物，全是"决策"而非"操作"。可以类比：这层就像董事会与经营班子的分工——定战略、定边界、握否决权，不亲自执行。强调"意图=宪法"：后面所有自动化都以这层写出来的东西为准绳，所以它的质量上限就是整个体系的质量上限。</div>
+</section>
+
+</div>
+<script src="../../../assets/runtime.js"></script>
+</body>
+</html>

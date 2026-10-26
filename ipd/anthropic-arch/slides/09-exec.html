@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>09 · 执行环境 · 沙箱与生产门禁</title>
+<link rel="stylesheet" href="../../../assets/fonts.css">
+<link rel="stylesheet" href="../../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../../assets/animations/animations.css">
+<style>
+.stage{flex:1;border:1px solid var(--border);border-radius:12px;padding:20px 22px;background:var(--bg-soft);position:relative}
+.stage .no{position:absolute;top:-13px;left:18px;background:var(--accent);color:var(--accent-ink);border-radius:999px;font-size:12px;font-weight:700;padding:3px 12px;letter-spacing:.06em}
+.stage h4{font-size:18px;margin-top:4px}
+.stage .en{font-size:12px;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase}
+.stage p{font-size:13.5px;line-height:1.65;color:var(--text-2);margin-top:8px}
+.stage .guard{margin-top:10px;padding-top:9px;border-top:1px dashed var(--border);font-size:13px;color:var(--text-2)}
+.stage .guard b{color:var(--accent-2)}
+.arr{display:flex;align-items:center;padding:0 12px;color:var(--text-3);font-size:22px}
+.prod{border:2px solid var(--accent)}
+.big{font-size:29px;font-weight:700;line-height:1.4}
+.big b{color:var(--accent-2)}
+.band{border-left:3px solid var(--accent);padding:12px 18px;background:var(--bg-soft);font-size:14.5px;line-height:1.7;color:var(--text-2)}
+.band b{color:var(--text-1)}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<section class="slide" data-title="执行环境 · 沙箱与生产门禁" style="padding:48px 96px 56px">
+  <p class="kicker">执行环境 / Execution Environment</p>
+  <p class="big mt-s anim-fade-up" data-anim="fade-up">AI 永远在沙箱里干活；<b>越靠近生产，人的介入越集中在高风险决策点</b>。</p>
+  <div class="row mt-l anim-fade-up" data-anim="fade-up" style="align-items:stretch">
+    <div class="stage">
+      <span class="no">试验区</span>
+      <p class="en">Repo + Filesystem</p>
+      <h4>代码库与文件系统</h4>
+      <p>AI 的全部工作对象都在仓库内：改动可追踪、可回滚、可评审</p>
+      <div class="guard">破坏力：<b>零</b>——改错了大不了回滚</div>
+    </div>
+    <div class="arr">→</div>
+    <div class="stage">
+      <span class="no">隔离区</span>
+      <p class="en">Shell / Container / Worktree</p>
+      <h4>容器与隔离工作树</h4>
+      <p>试错被限制在容器内；多任务各用各的工作树，互不踩脚</p>
+      <div class="guard">破坏力：<b>有界</b>——爆炸半径 = 一个容器</div>
+    </div>
+    <div class="arr">→</div>
+    <div class="stage prod">
+      <span class="no">生产区</span>
+      <p class="en">Preview / Staging / Prod</p>
+      <h4>预发与生产</h4>
+      <p>发布必须过门禁：数据变更、权限变更、上线动作</p>
+      <div class="guard">破坏力：<b>真实</b>——人守在这里，逐项放行</div>
+    </div>
+  </div>
+  <div class="band mt-l">
+    <b>管理含义：</b>风险控制不靠"相信 AI 守规矩"，靠<b>环境分层</b>——破坏力被容器和门禁逐层截留。
+    人不是不在环上，而是<b>只在环上的关键点位</b>：高风险决策。这同时就是问责链的落点——出问题时，能说清是谁批的、批了什么。
+  </div>
+  <div class="deck-footer"><span class="dim2">Anthropic 工程方法 · 2026-10</span><span class="slide-number" data-current="9" data-total="12"></span></div>
+  <div class="notes">三区模型的本质是"爆炸半径管理"：试验区零风险、隔离区有界风险、生产区真实风险+人工门禁。图上红字"Human review only at high-risk decisions"就是这个意思。对管理层的关键句：人在环上的唯一点位=高风险决策=问责落点，这三个"点"是同一个点。</div>
+</section>
+
+</div>
+<script src="../../../assets/runtime.js"></script>
+</body>
+</html>

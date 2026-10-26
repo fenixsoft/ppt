@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>06 · 第③层 · 智能体执行循环</title>
+<link rel="stylesheet" href="../../../assets/fonts.css">
+<link rel="stylesheet" href="../../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../../assets/animations/animations.css">
+<style>
+.loop{display:flex;gap:0;align-items:stretch}
+.step{flex:1;border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:var(--bg-soft);position:relative}
+.step.verify{border:2px solid var(--accent);background:var(--bg-soft)}
+.step .no{display:inline-flex;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--accent-ink);align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.step h4{font-size:16.5px;margin-top:9px}
+.step .en{font-size:12px;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase}
+.step p{font-size:13px;line-height:1.6;color:var(--text-2);margin-top:7px}
+.arr{display:flex;align-items:center;padding:0 10px;color:var(--text-3);font-size:20px}
+.loopback{margin-top:12px;border:1px dashed var(--border);border-radius:8px;padding:9px 16px;font-size:13.5px;color:var(--text-2);text-align:center}
+.loopback b{color:var(--accent-2)}
+.why{border:1px solid var(--border);border-radius:10px;padding:15px 18px;background:var(--bg-soft)}
+.why h5{font-size:14.5px}
+.why p{font-size:13px;line-height:1.6;color:var(--text-2);margin-top:6px}
+.big{font-size:29px;font-weight:700;line-height:1.4}
+.big b{color:var(--accent-2)}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<section class="slide" data-title="第③层 · 智能体执行循环" style="padding:48px 96px 56px">
+  <p class="kicker">第③层 / Orchestrator + Agentic Loop · 执行循环</p>
+  <p class="big mt-s anim-fade-up" data-anim="fade-up">人在环外，AI 在环内：<b>取上下文 → 动手 → 看结果 → 自查</b>，循环直至达标。</p>
+  <div class="loop mt-m anim-fade-up" data-anim="fade-up">
+    <div class="step">
+      <span class="no">1</span>
+      <p class="en">Context</p>
+      <h4>取上下文</h4>
+      <p>读文件、搜代码、查 git 历史、调工具——先搞清现状再动手</p>
+    </div>
+    <div class="arr">→</div>
+    <div class="step">
+      <span class="no">2</span>
+      <p class="en">Action</p>
+      <h4>动手执行</h4>
+      <p>改代码、跑命令、调用工具——在授权与门禁允许的范围内操作</p>
+    </div>
+    <div class="arr">→</div>
+    <div class="step">
+      <span class="no">3</span>
+      <p class="en">Observe</p>
+      <h4>观察结果</h4>
+      <p>命令输出、lint、类型错误——机器反馈直接回到 AI 手里</p>
+    </div>
+    <div class="arr">→</div>
+    <div class="step verify">
+      <span class="no">4</span>
+      <p class="en">Verify</p>
+      <h4>自查验收</h4>
+      <p>达到目标了吗？违反约束了吗？——像验收人一样端到端验证</p>
+    </div>
+  </div>
+  <div class="loopback">↻ <b>未达标 → 带着问题回到第 1 步</b>，循环直至完成（Repeat until done）；整个循环不需要人在线</div>
+  <div class="grid g3 mt-m anim-stagger-list" data-anim-target style="gap:16px">
+    <div class="why">
+      <h5>官方最佳实践的核心：给 AI 配"自查手段"</h5>
+      <p>让 AI 像真实用户一样用浏览器端到端验证功能，而不是"改完代码就算做完"——验证工具的有无，直接决定产出质量</p>
+    </div>
+    <div class="why">
+      <h5>Anthropic 实测最大教训</h5>
+      <p>没有 Verify 环节，AI 会<b>提前宣布胜利</b>：功能没通过也标记"完成"。后续记忆层的功能清单就是专治这个毛病</p>
+    </div>
+    <div class="why">
+      <h5>管理含义</h5>
+      <p>把"质量意识"内置进执行循环，而不是靠事后人工抽检；人的时间只花在<b>定目标</b>和<b>看最终产出</b>上</p>
+    </div>
+  </div>
+  <div class="deck-footer"><span class="dim2">Anthropic 工程方法 · 2026-10</span><span class="slide-number" data-current="6" data-total="12"></span></div>
+  <div class="notes">四步循环就是 Claude Code 的"explore → plan → code → commit"工作法的运行时形态。对管理层只需要记住一件事：这个循环里没有"等领导审批"的环节，人的审批点被前移到了第②层的权限矩阵里——能在制度里写清楚的，就不该靠人肉卡点。</div>
+</section>
+
+</div>
+<script src="../../../assets/runtime.js"></script>
+</body>
+</html>

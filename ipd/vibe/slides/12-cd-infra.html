@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>12 · 建议C·D 工具与基础设施</title>
+<link rel="stylesheet" href="../../../assets/fonts.css">
+<link rel="stylesheet" href="../../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../../assets/animations/animations.css">
+<style>
+.rec-head{display:flex;align-items:center;gap:12px}
+.rec-badge{width:34px;height:34px;border-radius:6px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;flex:none}
+.rec-list{font-size:14.5px;line-height:1.66;margin:10px 0 0;padding-left:18px}
+.rec-list li+li{margin-top:6px}
+.ev{background:var(--surface-2);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:10px 14px;font-size:13px;line-height:1.6;color:var(--text-2)}
+.ev b{color:var(--text-1)}
+.ev q{color:var(--accent-2);font-style:normal}
+.src{font-size:11.5px;color:var(--text-3);margin-top:5px}
+.mono{font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<section class="slide" data-title="建议C·D 工具与基础设施" style="padding:44px 96px 52px">
+  <p class="kicker">改进建议 · P1</p>
+  <h2 class="h2" style="font-size:38px">把重复试点收敛成集团资产，把日常摩擦逐项消掉</h2>
+  <div class="grid g2 mt-m" style="align-items:stretch;gap:24px">
+    <div class="card anim-fade-left" data-anim="fade-left">
+      <div class="rec-head"><div class="rec-badge">C</div><h3 style="margin:0;font-size:22px">AI 工具收敛 + 集团共建</h3></div>
+      <ul class="rec-list">
+        <li>AI IDE 收敛至 <b>Cursor 主力 + 一个国产备份</b>，清理用量不足 50h 的长尾试点</li>
+        <li>编程 Agent Harness <b>集团共用一套底座</b>，定制层放配置不放代码</li>
+        <li>提示词模板、代码规范规则库集团共建共享</li>
+        <li>高价值自研工具集团共享并 AI 化（EcuSimulator 自动生成诊断用例）</li>
+      </ul>
+      <div class="ev mt-m"><b>数据支撑：</b>17 种 AI 编程工具并存（10/13/14，去重 17）；航空 8 种长尾工具合计 &lt;200h；塞防定制 Skyfend Harness、各家魔改 DeepSeek Harness；EcuSimulator <span class="mono">6,169h</span> 单点、无共享。<span class="src">出处：原始数据 P3/P4/P5</span></div>
+    </div>
+    <div class="card anim-fade-right" data-anim="fade-right">
+      <div class="rec-head"><div class="rec-badge">D</div><h3 style="margin:0;font-size:22px">研发基础设施去摩擦</h3></div>
+      <ul class="rec-list">
+        <li>加密客户端与编译 / AI 沙箱冲突出<b>白名单</b>（P0 级专项）</li>
+        <li>海外模型链路加<b>国内加速点</b>；Cursor 卡顿、磁盘占用出专项</li>
+        <li>云桌面带宽与协议优化，压缩远程等待</li>
+        <li>Notepad++ / Source Insight 用户<b>迁移到 AI 化 IDE</b>（科技收益最大）</li>
+      </ul>
+      <div class="ev mt-m"><b>数据支撑（塞防填报原话）：</b>"文件加密文件被占用<q>导致编译失败</q>"（应用一部）；"跨服务器推理…<q>速度较慢</q>"（嵌入式二部）；"<q>卡死，占电脑磁盘大</q>"（驱动开发部）。远程桌面占科技活动时长 <span class="mono">11.4%</span>；Notepad++ <span class="mono">4,065h</span> 为科技第一大"IDE"。<span class="src">出处：原始数据 P3/P4</span></div>
+    </div>
+  </div>
+  <div class="deck-footer"><span class="dim2">集团研发工具调研 · 2026-10</span><span class="slide-number" data-current="12" data-total="14"></span></div>
+  <div class="notes">D 里的加密冲突是塞防反馈中最尖锐的一条——安全软件和研发工具打架，编译白跑，属于"每天都在发生"的浪费，建议按 P0 节奏处理（虽列在 P1 组）。工具收敛不砍创新：保留 1-2 个 sandbox 名额给新工具试用，但要有出口（转正或下架）。</div>
+</section>
+
+</div>
+<script src="../../../assets/runtime.js"></script>
+</body>
+</html>

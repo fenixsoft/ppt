@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>11 · 建议A·B 平台与成本</title>
+<link rel="stylesheet" href="../../../assets/fonts.css">
+<link rel="stylesheet" href="../../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../../assets/animations/animations.css">
+<style>
+.rec-head{display:flex;align-items:center;gap:12px}
+.rec-badge{width:34px;height:34px;border-radius:6px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;flex:none}
+.rec-list{font-size:14.5px;line-height:1.66;margin:10px 0 0;padding-left:18px}
+.rec-list li+li{margin-top:6px}
+.ev{background:var(--surface-2);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:10px 14px;font-size:13px;line-height:1.6;color:var(--text-2)}
+.ev b{color:var(--text-1)}
+.src{font-size:11.5px;color:var(--text-3);margin-top:5px}
+.mono{font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<section class="slide" data-title="建议A·B 平台与成本" style="padding:44px 96px 52px">
+  <p class="kicker">改进建议 · P0</p>
+  <h2 class="h2" style="font-size:38px">先让钱可见，再让钱花对地方</h2>
+  <div class="grid g2 mt-m" style="align-items:stretch;gap:24px">
+    <div class="card anim-fade-left" data-anim="fade-left">
+      <div class="rec-head"><div class="rec-badge">A</div><h3 style="margin:0;font-size:22px">统一集团 AI 效能平台</h3></div>
+      <ul class="rec-list">
+        <li>把航空 LiteLLM 网关升级为<b>集团网关</b>，科技、塞防强制接入——现状只有一家有账单</li>
+        <li>终端统计模板补齐科技（缺部门填报 + 网关）、塞防（缺网关）缺口，<b>季度对齐复测</b></li>
+        <li>key 治理：一人一 key、用途必标、成功率 &lt;90% 自动告警</li>
+        <li>花费按部门透明化，预算包干 + 月度 ROI 复盘</li>
+      </ul>
+      <div class="ev mt-m"><b>数据支撑：</b>科技 AI 支出 0 可见；塞防 8 部门仅 4 个填报；航空"未标注用途" key 25 个、成功率 <b class="mono">52.3%</b>；未匹配部门 <b class="mono">$12.7K</b>（4.8%）无法归因。<span class="src">出处：原始数据 P4/P5</span></div>
+    </div>
+    <div class="card anim-fade-right" data-anim="fade-right">
+      <div class="rec-head"><div class="rec-badge">B</div><h3 style="margin:0;font-size:22px">模型分级路由制度化</h3></div>
+      <ul class="rec-list">
+        <li>简单高频任务 → <b>DeepSeek / GLM / Kimi Flash 类</b>（塞防原话："采购国内的便宜量大管饱、速度快的模型"）</li>
+        <li>架构与跨文件排错 → <b>Opus / Grok</b>（塞防嵌入式三部实践：小改动用 Composer 2.5，跨文件排错才上 Grok 4.7）</li>
+        <li>Gemini 限定多模态必需场景；预算按部门包干</li>
+        <li>把迁移固化为<b>网关路由策略</b>，而非依赖个人自觉</li>
+      </ul>
+      <div class="ev mt-m"><b>数据支撑：</b>Opus <span class="mono">$1.003</span>/百万tok vs DeepSeek <span class="mono">$0.041</span>（24×）；迁移已自发发生——Opus 周花费 <span class="mono">$43.5K → $4.8K</span>，GLM <span class="mono">$1.0K → $8.3K</span>（9 周）。<span class="src">出处：原始数据 P5 周趋势 + P4 部门建议</span></div>
+    </div>
+  </div>
+  <div class="deck-footer"><span class="dim2">集团研发工具调研 · 2026-10</span><span class="slide-number" data-current="11" data-total="14"></span></div>
+  <div class="notes">A 是其余一切建议的前提——没有集团网关，路由（B）、预算包干、成功率告警都无从谈起。B 不需要新投入：航空过去 9 周已经自发完成了大半迁移，缺的只是把它变成制度。</div>
+</section>
+
+</div>
+<script src="../../../assets/runtime.js"></script>
+</body>
+</html>

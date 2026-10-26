@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>03 · 全景 · 五层协同架构</title>
+<link rel="stylesheet" href="../../../assets/fonts.css">
+<link rel="stylesheet" href="../../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../../assets/animations/animations.css">
+<style>
+.reading{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--text-2)}
+.pill-mini{border:1px solid var(--border);border-radius:999px;padding:3px 12px;background:var(--bg-soft);white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<section class="slide" data-title="全景 · 五层协同架构" style="padding:44px 80px 52px;display:flex;flex-direction:column">
+  <div class="row" style="justify-content:space-between;align-items:baseline">
+    <p class="kicker">全景 / 一张图看懂</p>
+    <p class="dim2" style="font-size:12px">Anthropic Engineering Method · 原图收录自 ipd/assets</p>
+  </div>
+  <h2 class="h2 mt-s anim-fade-up" data-anim="fade-up" style="font-size:30px">人定意图，驾驭层定边界，AI 在框内自主执行</h2>
+  <figure class="img-frame contain fill mt-m anim-fade-up" data-anim="fade-up" style="flex:1;min-height:0">
+    <img src="../../assets/anthropic_arch.png" alt="Anthropic 工程方法：AI-人类协同开发架构全景图">
+  </figure>
+  <div class="reading mt-s">
+    <span class="dim2" style="white-space:nowrap">读图：</span>
+    <span class="pill-mini">分工链（左→右）：人 → 约束 → 执行循环 → 分工 → 记忆</span>
+    <span class="pill-mini">环境链（下）：代码库 → 容器 → 预发 / 生产</span>
+    <span class="pill-mini" style="border-color:var(--accent);color:var(--accent-2)">红字：人只在高风险决策点介入</span>
+  </div>
+  <div class="deck-footer"><span class="dim2">Anthropic 工程方法 · 2026-10</span><span class="slide-number" data-current="3" data-total="12"></span></div>
+  <div class="notes">这页是原图，先让听众建立整体感，不逐格讲解。只点三个要点：一，左边是人、右边越走越是 AI，人的介入被设计成"稀缺资源"；二，中间深蓝的 Harness 层是全套架构的灵魂——人的判断都沉淀在这；三，图底那句核心原则，第 10 页会单独展开。个别英文拼写为原图所带（如 Oubagents 应为 Subagents），后续页面按官方原文校订。</div>
+</section>
+
+</div>
+<script src="../../../assets/runtime.js"></script>
+</body>
+</html>

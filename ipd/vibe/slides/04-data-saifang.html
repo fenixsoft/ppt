@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>04 · 原始数据 · 塞防</title>
+<link rel="stylesheet" href="../../../assets/fonts.css">
+<link rel="stylesheet" href="../../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../../assets/animations/animations.css">
+<style>
+/* 全幅嵌入原始数据页（长文档，滚轮在数据页内原生滚动，滚到头不翻页，翻页只能 ←/→） */
+.data-frame{position:absolute;inset:0;width:100%;height:100%;border:none;background:#fff}
+</style>
+</head>
+<body data-interactive>
+<div class="deck">
+
+<section class="slide" data-title="原始数据 · 塞防" style="padding:0">
+    <iframe id="dataframe" class="data-frame" src="../saifang.html" title="原始数据 · 塞防研发中心部门填报与终端统计"></iframe>
+</section>
+
+</div>
+<script>
+/* 包装层：滚轮留在数据页内滚动；←/→ 等按键交还 shell 翻页（preview-key）；
+ * 点击数据区后焦点落进子文档，靠轮询 activeElement 拉回本页，保证 ←/→ 始终可用；
+ * 离开本页时把焦点还给 shell，避免困在隐藏 iframe */
+(function(){
+  const embedded=window.parent!==window;
+  const frame=document.getElementById('dataframe');
+  function toShell(key){
+    if(!embedded)return;
+    try{parent.postMessage({type:'preview-key',key:key},'*')}catch(e){}
+  }
+  addEventListener('keydown',function(e){
+    if(e.metaKey||e.ctrlKey||e.altKey)return;
+    toShell(e.key);
+    if(['ArrowRight','ArrowLeft','PageUp','PageDown',' ','Enter','Backspace','Home','End'].includes(e.key))e.preventDefault();
+  });
+  if(frame&&embedded)setInterval(function(){
+    if(document.activeElement===frame){try{window.focus()}catch(e){}}
+  },250);
+  addEventListener('message',function(e){
+    if(!e.data)return;
+    if(e.data.type==='slide-hide'){try{parent.focus()}catch(err){}}
+  });
+})();
+</script>
+<script src="../../../assets/runtime.js"></script>
+</body>
+</html>
