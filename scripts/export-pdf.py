@@ -7,6 +7,7 @@
 用法:
   ./scripts/export-pdf.py <deck-name>          # 如 ioc → 生成 ioc/ioc-deck.pdf
   ./scripts/export-pdf.py <deck-dir>           # 传目录亦可
+  ./scripts/export-pdf.py <deck.html>          # 清单文件形态，如 ipd/meeting1.html → ipd/meeting1-deck.pdf
   ./scripts/export-pdf.py <deck> -o 自定.pdf   # 自定义输出路径
 
 支持两种 deck 形态：
@@ -45,12 +46,14 @@ def resolve_deck(arg: str) -> Path:
         p = WORKSPACE / arg
     if p.is_dir():
         return p
+    if p.is_file() and p.suffix == ".html":
+        return p
     sys.exit(f"error: deck 目录不存在: {p}")
 
 
-def manifest_slides(deck: Path) -> list[str]:
-    """解析 index.html 的 data-slides 清单，返回相对 slides 文件列表。"""
-    html = (deck / "index.html").read_text(encoding="utf-8")
+def manifest_slides(manifest: Path) -> list[str]:
+    """解析清单 html 的 data-slides 属性，返回相对 deck 目录的页面文件列表。"""
+    html = manifest.read_text(encoding="utf-8")
     m = re.search(r'data-slides="(.*?)"', html, re.S)
     if not m:
         sys.exit(f"error: {deck}/index.html 无 data-slides 清单，也不是 legacy 单文件 deck")
@@ -129,20 +132,26 @@ async def main():
     ap.add_argument("-o", "--output", help="输出 PDF 路径（默认 <deck>/<deck名>-deck.pdf）")
     args = ap.parse_args()
 
-    deck = resolve_deck(args.deck)
-    out = Path(args.output) if args.output else deck / f"{deck.name}-deck.pdf"
+    target = resolve_deck(args.deck)
+    if target.is_file():  # 清单文件形态：manifest 即该文件，页面相对其所在目录
+        deck, name, manifest = target.parent, target.stem, target
+        paginated = True
+    else:
+        deck, name = target, target.name
+        manifest = deck / "index.html"
+        slides_dir = deck / "slides"
+        paginated = slides_dir.is_dir() and any(slides_dir.glob("*.html"))
+    out = Path(args.output) if args.output else deck / f"{name}-deck.pdf"
     if not out.is_absolute():
         out = Path.cwd() / out
-    work = WORKSPACE / ".playwright-cli" / f"pdf-{deck.name}"
+    work = WORKSPACE / ".playwright-cli" / f"pdf-{name}"
     work.mkdir(parents=True, exist_ok=True)
 
-    slides_dir = deck / "slides"
-    paginated = slides_dir.is_dir() and any(slides_dir.glob("*.html"))
     parts = []
     async with async_playwright() as p:
         browser = await p.chromium.launch()
         if paginated:
-            files = manifest_slides(deck)
+            files = manifest_slides(manifest)
             parts = [work / f"{i:02d}.pdf" for i in range(1, len(files) + 1)]
             await export_paginated(browser, deck, files, parts)
         else:
