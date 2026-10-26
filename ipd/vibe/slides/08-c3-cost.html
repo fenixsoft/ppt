@@ -9,13 +9,13 @@
 <link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
 <link rel="stylesheet" href="../../../assets/animations/animations.css">
 <style>
-.t{font-size:13.5px}
+.t{font-size:15.5px}
 .t th,.t td{padding:7px 10px}
 .t td.num,.t th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.td-note{font-size:11.5px;color:var(--text-3)}
-.ev-tag{display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px}
-.src{font-size:12px;color:var(--text-3);margin-top:6px}
-.big{font-size:29px;font-weight:700;line-height:1.38}
+.td-note{font-size:13.5px;color:var(--text-3)}
+.ev-tag{display:inline-block;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px}
+.src{font-size:14px;color:var(--text-3);margin-top:6px}
+.big{font-size:30px;font-weight:700;line-height:1.4}
 .big b{color:var(--accent-2)}
 </style>
 </head>
@@ -26,13 +26,15 @@
   <p class="kicker">结论三 / 成本与治理</p>
   <div class="grid g2 mt-s" style="align-items:stretch;gap:28px">
     <div class="stack anim-fade-left" data-anim="fade-left">
-      <p class="big"><b>57% 的预算给了 13.5% 的请求</b>；而且三家公司里只有一家有账单——集团每月数十万美元级 AI 支出，目前 2/3 不可见。</p>
-      <ul style="font-size:15px;line-height:1.68" class="dim mt-m">
+      <p class="big"><b>57% 的预算给了 13.5% 的请求</b>；科技新披露的 Bedrock 账单再添证据：<b>top2 海外模型占 60%、国产仅 6.8%</b>；塞防仍 0 可见。</p>
+      <ul style="font-size:16.5px;line-height:1.62" class="dim mt-m">
+        <li style="color:#ee0000">成本信息存疑：从网关带回的成本是 API 价格，如果签约了不同套餐，价格会有显著影响</li>
         <li>单价差 <b>24 倍</b>：Opus $1.003/百万 token vs DeepSeek $0.041，后者承载了 55% 请求</li>
+        <li>科技 Bedrock（新增披露）：62 天 <b>$18.9 万</b>、10 个模型、133 万次请求，gpt-5.6-sol + Mistral 占 <b>60%</b>，国产模型仅 <b>6.8%</b>（同集团航空已达 65%）</li>
+        <li>Bedrock 小模型（gpt-oss / Gemma / Ministral）合计 $2.77 万、占 15%，单价低但用量存疑，需核对调用量</li>
         <li>Gemini 性价比最差：$1.602/百万 token，缓存命中率仅 <b>38.5%</b>（全网关均值 88%）</li>
         <li>Cursor 13 人花 $1.94 万，人均 <b>$1,495/两月</b>，是 Claude Code 人均（$896）的 1.7 倍</li>
-        <li>无主 key：25 个"未标注用途" key 成功率仅 <b>52.3%</b>——近一半请求失败白烧钱</li>
-        <li>未匹配部门花费 $1.27 万（4.8%）无法归因；外部顾问也持有 key</li>
+        <li>无主 key：25 个"未标注用途" key 成功率仅 <b>52.3%</b>；未匹配部门花费 $1.27 万（4.8%）无法归因</li>
       </ul>
     </div>
     <div class="card anim-fade-right" data-anim="fade-right" style="padding:18px 22px">
@@ -49,15 +51,15 @@
           <tr><td>Kimi</td><td class="num mono">$8.9K</td><td class="num">3.4%</td><td class="num">4.0%</td><td class="num mono">0.380</td></tr>
         </tbody>
       </table>
-      <div class="mt-m" style="font-size:13px;line-height:1.6;border-top:1px solid var(--border);padding-top:10px">
-        <p><b>可见性盲区：</b>科技无网关数据（0 可见）；塞防 8 个填报部门仅 4 个报了费用（月报 $1.61 万）</p>
+      <div class="mt-m" style="font-size:15px;line-height:1.6;border-top:1px solid var(--border);padding-top:10px">
+        <p><b>账单覆盖：</b>航空 LiteLLM 全量（用户 / 成功率 / 缓存齐备）；科技 Bedrock <b>仅模型级费用</b>（无用户、成功率、缓存维度）；塞防 <b>0 可见</b>（8 部门仅 4 个自报，月报 $1.61 万）</p>
         <p class="mt-s"><b>异常用量：</b>供应链中心 $2.52/百万tok、缓存命中仅 17.4%；经营财务 $2.50、命中 28.9%——非研发部门单价为研发的 6~8 倍</p>
       </div>
-      <p class="src">来源：原始数据 · 航空（第 5 页）；塞防部门填报（第 4 页）</p>
+      <p class="src">来源：原始数据 · 航空 / 科技（第 5、3 页）；塞防部门填报（第 4 页）</p>
     </div>
   </div>
-  <div class="deck-footer"><span class="dim2">集团研发工具调研 · 2026-10</span><span class="slide-number" data-current="8" data-total="14"></span></div>
-  <div class="notes">关键判断：钱不是花多了，而是花得不均匀、且大部分看不见。Opus 承载复杂任务是合理的，但 57% 集中度说明路由缺策略。建议 A（统一平台）和 B（模型分级路由）对应本页。</div>
+  <div class="deck-footer"><span class="dim2">集团研发工具调研 · 2026-10</span><span class="slide-number" data-current="8" data-total="15"></span></div>
+  <div class="notes">关键判断：钱不是花多了，而是花得不均匀、且治理口径不齐。Bedrock 账单让科技的费用首次可见，但只有模型维度，无法回答"谁在用、成功率多少、缓存有没有用上"。两家国产占比 6.8% vs 65% 的反差是建议 B 的最有力证据。</div>
 </section>
 
 </div>

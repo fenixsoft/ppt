@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+<title>航空研发工具全景</title>
+<style>
+/* 布局:单栏工程报告,左对齐;先结论后明细,数据表可横向滚动 */
+:root{
+  --bg:#f4f6f8; --panel:#ffffff; --ink:#15202b; --ink-2:#4a5866; --ink-3:#7b8794; --rule:#dfe4ea;
+  --accent:#2a78d6; --accent-soft:#e3eefb; --bar-track:#eef1f4; --warn:#b26a00; --warn-soft:#fff4e0;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s0:#a7b1bc;
+  --f-display:"IBM Plex Sans","Noto Sans SC",system-ui,sans-serif;
+  --f-body:"Noto Sans SC","IBM Plex Sans",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12171d; --panel:#1a2129; --ink:#e8edf2; --ink-2:#aab6c2; --ink-3:#7f8c98; --rule:#2b3540;
+  --accent:#3987e5; --accent-soft:#1d3350; --bar-track:#232c36; --warn:#f0b04a; --warn-soft:#3a2c14;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s0:#5b6672; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12171d; --panel:#1a2129; --ink:#e8edf2; --ink-2:#aab6c2; --ink-3:#7f8c98; --rule:#2b3540;
+  --accent:#3987e5; --accent-soft:#1d3350; --bar-track:#232c36; --warn:#f0b04a; --warn-soft:#3a2c14;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s0:#5b6672; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 56px}
+.wrap{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:36px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.25}
+h1{font-size:33px;font-weight:700;letter-spacing:-.01em}
+h2{font-size:22px;font-weight:600}
+h3{font-size:17px;font-weight:600}
+.eyebrow{font-family:var(--f-mono);font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--ink-2)} .small{font-size:15px}
+header{display:flex;flex-direction:column;gap:10px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 22px;color:var(--ink-2);font-size:15px}
+.meta b{color:var(--ink);font-weight:600}
+section{display:flex;flex-direction:column;gap:16px}
+.sec-head{display:flex;flex-direction:column;gap:4px}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:20px;min-width:0}
+/* 总览堆叠条 */
+.stack{display:flex;height:34px;border-radius:6px;overflow:hidden;gap:2px;background:var(--panel)}
+.stack div{height:100%;min-width:2px}
+.stack div:first-child{border-radius:4px 0 0 4px} .stack div:last-child{border-radius:0 4px 4px 0}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px 20px;margin-top:16px}
+.lg{display:flex;gap:10px;align-items:flex-start}
+.sw{width:12px;height:12px;border-radius:3px;margin-top:5px;flex:none}
+.lg .v{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:22px;font-weight:500;line-height:1.2}
+.lg .n{font-size:15px;color:var(--ink-2)}
+/* 发现 */
+.findings{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.fd{padding:16px 18px;border-left:3px solid var(--accent);background:var(--panel);border-radius:0 8px 8px 0;min-width:0}
+.fd.w{border-left-color:var(--warn)}
+.fd p{margin:6px 0 0;color:var(--ink-2);font-size:16px}
+.fd .k{font-family:var(--f-mono);font-size:24px;font-weight:500;color:var(--ink)}
+/* 分类条形图 */
+.cats{display:flex;flex-direction:column;gap:2px}
+.crow{display:grid;grid-template-columns:minmax(150px,210px) 1fr 130px;gap:14px;align-items:center;padding:9px 6px;border-radius:6px;cursor:pointer}
+.crow:hover,.crow:focus-visible{background:var(--accent-soft);outline:none}
+.crow .lbl{min-width:0}
+.crow .lbl b{font-weight:600;font-size:16px}
+.crow .lbl span{display:block;font-size:14px;color:var(--ink-3);line-height:1.4}
+.track{height:14px;background:var(--bar-track);border-radius:0 4px 4px 0;position:relative}
+.fill{height:100%;background:var(--accent);border-radius:0 4px 4px 0}
+.crow .val{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:15px}
+.crow .val small{display:block;color:var(--ink-3);font-size:13px}
+/* 筛选 */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:15px;border:1px solid var(--rule);background:var(--panel);color:var(--ink-2);padding:5px 12px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* 表格 */
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:16px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-family:var(--f-mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:500;background:var(--panel);position:sticky;top:0}
+td.r,th.r{text-align:right;white-space:nowrap} th{white-space:nowrap}
+tr.grp td{background:var(--bar-track);font-weight:600;font-size:15px}
+.mini{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.mini i{display:block;height:8px;background:var(--accent);border-radius:0 3px 3px 0}
+.tag{display:inline-block;font-size:13px;padding:1px 7px;border-radius:999px;background:var(--warn-soft);color:var(--warn);margin-left:6px;vertical-align:1px}
+.procs{font-family:var(--f-mono);font-size:13.5px;color:var(--ink-3);word-break:break-all}
+ul.notes{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;color:var(--ink-2);font-size:16px;max-width:75ch}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-size:14.5px;padding:7px 10px;border-radius:6px;z-index:20;max-width:280px;line-height:1.45}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+.bars{display:flex;flex-direction:column;gap:8px}
+.br{display:grid;grid-template-columns:minmax(110px,170px) 1fr 110px;gap:12px;align-items:center;font-size:15.5px}
+.br .t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.br .val{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:14.5px;color:var(--ink-2)}
+.lg2{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14.5px;color:var(--ink-2);margin-top:12px}
+.lg2 i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+tr.me td{background:var(--accent-soft)}
+@media (max-width:640px){
+  .br{grid-template-columns:96px 1fr 84px}
+  h1{font-size:26px}
+  .crow{grid-template-columns:1fr 92px;row-gap:6px}
+  .crow .track{grid-column:1/-1;grid-row:2}
+}
+@media (prefers-reduced-motion:no-preference){.fill,.mini i{transition:width .35s ease}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">道通智能航空 · 研发中心终端 + LiteLLM 网关</div>
+    <h1>航空研发工具全景</h1>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <section>
+    <div class="sec-head"><h2>时间都花在哪</h2><div class="muted small">按前台活动时长统计,合计 = 100%</div></div>
+    <div class="panel">
+      <div class="stack" id="stack" role="img" aria-label="活动时长构成"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>关键结论</h2></div>
+    <div class="findings" id="findings"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>AI 工具使用</h2><div class="muted small">AI 编程工具与通用 AI 对话应用的本机前台时长</div></div>
+    <div class="grid2">
+      <div class="panel"><h3 style="margin-bottom:14px">各 AI 工具活动时长</h3><div class="bars" id="aibars"></div>
+        <div class="lg2"><span><i style="background:var(--s1)"></i>AI 编程工具</span><span><i style="background:var(--s2)"></i>AI 对话助手</span></div></div>
+      <div class="panel"><h3 style="margin-bottom:4px">写代码的时间花在哪类工具上</h3><div class="muted small" style="margin-bottom:14px" id="codesub"></div><div class="bars" id="codebars"></div>
+        <div id="unitcode" hidden><h3 style="margin:22px 0 14px">各事业部:编码中 AI 编程工具的比例</h3><div class="bars" id="unitbars"></div></div>
+        <p class="muted small" style="margin:14px 0 0">编码中 AI 比例 = AI 编程工具时长 ÷(AI 编程工具 + 传统 IDE / 编辑器)。终端单独统计,不计入。</p></div>
+    </div>
+  </section>
+
+  <section id="surveysec" hidden>
+    <div class="sec-head"><h2>部门填报:AI 编程工具使用</h2><div class="muted small" id="svsub"></div></div>
+    <div class="panel"><div class="legend" id="svkpi" style="margin-top:0"></div></div>
+    <div class="grid2">
+      <div class="panel"><h3 style="margin-bottom:4px">各部门月 token 消耗</h3><div class="muted small" style="margin-bottom:14px">亿 token / 月 · 条后为人均</div><div class="bars" id="svbars"></div>
+        <div class="lg2"><span><i style="background:var(--s1)"></i>Cursor</span><span><i style="background:var(--s2)"></i>Claude</span></div></div>
+      <div class="panel"><h3 style="margin-bottom:14px">反馈的问题</h3><div id="svissues" style="display:flex;flex-direction:column;gap:12px"></div></div>
+    </div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>部门</th><th>工具</th><th>使用模型</th><th class="r">编程人数</th><th class="r">使用人数</th><th class="r">月 token</th><th class="r">月费用</th><th>主要场景</th></tr></thead>
+      <tbody id="svbody"></tbody></table></div>
+    <div class="panel"><h3 style="margin-bottom:10px">改进建议与资源需求</h3><ul class="notes" id="svadvice"></ul></div>
+  </section>
+
+  <section id="bedsec" hidden>
+    <div class="sec-head"><h2>AI 模型费用(AWS Bedrock)</h2><div class="muted small" id="bedsub">科技提供的按模型费用,美元</div></div>
+    <div class="panel"><div class="legend" id="bedkpi" style="margin-top:0"></div></div>
+    <div class="grid2">
+      <div class="panel"><h3 style="margin-bottom:14px">按模型的费用</h3><div class="bars" id="bedbars"></div>
+        <div class="lg2"><span><i style="background:var(--s1)"></i>海外模型</span><span><i style="background:var(--s2)"></i>国产模型</span></div></div>
+      <div class="panel"><h3 style="margin-bottom:14px">按厂商的费用</h3><div class="bars" id="bedvbars"></div></div>
+    </div>
+  </section>
+
+  <section id="toksec" hidden>
+    <div class="sec-head"><h2>AI token 消耗(LiteLLM 网关)</h2><div class="muted small" id="toksub"></div></div>
+    <div class="panel"><div class="legend" id="tokkpi" style="margin-top:0"></div></div>
+    <div class="grid2">
+      <div class="panel"><h3 style="margin-bottom:14px">按编程形态的费用</h3><div class="bars" id="formbars"></div></div>
+      <div class="panel"><h3 style="margin-bottom:14px">按模型的费用</h3><div class="bars" id="fambars"></div>
+        <div class="lg2"><span><i style="background:var(--s1)"></i>海外模型</span><span><i style="background:var(--s2)"></i>国产模型</span></div></div>
+    </div>
+    <div class="panel"><h3 style="margin-bottom:4px">每周费用</h3><div class="muted small" style="margin-bottom:14px">美元 / 周 · 最后一周只有 5 天</div><div class="bars" id="weekbars"></div>
+      <div class="lg2"><span><i style="background:var(--s1)"></i>Claude</span><span><i style="background:var(--s2)"></i>国产模型</span><span><i style="background:var(--s3)"></i>Gemini 及其他</span></div></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>部门</th><th class="r">使用人数</th><th class="r">费用</th><th class="r">占比</th><th class="r">人均/月</th></tr></thead>
+      <tbody id="deptbody"></tbody></table></div>
+  </section>
+
+  <section id="unitsec" hidden>
+    <div class="sec-head"><h2>各事业部对比</h2><div class="muted small">同一口径,按事业部分别统计</div></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>事业部</th><th class="r">活动时长</th><th class="r">研发工具占比</th><th class="r">AI 编程占比</th><th class="r">编码中 AI 比例</th><th>研发工具前三</th></tr></thead>
+      <tbody id="ubody"></tbody></table></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>研发工具按用途</h2><div class="muted small">条长 = 占全部活动时长比例;右侧小字为在研发工具中的占比。点击一行可筛选下方明细</div></div>
+    <div class="panel"><div class="cats" id="cats"></div></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>研发工具明细</h2><div class="muted small" id="tcount"></div></div>
+    <div class="chips" id="chips" role="group" aria-label="按用途筛选"></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>工具</th><th>用途</th><th class="r">活动时长</th><th class="r">占全部</th><th class="r">占研发工具</th><th>对应进程</th></tr></thead>
+      <tbody id="tbody"></tbody></table></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>非研发类应用</h2><div class="muted small">沟通、办公、浏览器与系统组件,用于对照</div></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>类别</th><th>主要应用</th><th class="r">活动时长</th><th class="r">占全部</th></tr></thead>
+      <tbody id="nbody"></tbody></table></div>
+  </section>
+
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+const DATA = {"period": "2026-08-24 ~ 2026-10-24", "company": "航空", "total_hours": 95848.30777777778, "boot_hours": 432125.98305555555, "process_count": 3228, "rd_hours": 30964.20111111111, "rd_share": 0.32305422838451087, "cats": [{"key": "ai_code", "name": "AI 编程工具", "rd": true, "use": "AI 原生 IDE 与编程 Agent:代码生成、改写、仓库级问答", "hours": 4405.852777777778, "tools": [{"tool": "Cursor", "cat": "ai_code", "use": "AI 原生代码编辑器", "hours": 2267.0891666666666, "procs": ["Cursor.exe", "cursor"], "share": 0.023652886725166432}, {"tool": "Trae(字节)", "cat": "ai_code", "use": "字节 AI IDE,含 SOLO 智能体模式", "hours": 1491.1225000000002, "procs": ["Trae CN.exe", "TRAE SOLO CN.exe", "Trae.exe", "TraeCode_CN-Setup-x64.tmp", "TraeSetup-stable-2.3.78542.tmp", "TRAESetup-stable-2.3.92182.tmp", "TraeWork_CN-Setup-x64.tmp", "TraeSetup-stable-2.3.91092.tmp"], "share": 0.015557108253357328}, {"tool": "DeepSeek Harness", "cat": "ai_code", "use": "DeepSeek 编程 Agent 桌面端", "hours": 263.1911111111111, "procs": ["DeepSeekHarness.exe", "DeepSeek Harness.exe"], "share": 0.0027459129661560016}, {"tool": "Claude(桌面/Code)", "cat": "ai_code", "use": "Claude 桌面端 / Claude Code", "hours": 127.68194444444445, "procs": ["claude.exe"], "share": 0.0013321251820164867}, {"tool": "Cindy", "cat": "ai_code", "use": "开源本地 AI Agent,底层调用 Claude Code / Codex 操作文件与电脑", "hours": 78.63388888888889, "procs": ["Cindy.exe"], "share": 0.000820399344672833}, {"tool": "ZCode(智谱)", "cat": "ai_code", "use": "智谱 AI 编程工具", "hours": 75.94527777777778, "procs": ["ZCode.exe"], "share": 0.0007923486552715699}, {"tool": "OpenCode", "cat": "ai_code", "use": "开源终端编程 Agent 桌面版", "hours": 51.769444444444446, "procs": ["OpenCode.exe"], "share": 0.0005401185022950095}, {"tool": "PI-Desktop", "cat": "ai_code", "use": "开源 AI 编程 Agent 桌面端", "hours": 30.171944444444446, "procs": ["PI-Desktop.exe"], "share": 0.00031478849386050136}, {"tool": "CC Switch", "cat": "ai_code", "use": "Claude Code 多供应商/配置切换工具", "hours": 12.75611111111111, "procs": ["cc-switch.exe"], "share": 0.0001330864509437754}, {"tool": "CodeArts Agent", "cat": "ai_code", "use": "华为云 CodeArts 编程助手", "hours": 6.2508333333333335, "procs": ["codearts-agent.exe"], "share": 6.521589664186617e-05}, {"tool": "Kimi Code", "cat": "ai_code", "use": "Kimi 编程 Agent 桌面端", "hours": 0.5966666666666667, "procs": ["Kimi Code.exe"], "share": 6.2251142508433786e-06}, {"tool": "Reasonix", "cat": "ai_code", "use": "面向 DeepSeek 的 AI 编程 Agent 桌面端", "hours": 0.4202777777777778, "procs": ["reasonix-desktop.exe"], "share": 4.3848220956825105e-06}, {"tool": "CodeBuddy(腾讯)", "cat": "ai_code", "use": "腾讯 AI 编程 IDE", "hours": 0.19805555555555554, "procs": ["CodeBuddy.exe", "CodeBuddy CN.exe"], "share": 2.06634378996803e-06}, {"tool": "Antigravity(Google)", "cat": "ai_code", "use": "Google Agent 式 AI IDE", "hours": 0.025555555555555554, "procs": ["Antigravity.exe"], "share": 2.6662500515716515e-07}], "share": 0.04596693337552346}, {"key": "ide", "name": "代码编辑器与 IDE", "rd": true, "use": "日常编码、调试、阅读源码", "hours": 7120.385277777777, "tools": [{"tool": "VS Code", "cat": "ide", "use": "通用代码编辑器,配合插件做各语言开发", "hours": 5329.2, "procs": ["Code.exe", "code"], "share": 0.05560035564066122}, {"tool": "Notepad++", "cat": "ide", "use": "轻量文本/代码编辑", "hours": 839.9575000000001, "procs": ["notepad++.exe"], "share": 0.008763404586624767}, {"tool": "Android Studio", "cat": "ide", "use": "Android App 开发", "hours": 539.6061111111111, "procs": ["studio64.exe"], "share": 0.005629792780089307}, {"tool": "IntelliJ IDEA", "cat": "ide", "use": "Java/后端开发", "hours": 123.68388888888889, "procs": ["idea64.exe"], "share": 0.0012904128591988008}, {"tool": "Visual Studio", "cat": "ide", "use": "Windows/C++/C# 开发", "hours": 94.48194444444444, "procs": ["devenv.exe", "VsDebugConsole.exe"], "share": 0.000985744523142743}, {"tool": "Source Insight", "cat": "ide", "use": "大型 C/C++ 源码阅读", "hours": 75.73222222222222, "procs": ["sourceinsight4.exe"], "share": 0.0007901258141959661}, {"tool": "其他文本编辑器", "cat": "ide", "use": "Sublime / EmEditor / UltraEdit", "hours": 55.10416666666667, "procs": ["EmEditor.exe", "uedit64.exe", "sublime_text.exe"], "share": 0.0005749101673701375}, {"tool": "PyCharm", "cat": "ide", "use": "Python 开发", "hours": 38.98777777777778, "procs": ["pycharm64.exe"], "share": 0.00040676542634607695}, {"tool": "Qt Designer", "cat": "ide", "use": "Qt 界面设计", "hours": 11.2925, "procs": ["designer.exe"], "share": 0.00011781637320276344}, {"tool": "CLion", "cat": "ide", "use": "C/C++ 开发", "hours": 9.321388888888889, "procs": ["clion64.exe"], "share": 9.725147063107599e-05}, {"tool": "其他 IDE / 编辑器", "cat": "ide", "use": "Qt Creator、Eclipse、JetBrains、UEStudio 等", "hours": 3.017777777777778, "procs": ["webstorm64.exe", "goland64.exe", "qtcreator.exe"], "share": 3.1484935391602633e-05}], "share": 0.07428806457685447}, {"key": "term", "name": "终端与 SSH", "rd": true, "use": "连 Linux 服务器/板卡、跑构建与脚本", "hours": 4690.506666666666, "tools": [{"tool": "Windows Terminal", "cat": "term", "use": "Windows 终端", "hours": 2026.5219444444444, "procs": ["WindowsTerminal.exe"], "share": 0.02114301223911946}, {"tool": "MobaXterm", "cat": "term", "use": "SSH/串口/X11 一体化终端", "hours": 1249.579444444444, "procs": ["MobaXterm.exe", "MobaXterm_Personal_22.1.exe", "MobaXterm_Personal_25.2.exe", "MobaXterm_Personal_23.3.exe", "MobaXterm_Personal_24.1.exe", "MobaXterm_Personal_11.0.exe", "MobaXterm1_CHS1.exe", "MobaXterm_chs_v20.0.exe"], "share": 0.01303705274945038}, {"tool": "CMD / PowerShell", "cat": "term", "use": "命令行", "hours": 1046.671388888889, "procs": ["cmd.exe", "powershell.exe", "pwsh.exe"], "share": 0.010920082087579197}, {"tool": "其他终端(WindTerm/SecureCRT 等)", "cat": "term", "use": "SSH 终端", "hours": 347.88916666666665, "procs": ["WindTerm.exe", "mintty.exe", "SecureCRT.exe", "FluentTerminal.App.exe", "Tabby.exe", "XTerminal.exe", "gnome-terminal-server", "Aechoterm.exe"], "share": 0.0036295806856939}, {"tool": "WinSCP", "cat": "term", "use": "SFTP 文件传输", "hours": 19.84472222222222, "procs": ["WinSCP.exe"], "share": 0.00020704301079818517}], "share": 0.04893677077264112}, {"key": "remote", "name": "远程桌面与云桌面", "rd": true, "use": "进入远程 Linux/EDA 服务器、云桌面与测试机;其中实际使用的工具不可见", "hours": 8542.148055555555, "tools": [{"tool": "Windows 远程桌面", "cat": "remote", "use": "RDP 连接 Windows 服务器/工作站", "hours": 3641.2438888888887, "procs": ["mstsc.exe", "msrdc.exe"], "share": 0.03798965232991942}, {"tool": "VMware Horizon 云桌面", "cat": "remote", "use": "公司云桌面", "hours": 3118.527222222222, "procs": ["vmware-view.exe", "horizon-client.exe"], "share": 0.032536069697260174}, {"tool": "Exceed TurboX", "cat": "remote", "use": "远程 Linux 图形桌面(常用于 EDA 服务器)", "hours": 1110.5397222222223, "procs": ["etxc.exe"], "share": 0.01158643014122883}, {"tool": "VNC / NoMachine", "cat": "remote", "use": "远程 Linux 图形桌面", "hours": 372.1227777777778, "procs": ["VNC-Viewer.exe", "vncviewer.exe", "nxplayer.bin"], "share": 0.0038824136430299465}, {"tool": "AnyDesk/向日葵/UU远程", "cat": "remote", "use": "第三方远程控制", "hours": 299.71444444444444, "procs": ["AweSun.exe", "GameViewer.exe", "AnyDesk.exe", "tvnviewer.exe", "ToDesk.exe", "AnyDesk (1).exe", "SunloginClient.exe", "TeamViewer.exe"], "share": 0.0031269664680917044}], "share": 0.08912153227953007}, {"key": "mech", "name": "结构设计 CAD/CAE", "rd": true, "use": "机械建模、出图、渲染与流体/结构仿真", "hours": 2780.964444444445, "tools": [{"tool": "PTC Creo", "cat": "mech", "use": "三维参数化建模与出图(Creo Parametric 主进程为 xtop.exe)", "hours": 1558.2319444444445, "procs": ["xtop.exe"], "share": 0.016257271313095806}, {"tool": "SolidWorks", "cat": "mech", "use": "机械三维建模与出图", "hours": 722.7994444444446, "procs": ["SLDWORKS.exe", "sldProcMon.exe"], "share": 0.007541076740971154}, {"tool": "Siemens NX", "cat": "mech", "use": "机械三维设计", "hours": 138.7613888888889, "procs": ["ugraf.exe"], "share": 0.001447718714143646}, {"tool": "CATIA", "cat": "mech", "use": "复杂曲面/整机结构设计", "hours": 123.98361111111112, "procs": ["CNEXT.exe"], "share": 0.0012935399068136333}, {"tool": "Rhino", "cat": "mech", "use": "工业设计曲面建模", "hours": 110.08083333333333, "procs": ["Rhino.exe"], "share": 0.001148490107812371}, {"tool": "AutoCAD / 中望 CAD", "cat": "mech", "use": "二维工程图", "hours": 53.501666666666665, "procs": ["ZWCAD.exe", "acad.exe"], "share": 0.0005581910406880538}, {"tool": "KeyShot / 3ds Max / Blender", "cat": "mech", "use": "产品渲染与三维内容", "hours": 42.90222222222222, "procs": ["keyshot.exe", "3dsmax.exe", "blender.exe"], "share": 0.00044760542170123747}, {"tool": "STAR-CCM+", "cat": "mech", "use": "流体/热仿真", "hours": 13.016944444444444, "procs": ["starccmw.exe"], "share": 0.0001358077648551078}, {"tool": "KISSsoft", "cat": "mech", "use": "齿轮/传动强度计算", "hours": 9.626111111111111, "procs": ["KISSsoft.exe"], "share": 0.00010043068400778697}, {"tool": "Bambu Studio", "cat": "mech", "use": "3D 打印切片", "hours": 8.06027777777778, "procs": ["bambu-studio.exe"], "share": 8.409410624614635e-05}], "share": 0.029014225800334945}, {"key": "eda", "name": "电子设计 EDA/射频", "rd": true, "use": "原理图、PCB 布线、电磁/天线仿真、逻辑分析", "hours": 707.2386111111111, "tools": [{"tool": "Cadence Allegro", "cat": "eda", "use": "PCB 布局布线", "hours": 313.5538888888889, "procs": ["allegro.exe"], "share": 0.003271355500775838}, {"tool": "Ansys Electronics(HFSS)", "cat": "eda", "use": "电磁/天线/信号完整性仿真", "hours": 188.62944444444446, "procs": ["ansysedt.exe"], "share": 0.0019679997364353864}, {"tool": "OrCAD Capture", "cat": "eda", "use": "原理图设计", "hours": 160.8113888888889, "procs": ["Capture.exe"], "share": 0.0016777697240281655}, {"tool": "逻辑分析仪软件", "cat": "eda", "use": "Saleae Logic / Kingst 逻辑分析", "hours": 28.03888888888889, "procs": ["KingstVIS.exe", "Logic.exe"], "share": 0.0002925340002235245}, {"tool": "CST Studio", "cat": "eda", "use": "电磁仿真", "hours": 15.160555555555556, "procs": ["CST DESIGN ENVIRONMENT_AMD64.exe"], "share": 0.0001581723862116061}, {"tool": "PCB 查看与辅助工具", "cat": "eda", "use": "Allegro Viewer、阻抗计算、DFM、Multisim", "hours": 0.6588888888888889, "procs": ["allegro_free_viewer.exe", "Si9000FieldSolver.exe"], "share": 6.874288176443433e-06}, {"tool": "阿狸狗破戒大师(Cadence 破解安装器)", "cat": "eda", "use": "Cadence Allegro / OrCAD 的盗版破解安装工具", "hours": 0.35638888888888887, "procs": ["AleegoCrackMasterV2.exe"], "share": 3.7182595827895967e-06}, {"tool": "Keysight ADS / Genesys", "cat": "eda", "use": "射频电路与系统仿真", "hours": 0.029166666666666667, "procs": ["hpeesofdds.exe"], "share": 3.043002776250255e-07}], "share": 0.007378728195711379}, {"key": "embed", "name": "嵌入式开发与调试烧录", "rd": true, "use": "MCU 编译下载、固件烧录、串口/CAN/抓包、设备日志", "hours": 873.6261111111111, "tools": [{"tool": "QFIL", "cat": "embed", "use": "高通平台刷机", "hours": 153.9322222222222, "procs": ["QFIL.exe"], "share": 0.0016059983299768915}, {"tool": "IAPTools", "cat": "embed", "use": "设备固件升级/写序列号", "hours": 112.86999999999999, "procs": ["IAPTools V3.0.37 rev06.exe", "IAPTools V3.0.37 rev08.exe", "IAPTools V3.0.37 rev04.exe", "IAPTools V3.0.37 rev06(1).exe", "IAPTools V3.0.35 可改序列号2023.04.11.exe", "IAPTools V3.0.37 rev05.exe", "IAPTools V3.0.36 2023.04.15.exe", "IAPTools V3.0.36 2023.04.15(1).exe"], "share": 0.0011775899086469699}, {"tool": "Keil MDK", "cat": "embed", "use": "MCU 编译与调试", "hours": 102.56444444444443, "procs": ["UV4.exe", "uvision_studio_client.exe"], "share": 0.0010700704772194608}, {"tool": "scrcpy", "cat": "embed", "use": "安卓设备投屏控制", "hours": 94.95944444444444, "procs": ["scrcpy.exe", "QtScrcpy.exe"], "share": 0.000990726353402147}, {"tool": "串口调试助手", "cat": "embed", "use": "串口收发调试", "hours": 87.36861111111112, "procs": ["UartAssist.exe", "sscom5.13.1.exe", "XCOM V2.0.exe", "SerialPortUtility.exe", "SSCOM串口调试助手_1173_79891.exe"], "share": 0.0009115300325768229}, {"tool": "ADB 日志工具", "cat": "embed", "use": "设备日志抓取(内部工具)", "hours": 71.69055555555555, "procs": ["ADB快速取日志工具.exe", "ADB_Log_Downloader_dark_realtime.exe", "ADB快速取日志工具0625.exe", "ADB_Log_下载工具(老版）.exe", "ADB快速取日志工具(1).exe", "ADB快速取日志工具(3).exe", "ADB快速取日志工具(8).exe", "ADBLogCollector-1.0.exe"], "share": 0.000747958490010784}, {"tool": "Chromatix", "cat": "embed", "use": "高通相机 ISP 调参", "hours": 64.32333333333332, "procs": ["Chromatix.exe"], "share": 0.0006710951379805847}, {"tool": "SEGGER Embedded Studio", "cat": "embed", "use": "ARM 单片机 C/C++ 开发调试", "hours": 61.499722222222225, "procs": ["emStudio.exe"], "share": 0.0006416359730086001}, {"tool": "J-Flash", "cat": "embed", "use": "J-Link 固件烧录", "hours": 30.391944444444444, "procs": ["JFlash.exe"], "share": 0.0003170837873831587}, {"tool": "抓包与协议调试", "cat": "embed", "use": "Wireshark / OmniPeek / MQTTX", "hours": 30.147777777777772, "procs": ["MQTTX.exe", "omnipeek.exe", "Wireshark.exe"], "share": 0.0003145363593447548}, {"tool": "展锐 NVEditor", "cat": "embed", "use": "紫光展锐模组 NV 参数(射频/通信标定)编辑", "hours": 28.985, "procs": ["nveditor.exe"], "share": 0.00030240492161010387}, {"tool": "LabVIEW / 数据记录", "cat": "embed", "use": "测试测量与数据采集", "hours": 13.147222222222222, "procs": ["LabVIEW.exe", "DataLogger3.exe"], "share": 0.0001371669727618329}, {"tool": "TI Battery Management Studio", "cat": "embed", "use": "TI 电量计/充电芯片调试配置", "hours": 7.180555555555556, "procs": ["bqsbb.exe"], "share": 7.491583025339914e-05}, {"tool": "CAN FD 工具", "cat": "embed", "use": "CAN 总线调试", "hours": 7.147222222222223, "procs": ["CANFDToolPro.exe"], "share": 7.456805850754196e-05}, {"tool": "IAR Embedded Workbench", "cat": "embed", "use": "MCU 编译与调试", "hours": 6.788055555555555, "procs": ["IarIdePm.exe"], "share": 7.082081794593092e-05}, {"tool": "CAN 工具", "cat": "embed", "use": "CAN 总线调试", "hours": 0.6133333333333333, "procs": ["cantest.exe"], "share": 6.3990001237719636e-06}, {"tool": "WinHex", "cat": "embed", "use": "十六进制与磁盘编辑", "hours": 0.016666666666666666, "procs": ["WinHex.exe"], "share": 1.7388587292858598e-07}], "share": 0.009114674336625684}, {"key": "selftool", "name": "自研测试、诊断与标定", "rd": true, "use": "整机/模组测试、ECU 与车辆诊断模拟、电源与 BMS 测试、标定、数据回放", "hours": 316.52805555555557, "tools": [{"tool": "整机/模组测试工具", "cat": "selftool", "use": "飞行器、模组、机巢等测试", "hours": 156.84972222222223, "procs": ["LCProdTest.exe", "DroneTestTool.exe", "FUGV_Semi_Finished_TestTool.exe", "Nest2Tool.exe", "I79-48-T.exe"], "share": 0.0016364370520330406}, {"tool": "标定工具", "cat": "selftool", "use": "机器人关节零位、视觉相机标定", "hours": 102.3311111111111, "procs": ["vision_calib_drv.exe", "qt_calibration.exe", "RobotJointZeroPositionCalibTool.exe"], "share": 0.0010676360749984606}, {"tool": "智能电池上位机", "cat": "selftool", "use": "电池参数读写与检测", "hours": 32.987500000000004, "procs": ["SmartBatteryHost-V1.0.1.43(支持多开).exe", "SmartBatteryHost-V1.0.1.34.exe", "SmartBatteryHost-V1.0.1.41.exe", "SmartBatteryHost-V1.0.1.65.exe", "SmartBatteryHost-V1.0.1.58.exe", "SmartBatteryHost-V1.0.1.25.exe", "SmartBatteryHost-V1.0.1.52.exe", "SmartBatteryHost-V1.0.1.68.exe"], "share": 0.0003441636139939039}, {"tool": "Planner Bag Player", "cat": "selftool", "use": "规划数据包回放", "hours": 16.802222222222223, "procs": ["Planner Bag Player.exe"], "share": 0.00017530014469507182}, {"tool": "云台检测平台", "cat": "selftool", "use": "云台开发与检测", "hours": 7.551666666666667, "procs": ["云台开发检测平台V1.4.exe"], "share": 7.878768902394232e-05}, {"tool": "塞防产品与测试工具", "cat": "selftool", "use": "SkyShield 边缘端、雷达分析、诱骗设备与 AEAG 测试工具", "hours": 0.005833333333333334, "procs": ["SkyShield_Edge.exe"], "share": 6.08600555250051e-08}], "share": 0.0033023854347999444}, {"key": "algo", "name": "算法、仿真与数据", "rd": true, "use": "MATLAB/Python 计算、机器人仿真、点云与数据标注可视化", "hours": 1158.1961111111111, "tools": [{"tool": "MATLAB", "cat": "algo", "use": "算法建模、信号处理、Simulink", "hours": 511.8944444444444, "procs": ["MATLAB.exe", "MATLABWindow.exe"], "share": 0.005340672739170946}, {"tool": "NVIDIA Omniverse Kit(Isaac Sim 等)", "cat": "algo", "use": "Omniverse Kit 应用:机器人仿真、数字孪生", "hours": 209.48694444444442, "procs": ["kit.exe"], "share": 0.0021856092121118648}, {"tool": "Unreal Engine", "cat": "algo", "use": "仿真场景与可视化", "hours": 151.84, "procs": ["UnrealEditor.exe"], "share": 0.0015841698567285898}, {"tool": "Python", "cat": "algo", "use": "脚本与算法运行", "hours": 138.02972222222223, "procs": ["python.exe", "python3.10", "pythonw.exe"], "share": 0.0014400851243220813}, {"tool": "CloudCompare", "cat": "algo", "use": "点云处理", "hours": 45.91, "procs": ["CloudCompare.exe"], "share": 0.0004789860255690829}, {"tool": "Houdini", "cat": "algo", "use": "程序化建模/特效仿真", "hours": 33.08444444444444, "procs": ["houdini.exe"], "share": 0.00034517505015477175}, {"tool": "奥维互动地图", "cat": "algo", "use": "卫星地图、测绘与航线/场地规划", "hours": 29.748333333333335, "procs": ["omap.exe"], "share": 0.00031036889459023316}, {"tool": "X-AnyLabeling", "cat": "algo", "use": "图像数据标注", "hours": 20.96666666666666, "procs": ["X-AnyLabeling-v4.0.0.1-CPU-remote-filte", "X-AnyLabeling-CPU.exe", "X-AnyLabeling.exe"], "share": 0.0002187484281441611}, {"tool": "RAW Viewer", "cat": "algo", "use": "相机 RAW 图像查看", "hours": 8.786944444444444, "procs": ["RAWViewer.exe"], "share": 9.167553030583267e-05}, {"tool": "Foxglove Studio", "cat": "algo", "use": "机器人数据可视化", "hours": 8.448611111111111, "procs": ["Foxglove Studio.exe"], "share": 8.814564708538238e-05}], "share": 0.012083636508182947}, {"key": "vcs", "name": "版本管理与对比", "rd": true, "use": "Git 图形客户端、代码与文件比对", "hours": 184.535, "tools": [{"tool": "Git 图形客户端", "cat": "vcs", "use": "SourceTree / TortoiseGit / Fork 等", "hours": 113.73833333333334, "procs": ["SourceTree.exe", "TortoiseGitProc.exe", "GitExtensions.exe", "Fork.exe", "TortoiseGitMerge.exe", "TortoiseGitUDiff.exe", "TortoiseGitPlink.exe", "TortoiseGitIDiff.exe"], "share": 0.0011866493626265494}, {"tool": "Beyond Compare", "cat": "vcs", "use": "代码与文件比对", "hours": 65.19250000000001, "procs": ["BCompare.exe"], "share": 0.0006801632862538106}, {"tool": "SVN / 文件比对", "cat": "vcs", "use": "TortoiseSVN、WinMerge", "hours": 5.604166666666667, "procs": ["WinMergeU.exe", "TortoiseProc.exe"], "share": 5.846912477223704e-05}], "share": 0.0019252817736525969}, {"key": "infra", "name": "数据库、虚拟机与存储", "rd": true, "use": "数据库客户端、本地虚拟机、对象存储客户端", "hours": 184.22000000000003, "tools": [{"tool": "华为云 OBS Browser+", "cat": "infra", "use": "对象存储上传下载", "hours": 82.91444444444446, "procs": ["obs-browser-plus.exe"], "share": 0.0008650590330366582}, {"tool": "数据库客户端", "cat": "infra", "use": "Navicat / DBeaver", "hours": 65.83527777777778, "procs": ["navicat.exe", "dbeaver.exe"], "share": 0.0006868694847530897}, {"tool": "本地虚拟机", "cat": "infra", "use": "VirtualBox / VMware Workstation", "hours": 29.3625, "procs": ["VirtualBoxVM.exe", "vmware.exe"], "share": 0.0003063434366319364}, {"tool": "Postman", "cat": "infra", "use": "接口调试", "hours": 6.107777777777778, "procs": ["Postman.exe"], "share": 6.372337623256248e-05}], "share": 0.001921995330654247}, {"key": "ai_chat", "name": "AI 对话助手", "rd": false, "use": "通用大模型对话与办公 Agent(非编程专用)", "hours": 1112.3430555555553, "tools": [{"tool": "ChatGPT", "cat": "ai_chat", "use": "通用对话", "hours": 417.1116666666667, "procs": ["ChatGPT.exe", "ChatGPT"], "share": 0.004351789576021843}, {"tool": "豆包", "cat": "ai_chat", "use": "通用对话", "hours": 321.7725, "procs": ["Doubao.exe", "DoubaoWork.exe"], "share": 0.0033571015228148057}, {"tool": "WorkBuddy", "cat": "ai_chat", "use": "办公 AI 助手", "hours": 182.24777777777777, "procs": ["WorkBuddy.exe"], "share": 0.0019014188356910305}, {"tool": "Kimi", "cat": "ai_chat", "use": "通用对话", "hours": 57.75944444444445, "procs": ["Kimi.exe"], "share": 0.0006026130850255434}, {"tool": "腾讯元宝", "cat": "ai_chat", "use": "通用对话", "hours": 32.94416666666666, "procs": ["yuanbao.exe"], "share": 0.00034371151072428943}, {"tool": "Manus", "cat": "ai_chat", "use": "通用 Agent", "hours": 23.911944444444444, "procs": ["Manus.exe"], "share": 0.00024947695998852443}, {"tool": "Grok", "cat": "ai_chat", "use": "通用对话", "hours": 23.88277777777778, "procs": ["Grok Bot.exe"], "share": 0.00024917265971089944}, {"tool": "Hermes Desktop", "cat": "ai_chat", "use": "Nous Research 开源 AI Agent 桌面端:对话、执行工具、接多种模型", "hours": 16.051111111111112, "procs": ["Hermes.exe"], "share": 0.00016746368802175688}, {"tool": "Cherry Studio", "cat": "ai_chat", "use": "多模型对话客户端", "hours": 15.745, "procs": ["Cherry Studio.exe"], "share": 0.00016426998415563517}, {"tool": "通义千问", "cat": "ai_chat", "use": "通用对话", "hours": 14.228333333333333, "procs": ["qianwen.exe"], "share": 0.00014844636971913386}, {"tool": "Microsoft 365 Copilot", "cat": "ai_chat", "use": "办公 AI 助手", "hours": 6.281944444444444, "procs": ["M365Copilot.exe"], "share": 6.55404836046662e-05}, {"tool": "小米 MiMo", "cat": "ai_chat", "use": "通用对话", "hours": 0.4063888888888889, "procs": ["Xiaomi MiMo.exe"], "share": 4.2399172015753555e-06}], "share": 0.011605244592679701}, {"key": "im", "name": "沟通协作", "rd": false, "use": "即时通讯、会议、邮件", "hours": 27242.619444444448, "tools": [{"tool": "飞书", "cat": "im", "use": "即时通讯、会议、文档", "hours": 26535.66416666667, "procs": ["Feishu.exe", "feishu"], "share": 0.276850627641638}, {"tool": "微信", "cat": "im", "use": "即时通讯", "hours": 561.6027777777778, "procs": ["Weixin.exe", "WeChatAppEx.exe", "Weixin-test.exe"], "share": 0.005859287355180455}, {"tool": "腾讯会议", "cat": "im", "use": "视频会议", "hours": 79.33444444444444, "procs": ["wemeetapp.exe"], "share": 0.0008277083475315978}, {"tool": "企业微信", "cat": "im", "use": "即时通讯", "hours": 37.42444444444445, "procs": ["WXWork.exe", "FlutterPlugins.exe"], "share": 0.0003904549314653756}, {"tool": "邮件客户端", "cat": "im", "use": "邮件", "hours": 25.319722222222218, "procs": ["Foxmail.exe", "OUTLOOK.EXE"], "share": 0.00026416452005522566}, {"tool": "其他通讯工具", "cat": "im", "use": "微信、eSpace、QQ", "hours": 3.273888888888889, "procs": ["WeChat.exe", "QQ.exe", "WeMail.exe"], "share": 3.4156981638938575e-05}], "share": 0.2842263997775096}, {"key": "office", "name": "办公文档", "rd": false, "use": "表格、文档、演示、PDF、笔记与绘图", "hours": 5597.211111111111, "tools": [{"tool": "Excel / WPS 表格", "cat": "office", "use": "表格", "hours": 1608.4263888888888, "procs": ["EXCEL.EXE", "et.exe"], "share": 0.016780957600399066}, {"tool": "WPS", "cat": "office", "use": "文档套件", "hours": 1459.8763888888889, "procs": ["wps.exe"], "share": 0.015231112814986578}, {"tool": "PowerPoint / WPS 演示", "cat": "office", "use": "演示", "hours": 819.7583333333333, "procs": ["POWERPNT.EXE", "wpp.exe"], "share": 0.008552663602928966}, {"tool": "Word", "cat": "office", "use": "文档", "hours": 685.0419444444444, "procs": ["WINWORD.EXE"], "share": 0.0071471469901450875}, {"tool": "记事本", "cat": "office", "use": "系统记事本", "hours": 415.30361111111114, "procs": ["notepad.exe"], "share": 0.004332925856906974}, {"tool": "PDF 阅读编辑", "cat": "office", "use": "PDF", "hours": 335.7880555555555, "procs": ["Acrobat.exe", "FoxitPDFReader.exe", "FoxitReaderPlus.exe", "FoxitPhantomPDF.exe", "dgpdf.exe", "福昕阅读器V4.3.1.0218.exe", "FoxitPhantom.exe", "pdfeditor.exe"], "share": 0.0035033279495562176}, {"tool": "Visio / draw.io / 亿图脑图", "cat": "office", "use": "流程图、架构图、脑图", "hours": 140.865, "procs": ["VISIO.EXE", "EdrawMind.exe", "draw.io.exe"], "share": 0.001469666009405116}, {"tool": "笔记与 Markdown", "cat": "office", "use": "笔记、技术文档", "hours": 118.57916666666667, "procs": ["Typora.exe", "Obsidian.exe", "myBase.exe", "MyNotesKeeper.exe", "DocBox.exe", "Typedown.exe", "MarkText.exe"], "share": 0.001237154514418657}, {"tool": "原型、脑图与项目管理", "cat": "office", "use": "Axure、XMind、OneNote、Project", "hours": 8.251944444444444, "procs": ["Xmind.exe", "ONENOTE.EXE", "WINPROJ.EXE"], "share": 8.609379378482505e-05}, {"tool": "滴答清单", "cat": "office", "use": "待办与日程", "hours": 5.320277777777777, "procs": ["TickTick.exe"], "share": 5.550726873668678e-05}], "share": 0.058396556401268174}, {"key": "browser", "name": "浏览器", "rd": false, "use": "网页访问;在线研发系统(代码仓库、CI、Jira 类)也计入此处", "hours": 19097.50777777778, "tools": [{"tool": "Chrome", "cat": "browser", "use": "浏览器", "hours": 11975.535555555556, "procs": ["chrome.exe", "chrome"], "share": 0.12494258723190581}, {"tool": "Edge", "cat": "browser", "use": "浏览器", "hours": 6971.092222222222, "procs": ["msedge.exe"], "share": 0.07273046737960724}, {"tool": "其他浏览器", "cat": "browser", "use": "Firefox / 360 / QQ / 夸克", "hours": 150.88, "procs": ["firefox.exe", "360ChromeX.exe", "360se.exe", "quark.exe", "QQBrowser.exe"], "share": 0.0015741540304479032}], "share": 0.19924720864196097}, {"key": "media", "name": "设计与影音", "rd": false, "use": "图片设计、视频剪辑与播放", "hours": 624.8497222222222, "tools": [{"tool": "影音与图片查看", "cat": "media", "use": "播放与看图", "hours": 468.0247222222222, "procs": ["Microsoft.Media.Player.exe", "PotPlayerMini64.exe", "FSViewer.exe", "Photos.exe", "Video.UI.exe", "vlc.exe", "shaitupian.exe", "photolaunch.exe"], "share": 0.004882973242546205}, {"tool": "Adobe 设计/画图", "cat": "media", "use": "平面设计", "hours": 120.145, "procs": ["Illustrator.exe", "Photoshop.exe", "mspaint.exe", "CorelDRW.exe"], "share": 0.0012534910921802977}, {"tool": "剪辑与录屏", "cat": "media", "use": "视频剪辑录屏", "hours": 26.760555555555555, "procs": ["LosslessCut.exe", "JianyingPro.exe", "EVCapture.exe"], "share": 0.0002791969537699019}, {"tool": "大华 SmartPSS", "cat": "media", "use": "大华摄像头 / NVR 视频管理客户端", "hours": 9.919444444444444, "procs": ["SmartPSS.exe"], "share": 0.00010349107537133008}], "share": 0.006519152363867735}, {"key": "biz", "name": "业务系统", "rd": false, "use": "SAP 等企业业务系统", "hours": 218.44944444444445, "tools": [{"tool": "SAP GUI", "cat": "biz", "use": "SAP 业务系统", "hours": 217.36277777777778, "procs": ["saplogon.exe"], "share": 0.0022677789813642683}, {"tool": "BarTender", "cat": "biz", "use": "条码与标签设计打印", "hours": 1.0866666666666667, "procs": ["bartend.exe"], "share": 1.1337358914943806e-05}], "share": 0.0022791163402792122}, {"key": "system", "name": "系统与安全组件", "rd": false, "use": "资源管理器、锁屏、搜索、准入/VPN 客户端等系统进程", "hours": 9786.814444444439, "tools": [{"tool": "系统、文件与安全组件", "cat": "system", "use": "资源管理器、锁屏、准入/VPN 等", "hours": 9786.814444444439, "procs": ["explorer.exe", "LockApp.exe", "LogonUI.exe", "ShellExperienceHost.exe", "WinRAR.exe", "ShellHost.exe", "ONacAgent.exe", "CalculatorApp.exe"], "share": 0.10210732637173893}], "share": 0.10210732637173893}, {"key": "other", "name": "其他非工作类", "rd": false, "use": "游戏、招聘等与工作无关的应用", "hours": 58.18611111111112, "tools": [{"tool": "BOSS 直聘", "cat": "other", "use": "招聘求职", "hours": 43.23388888888889, "procs": ["boss-zhipin.exe"], "share": 0.00045106575057251636}, {"tool": "游戏", "cat": "other", "use": "游戏", "hours": 9.52888888888889, "procs": ["Heroes3 HD.exe", "Game.exe"], "share": 9.94163497490369e-05}, {"tool": "百度网盘", "cat": "other", "use": "个人网盘", "hours": 5.423333333333334, "procs": ["BaiduNetdiskUnite.exe"], "share": 5.658246305096188e-05}], "share": 0.0006070645633725151}, {"key": "unknown", "name": "未识别/长尾", "rd": false, "use": "进程名无法确定用途,或单个用量很小的长尾应用", "hours": 1030.9141666666667, "tools": [{"tool": "未识别/长尾应用", "cat": "unknown", "use": "无法确定用途或单个用量很小", "hours": 1030.9141666666667, "procs": ["sml.exe", "RRTL6.2.0.exe", "Ptas.exe", "xSight_Beta_V0.1.11.32.exe", "javaw.exe", "Land.exe", "pcd.exe", "Smart Cockpit.exe"], "share": 0.010755684587116747}], "share": 0.010755684587116747}], "unmatched_top": [["sml.exe", 37.44138888888889], ["RRTL6.2.0.exe", 36.16888888888889], ["Ptas.exe", 33.35388888888889], ["xSight_Beta_V0.1.11.32.exe", 25.762777777777778], ["javaw.exe", 20.175], ["Land.exe", 14.592777777777778], ["pcd.exe", 13.517777777777779], ["Smart Cockpit.exe", 12.201666666666666], ["date.exe", 9.78888888888889], ["electron.exe", 6.361666666666666], ["Nexus.exe", 6.139444444444445], ["EHR.exe", 6.113333333333333], ["UncooledInfraredCameraApplication.exe", 5.9375], ["aroModelX.exe", 5.586666666666666], ["MDJ半成品链路测试工具V1.0.2.exe", 5.567777777777778], ["360Tray.exe", 5.3133333333333335], ["msiexec.exe", 5.261666666666667], ["LogProc_0331_mesh_new.exe", 5.2491666666666665], ["WorkBuddyAI.exe", 5.248055555555555], ["Bandizip.exe", 5.2125], ["UavOutStorageCheckinTool.exe", 5.146944444444445], ["wpspdf.exe", 5.060833333333333], ["assistant.exe", 5.053333333333333], ["BatAssist.exe", 5.05], ["SpectraStudio.exe", 5.038888888888889]], "units": [], "scope": "研发中心", "scope_label": "航空研发中心", "token": {"window": {"from": "2026-08-24", "to": "2026-10-23", "days": 61}, "total": {"spend": 262585.58, "req": 6199744, "in_tok": 818007796078, "out_tok": 3768197680, "cache_hit": 0.8798, "succ": 0.9638, "per_req": 0.0424, "per_mtok": 0.32, "users": 395}, "forms": [{"form": "CLI 编程 Agent", "spend": 180938.37, "req": 4865070, "in_tok": 636370239028, "out_tok": 3055577877, "cache_hit": 0.883, "succ": 0.9652, "per_req": 0.0372, "per_mtok": 0.283, "users": 218}, {"form": "自主 Agent / 机器人", "spend": 32719.48, "req": 548591, "in_tok": 77041238081, "out_tok": 303128481, "cache_hit": 0.8639, "succ": 0.9693, "per_req": 0.0596, "per_mtok": 0.423, "users": 137}, {"form": "AI IDE / 插件", "spend": 25815.35, "req": 461738, "in_tok": 74371115058, "out_tok": 268908877, "cache_hit": 0.9178, "succ": 0.9838, "per_req": 0.0559, "per_mtok": 0.346, "users": 26}, {"form": "脚本 / SDK 直调", "spend": 18899.28, "req": 244621, "in_tok": 21602847320, "out_tok": 99273517, "cache_hit": 0.7564, "succ": 0.9485, "per_req": 0.0773, "per_mtok": 0.871, "users": 47}, {"form": "业务系统集成", "spend": 3146.22, "req": 45929, "in_tok": 7819304041, "out_tok": 35366907, "cache_hit": 0.7622, "succ": 0.9541, "per_req": 0.0685, "per_mtok": 0.401, "users": 6}, {"form": "未标注用途", "spend": 1066.88, "req": 33795, "in_tok": 803052550, "out_tok": 5942021, "cache_hit": 0.8137, "succ": 0.5231, "per_req": 0.0316, "per_mtok": 1.319, "users": 25}], "tools": [{"form": "CLI 编程 Agent", "tool": "Claude Code", "spend": 176556.02, "req": 4525736, "in_tok": 578450819072, "out_tok": 2879354780, "cache_hit": 0.8792, "succ": 0.972, "per_req": 0.039, "per_mtok": 0.304, "users": 197}, {"form": "AI IDE / 插件", "tool": "Cursor", "spend": 19435.8, "req": 265467, "in_tok": 50979133791, "out_tok": 149246262, "cache_hit": 0.9439, "succ": 0.989, "per_req": 0.0732, "per_mtok": 0.38, "users": 13}, {"form": "脚本 / SDK 直调", "tool": "SDK / HTTP 直调", "spend": 18899.28, "req": 244621, "in_tok": 21602847320, "out_tok": 99273517, "cache_hit": 0.7564, "succ": 0.9485, "per_req": 0.0773, "per_mtok": 0.871, "users": 47}, {"form": "自主 Agent / 机器人", "tool": "OpenClaw", "spend": 15904.02, "req": 182684, "in_tok": 14700396286, "out_tok": 96685012, "cache_hit": 0.6625, "succ": 0.9735, "per_req": 0.0871, "per_mtok": 1.075, "users": 99}, {"form": "自主 Agent / 机器人", "tool": "AutoResearch", "spend": 9086.22, "req": 152656, "in_tok": 34590709019, "out_tok": 76148981, "cache_hit": 0.9222, "succ": 0.9409, "per_req": 0.0595, "per_mtok": 0.262, "users": 13}, {"form": "自主 Agent / 机器人", "tool": "研究类脚本", "spend": 5290.31, "req": 181504, "in_tok": 21553170788, "out_tok": 106236217, "cache_hit": 0.9326, "succ": 0.985, "per_req": 0.0291, "per_mtok": 0.244, "users": 19}, {"form": "AI IDE / 插件", "tool": "VS Code 插件", "spend": 3760.41, "req": 137899, "in_tok": 16704084298, "out_tok": 83658704, "cache_hit": 0.8432, "succ": 0.9787, "per_req": 0.0273, "per_mtok": 0.224, "users": 7}, {"form": "业务系统集成", "tool": "平台/系统接入", "spend": 3146.22, "req": 45929, "in_tok": 7819304041, "out_tok": 35366907, "cache_hit": 0.7622, "succ": 0.9541, "per_req": 0.0685, "per_mtok": 0.401, "users": 6}, {"form": "CLI 编程 Agent", "tool": "DeepSeek Harness", "spend": 2504.8, "req": 146980, "in_tok": 13944582692, "out_tok": 61441653, "cache_hit": 0.7802, "succ": 0.7339, "per_req": 0.017, "per_mtok": 0.179, "users": 16}, {"form": "自主 Agent / 机器人", "tool": "WorkBuddy(腾讯)", "spend": 2438.93, "req": 31747, "in_tok": 6196961988, "out_tok": 24058271, "cache_hit": 0.7771, "succ": 0.9914, "per_req": 0.0768, "per_mtok": 0.392, "users": 14}, {"form": "CLI 编程 Agent", "tool": "Codex CLI", "spend": 1877.55, "req": 192354, "in_tok": 43974837264, "out_tok": 114781444, "cache_hit": 0.9651, "succ": 0.9831, "per_req": 0.0098, "per_mtok": 0.043, "users": 10}, {"form": "AI IDE / 插件", "tool": "ZCode(智谱)", "spend": 1366.09, "req": 43415, "in_tok": 5317646628, "out_tok": 28358603, "cache_hit": 0.9513, "succ": 0.9644, "per_req": 0.0315, "per_mtok": 0.256, "users": 2}, {"form": "AI IDE / 插件", "tool": "Trae", "spend": 1253.05, "req": 14957, "in_tok": 1370250341, "out_tok": 7645308, "cache_hit": 0.7271, "succ": 0.9952, "per_req": 0.0838, "per_mtok": 0.909, "users": 4}, {"form": "未标注用途", "tool": "通用 / 未命名 key", "spend": 1066.88, "req": 33795, "in_tok": 803052550, "out_tok": 5942021, "cache_hit": 0.8137, "succ": 0.5231, "per_req": 0.0316, "per_mtok": 1.319, "users": 25}], "families": [{"fam": "Claude Opus", "domestic": false, "spend": 149625.17, "req": 837556, "in_tok": 148712735806, "out_tok": 455333477, "cache_hit": 0.8177, "succ": 0.9957, "per_req": 0.1786, "per_mtok": 1.003, "users": 219}, {"fam": "GLM(智谱)", "domestic": true, "spend": 38716.55, "req": 730049, "in_tok": 118745957611, "out_tok": 538866843, "cache_hit": 0.7375, "succ": 0.9979, "per_req": 0.053, "per_mtok": 0.325, "users": 196}, {"fam": "Claude Sonnet", "domestic": false, "spend": 31745.04, "req": 339174, "in_tok": 41206475918, "out_tok": 209581308, "cache_hit": 0.801, "succ": 0.9991, "per_req": 0.0936, "per_mtok": 0.766, "users": 201}, {"fam": "DeepSeek", "domestic": true, "spend": 19450.44, "req": 3410488, "in_tok": 477521828837, "out_tok": 2345106047, "cache_hit": 0.9485, "succ": 0.9995, "per_req": 0.0057, "per_mtok": 0.041, "users": 309}, {"fam": "Gemini", "domestic": false, "spend": 13746.71, "req": 418662, "in_tok": 8510208427, "out_tok": 69760877, "cache_hit": 0.3853, "succ": 0.9973, "per_req": 0.0328, "per_mtok": 1.602, "users": 188}, {"fam": "Kimi", "domestic": true, "spend": 8879.19, "req": 245734, "in_tok": 23244607669, "out_tok": 148747082, "cache_hit": 0.9124, "succ": 0.9982, "per_req": 0.0361, "per_mtok": 0.38, "users": 213}, {"fam": "其他(图像/视频/向量)", "domestic": false, "spend": 422.48, "req": 218081, "in_tok": 65981810, "out_tok": 802046, "cache_hit": 0.8539, "succ": 0.0105, "per_req": 0.0019, "per_mtok": 6.326, "users": 57}], "weeks": [{"week": "2026-08-24", "Claude Opus": 11104.1, "Claude Sonnet": 3298.7, "其他(图像/视频/向量)": 127.4, "Gemini": 943.2, "Kimi": 176.1, "DeepSeek": 111.5}, {"week": "2026-08-31", "其他(图像/视频/向量)": 26.8, "Claude Sonnet": 12782.7, "DeepSeek": 1522.7, "Kimi": 2107.5, "Claude Opus": 43510.0, "Gemini": 1415.2, "GLM(智谱)": 1024.1}, {"week": "2026-09-07", "其他(图像/视频/向量)": 12.1, "DeepSeek": 1714.9, "Claude Opus": 40506.5, "GLM(智谱)": 4026.5, "Gemini": 1203.3, "Claude Sonnet": 10782.4, "Kimi": 1548.3}, {"week": "2026-09-14", "其他(图像/视频/向量)": 9.8, "Claude Sonnet": 4201.2, "Claude Opus": 11009.8, "DeepSeek": 2853.2, "Kimi": 1601.4, "Gemini": 1333.5, "GLM(智谱)": 5819.2}, {"week": "2026-09-21", "DeepSeek": 3367.7, "其他(图像/视频/向量)": 147.2, "Kimi": 783.0, "GLM(智谱)": 4804.7, "Gemini": 1689.9, "Claude Sonnet": 679.9, "Claude Opus": 4048.7}, {"week": "2026-09-28", "其他(图像/视频/向量)": 57.6, "DeepSeek": 2004.0, "Claude Opus": 11893.1, "Gemini": 1302.5, "Kimi": 438.7, "GLM(智谱)": 3622.7, "Claude Sonnet": 0.0}, {"week": "2026-10-05", "其他(图像/视频/向量)": 11.2, "Gemini": 1870.7, "DeepSeek": 2421.1, "GLM(智谱)": 4232.5, "Kimi": 617.5, "Claude Opus": 13652.2, "Claude Sonnet": 0.0}, {"week": "2026-10-12", "DeepSeek": 2544.2, "GLM(智谱)": 6888.1, "其他(图像/视频/向量)": 25.5, "Claude Opus": 9128.2, "Kimi": 907.8, "Gemini": 2333.6, "Claude Sonnet": 0.0}, {"week": "2026-10-19", "其他(图像/视频/向量)": 4.9, "DeepSeek": 2911.1, "Gemini": 1654.8, "Claude Opus": 4772.6, "GLM(智谱)": 8298.7, "Kimi": 699.0}], "depts": [{"dept": "飞行机器人产品线", "spend": 60429.13, "req": 1728572, "in_tok": 229933598844, "out_tok": 1093679438, "cache_hit": 0.9029, "succ": 0.9818, "per_req": 0.035, "per_mtok": 0.262, "users": 116}, {"dept": "AIP产品线", "spend": 59558.14, "req": 1082996, "in_tok": 170168023171, "out_tok": 642780238, "cache_hit": 0.8929, "succ": 0.9705, "per_req": 0.055, "per_mtok": 0.349, "users": 52}, {"dept": "通信&嵌入式工程部", "spend": 59218.33, "req": 1442438, "in_tok": 225109130173, "out_tok": 1267187932, "cache_hit": 0.8914, "succ": 0.9902, "per_req": 0.0411, "per_mtok": 0.262, "users": 62}, {"dept": "技术创新中心", "spend": 32091.51, "req": 944608, "in_tok": 64912019556, "out_tok": 219066299, "cache_hit": 0.9275, "succ": 0.9371, "per_req": 0.034, "per_mtok": 0.493, "users": 10}, {"dept": "流程与信息部", "spend": 14415.69, "req": 174825, "in_tok": 13711927203, "out_tok": 72703370, "cache_hit": 0.7646, "succ": 0.8749, "per_req": 0.0825, "per_mtok": 1.046, "users": 12}, {"dept": "未匹配", "spend": 12656.25, "req": 252754, "in_tok": 21302714161, "out_tok": 114075948, "cache_hit": 0.732, "succ": 0.7661, "per_req": 0.0501, "per_mtok": 0.591, "users": 40}, {"dept": "人形机器人", "spend": 5648.71, "req": 173049, "in_tok": 24514209144, "out_tok": 106897183, "cache_hit": 0.9369, "succ": 0.9917, "per_req": 0.0326, "per_mtok": 0.229, "users": 11}, {"dept": "硬件平台工程部", "spend": 4798.37, "req": 81572, "in_tok": 9378739013, "out_tok": 55578539, "cache_hit": 0.7953, "succ": 0.9936, "per_req": 0.0588, "per_mtok": 0.509, "users": 16}, {"dept": "Marketing与销售服务中心", "spend": 4721.84, "req": 61363, "in_tok": 8164850218, "out_tok": 34101409, "cache_hit": 0.8271, "succ": 0.9933, "per_req": 0.0769, "per_mtok": 0.576, "users": 21}, {"dept": "生产部", "spend": 2811.93, "req": 185777, "in_tok": 43336240890, "out_tok": 118374629, "cache_hit": 0.7133, "succ": 0.993, "per_req": 0.0151, "per_mtok": 0.065, "users": 7}, {"dept": "经营与财务管理部", "spend": 2014.4, "req": 11537, "in_tok": 793830373, "out_tok": 13375407, "cache_hit": 0.2886, "succ": 0.992, "per_req": 0.1746, "per_mtok": 2.496, "users": 11}, {"dept": "供应链中心", "spend": 1449.74, "req": 7305, "in_tok": 572935461, "out_tok": 2615265, "cache_hit": 0.1738, "succ": 0.9373, "per_req": 0.1985, "per_mtok": 2.519, "users": 11}, {"dept": "质量与运营", "spend": 1071.2, "req": 10764, "in_tok": 1258526112, "out_tok": 5926110, "cache_hit": 0.5106, "succ": 0.8685, "per_req": 0.0995, "per_mtok": 0.847, "users": 5}, {"dept": "AI Infra", "spend": 916.21, "req": 20618, "in_tok": 2803950722, "out_tok": 10822996, "cache_hit": 0.9137, "succ": 0.9869, "per_req": 0.0444, "per_mtok": 0.326, "users": 5}, {"dept": "外部顾问", "spend": 370.11, "req": 2770, "in_tok": 166344043, "out_tok": 1601463, "cache_hit": 0.1868, "succ": 0.9895, "per_req": 0.1336, "per_mtok": 2.204, "users": 1}, {"dept": "人力资源中心", "spend": 255.28, "req": 16073, "in_tok": 1640399631, "out_tok": 8014874, "cache_hit": 0.8793, "succ": 0.9777, "per_req": 0.0159, "per_mtok": 0.155, "users": 5}, {"dept": "政府与公共事务部", "spend": 76.86, "req": 400, "in_tok": 39299367, "out_tok": 351141, "cache_hit": 0.1691, "succ": 1.0, "per_req": 0.1921, "per_mtok": 1.938, "users": 1}, {"dept": "董事长办公室", "spend": 76.1, "req": 1104, "in_tok": 71156448, "out_tok": 389899, "cache_hit": 0.2715, "succ": 0.9737, "per_req": 0.0689, "per_mtok": 1.064, "users": 5}, {"dept": "产品与解决方案中心", "spend": 5.42, "req": 183, "in_tok": 14347113, "out_tok": 187944, "cache_hit": 0.903, "succ": 0.9836, "per_req": 0.0296, "per_mtok": 0.373, "users": 1}, {"dept": "行政服务中心", "spend": 0.36, "req": 1036, "in_tok": 115554435, "out_tok": 467596, "cache_hit": 0.1987, "succ": 0.999, "per_req": 0.0003, "per_mtok": 0.003, "users": 3}]}};
+const $ = s => document.querySelector(s);
+const fmtH = h => Math.round(h).toLocaleString('zh-CN') + ' h';
+const pct = (x, d = 1) => (x * 100).toFixed(d) + '%';
+const T = DATA.total_hours, RD = DATA.rd_hours;
+const cats = DATA.cats;
+const C = k => cats.find(c => c.key === k);
+
+$('#meta').innerHTML = `<span>统计期 <b>${DATA.period}</b></span><span>范围 <b>${DATA.scope_label}</b></span>
+  <span>前台活动 <b class="num">${fmtH(T)}</b></span><span>开机 <b class="num">${fmtH(DATA.boot_hours)}</b></span>
+  <span>进程 <b class="num">${DATA.process_count.toLocaleString('zh-CN')}</b> 个</span>`;
+
+// 总览分组(固定顺序着色)
+const groups = [
+  {name:'研发工具', keys: cats.filter(c=>c.rd).map(c=>c.key), color:'var(--s1)'},
+  {name:'沟通协作', keys:['im'], color:'var(--s2)'},
+  {name:'浏览器', keys:['browser'], color:'var(--s3)'},
+  {name:'办公 / AI 对话 / 其他应用', keys:['office','ai_chat','media','biz','other'], color:'var(--s4)'},
+  {name:'系统组件与未识别', keys:['system','unknown'], color:'var(--s0)'},
+].map(g => ({...g, h: g.keys.reduce((s,k)=>s+C(k).hours,0)}));
+const tip = $('#tip');
+function showTip(e, html){ tip.innerHTML = html; tip.hidden = false; moveTip(e); }
+function moveTip(e){ const x = Math.min(e.clientX + 14, innerWidth - 290); tip.style.left = x + 'px'; tip.style.top = (e.clientY + 14) + 'px'; }
+function hideTip(){ tip.hidden = true; }
+$('#stack').innerHTML = groups.map((g,i)=>`<div data-i="${i}" style="width:${g.h/T*100}%;background:${g.color}"></div>`).join('');
+$('#stack').querySelectorAll('div').forEach(el=>{
+  const g = groups[+el.dataset.i];
+  el.addEventListener('mousemove', e=>showTip(e, `<b>${g.name}</b><br>${fmtH(g.h)} · ${pct(g.h/T)}`));
+  el.addEventListener('mouseleave', hideTip);
+});
+$('#legend').innerHTML = groups.map(g=>`<div class="lg"><span class="sw" style="background:${g.color}"></span>
+  <div><div class="v">${pct(g.h/T)}</div><div class="n">${g.name} · <span class="num">${fmtH(g.h)}</span></div></div></div>`).join('');
+
+// 关键结论(全部由本公司数据推出)
+const coding = ['ide','ai_code','term'].reduce((s,k)=>s+C(k).hours,0);
+const hwKeys = ['mech','eda','embed','selftool'];
+const hw = hwKeys.reduce((s,k)=>s+C(k).hours,0);
+const allTools = cats.flatMap(c=>c.tools);
+const tool = n => allTools.find(t=>t.tool===n) || {hours:0, share:0};
+const topOf = k => C(k).tools[0] || {tool:'—', hours:0, share:0};
+const aiShare = (d) => { const g = k => d.cats.find(c=>c.key===k).hours; return g('ai_code') / (g('ai_code') + g('ide')); };
+const im = topOf('im'), codeTop = [...C('ide').tools, ...C('ai_code').tools].sort((a,b)=>b.hours-a.hours)[0];
+const rdSorted = cats.filter(c=>c.rd).sort((a,b)=>b.hours-a.hours);
+const aiTop = C('ai_code').tools.slice(0,3);
+const hwTop = hwKeys.map(k=>C(k)).sort((a,b)=>b.hours-a.hours);
+const F = [
+  {k: pct(RD/T), t:`研发工具占 ${pct(RD/T,0)}`, p:`研发类工具合计 ${fmtH(RD)}。${im.tool}(${pct(im.share)})与浏览器(${pct(C('browser').share)})合计 ${pct(im.share + C('browser').share,0)},是最大的两项非研发应用。`},
+  {k: pct(coding/T), t:'写代码相关工具', p:`IDE、AI 编程工具与终端合计 ${fmtH(coding)},占研发工具的 ${pct(coding/RD,0)}。用得最多的单个编码工具是 ${codeTop.tool},占全部时长 ${pct(codeTop.share)}。`},
+  {k: pct(aiShare(DATA),0), t:`写代码时 ${pct(aiShare(DATA),0)} 的时间在 AI 编程工具里`, p:`AI 编程工具合计 ${fmtH(C('ai_code').hours)},以 ${aiTop.map(t=>`${t.tool}(${fmtH(t.hours)})`).join('、')} 为主。通用 AI 对话应用另有 ${fmtH(C('ai_chat').hours)}。`},
+  {k: pct(rdSorted[0].share), t:`研发工具中最大的一类:${rdSorted[0].name}`, w: rdSorted[0].key==='remote', p: rdSorted[0].key==='remote'
+     ? `远程桌面与云桌面合计 ${fmtH(C('remote').hours)},以 ${topOf('remote').tool} 为主。在这些窗口里实际使用的 EDA、编译、仿真工具不会出现在本机统计中。`
+     : `${rdSorted[0].name}合计 ${fmtH(rdSorted[0].hours)},以 ${rdSorted[0].tools[0].tool}(${fmtH(rdSorted[0].tools[0].hours)})为主;其次是 ${rdSorted[1].name}(${pct(rdSorted[1].share)})。`},
+  {k: pct(hw/T), t:'硬件、测试与诊断类工具', p:`结构、EDA、嵌入式与自研测试工具合计 ${fmtH(hw)}。各类用得最多的是:${hwTop.filter(c=>c.tools.length).map(c=>`${c.tools[0].tool}(${c.name.replace(/ .*/,'')})`).join('、')}。`},
+  {k: pct(C('remote').share), t:'远程与云桌面', w: C('remote').share > 0.08, p:`远程类合计 ${fmtH(C('remote').hours)},其中 ${C('remote').tools.slice(0,2).map(t=>`${t.tool} ${pct(t.share)}`).join('、')}。远程窗口里实际运行的工具本机看不到,研发工具的真实占比高于 ${pct(RD/T,0)}。`},
+];
+if (rdSorted[0].key === 'remote') F.splice(5, 1);
+$('#findings').innerHTML = F.map(f=>`<div class="fd${f.w?' w':''}"><div class="k">${f.k}</div><h3>${f.t}</h3><p>${f.p}</p></div>`).join('');
+
+// AI 工具条形
+const aiItems = [...C('ai_code').tools.map(t=>({...t, c:'var(--s1)', g:'AI 编程'})), ...C('ai_chat').tools.map(t=>({...t, c:'var(--s2)', g:'AI 对话'}))].filter(t=>t.hours>=1).sort((a,b)=>b.hours-a.hours).slice(0,12);
+const bar = (k, v, max, c, val, tipHtml) => `<div class="br" data-tip="${tipHtml}"><span class="t" title="${k}">${k}</span><span class="track"><span class="fill" style="display:block;width:${Math.max(0.8, v/max*100)}%;background:${c}"></span></span><span class="val">${val}</span></div>`;
+$('#aibars').innerHTML = aiItems.length ? aiItems.map(t=>bar(t.tool, t.hours, aiItems[0].hours, t.c, fmtH(t.hours), `${t.tool}(${t.g})<br>${fmtH(t.hours)} · 占全部 ${pct(t.share,2)}`)).join('') : '<p class="muted small">无 AI 工具使用记录</p>';
+const ideH = C('ide').hours, aiH = C('ai_code').hours, termH = C('term').hours;
+$('#codesub').textContent = `编码中 AI 比例 ${pct(aiShare(DATA),0)}`;
+const codeRows = [['AI 编程工具', aiH, 'var(--s1)', C('ai_code').tools.slice(0,3)], ['传统 IDE / 编辑器', ideH, 'var(--s0)', C('ide').tools.slice(0,3)], ['终端与 SSH', termH, 'var(--s0)', C('term').tools.slice(0,3)]];
+const codeMax = Math.max(aiH, ideH, termH);
+$('#codebars').innerHTML = codeRows.map(([k, v, c, ts]) => bar(k, v, codeMax, c, fmtH(v), `${k}:${fmtH(v)}<br>${ts.map(x=>x.tool + ' ' + fmtH(x.hours)).join('<br>')}`)).join('');
+if (DATA.units && DATA.units.length) {
+  $('#unitcode').hidden = false;
+  $('#unitbars').innerHTML = DATA.units.map(u=>({u, v: aiShare({cats:Object.entries(u.cats).map(([key,hours])=>({key,hours}))})})).sort((a,b)=>b.v-a.v)
+    .map(({u, v}) => bar(u.unit, v, 1, 'var(--s1)', pct(v,0), `${u.unit}<br>AI 编程 ${fmtH(u.cats.ai_code)} · 传统 IDE ${fmtH(u.cats.ide)}`)).join('');
+}
+
+// 部门填报
+const SV = DATA.survey;
+if (SV) {
+  $('#surveysec').hidden = false;
+  const R = SV.rows, yi = v => (v / 1e8).toFixed(0) + ' 亿', usd = v => '$' + Math.round(v).toLocaleString('en-US');
+  const totTok = R.reduce((s, r) => s + r.tokens, 0), cur = R.filter(r => /cursor/i.test(r.tool)), cla = R.filter(r => /claude/i.test(r.tool));
+  const paid = R.filter(r => r.usd), paidTok = paid.reduce((s, r) => s + r.tokens, 0), paidUsd = paid.reduce((s, r) => s + r.usd, 0);
+  const curUsers = cur.reduce((s, r) => s + r.users, 0);
+  $('#svsub').textContent = `${SV.depts} 个部门填报 · 统计周期 ${SV.period} · token 与费用为各部门自报`;
+  $('#svkpi').innerHTML = [[String(SV.coders), '编程人员', `${SV.depts} 个部门`], [pct(curUsers / SV.coders, 0), 'Cursor 覆盖率', `${curUsers} 人在用`],
+    [yi(totTok), '月 token 合计', `人均 ${(totTok / SV.coders / 1e8).toFixed(1)} 亿`], [usd(paidUsd), '已填报月费用', `${paid.length}/${R.length} 行填了费用`]]
+    .map(([v, k, d]) => `<div class="lg"><div><div class="v">${v}</div><div class="n">${k} · ${d}</div></div></div>`).join('');
+  const byDept = {}; R.forEach(r => { (byDept[r.dept] = byDept[r.dept] || {dept: r.dept, coders: r.coders, cur: 0, cla: 0}); byDept[r.dept][/claude/i.test(r.tool) ? 'cla' : 'cur'] += r.tokens; });
+  const dl = Object.values(byDept).sort((a, b) => (b.cur + b.cla) - (a.cur + a.cla)), dmax = dl[0].cur + dl[0].cla;
+  $('#svbars').innerHTML = dl.map(d => `<div class="br" data-tip="${d.dept}:${yi(d.cur + d.cla)} / 月<br>Cursor ${yi(d.cur)}${d.cla ? ' · Claude ' + yi(d.cla) : ''}<br>${d.coders} 人,人均 ${((d.cur + d.cla) / d.coders / 1e8).toFixed(1)} 亿"><span class="t">${d.dept}</span><span class="track" style="display:flex;gap:2px;background:transparent">${[[d.cur, 'var(--s1)'], [d.cla, 'var(--s2)']].filter(x => x[0] > 0).map(([v, c], i, a) => `<span style="display:block;height:100%;width:${v / dmax * 100}%;background:${c};border-radius:${i === a.length - 1 ? '0 4px 4px 0' : '0'}"></span>`).join('')}</span><span class="val">${yi(d.cur + d.cla)} · ${((d.cur + d.cla) / d.coders / 1e8).toFixed(1)}</span></div>`).join('');
+  const ISSUE = [['速度慢', /慢|速度/], ['占电脑资源、卡顿', /卡|磁盘|资源/], ['回答质量:幻觉、找不到原因、啰嗦', /幻觉|给不出|繁琐|浪费/], ['编译与文件加密冲突', /沙箱|加密|占用/], ['token 预算不够用', /预算|不够用/], ['内部模型能力与上下文不足', /上下文|能力不够/]];
+  const txt = R.map(r => ({d: r.dept + (cla.includes(r) ? '(Claude)' : ''), s: [r.issue, r.advice].filter(Boolean).join(' ')}));
+  $('#svissues').innerHTML = ISSUE.map(([k, rx]) => { const hit = txt.filter(x => rx.test(x.s)); return hit.length ? `<div><b style="font-weight:600">${k}</b> <span class="num muted small">${hit.length} 条</span><div class="small muted">${hit.map(h => h.d).join('、')}</div></div>` : ''; }).join('');
+  $('#svbody').innerHTML = R.map(r => `<tr><td><b style="font-weight:600">${r.dept}</b></td><td>${r.tool}</td><td class="small">${r.models}</td><td class="r num">${r.coders}</td><td class="r num">${r.users}</td><td class="r num">${yi(r.tokens)}</td><td class="r num">${r.usd ? usd(r.usd) : '<span class="muted">未填</span>'}</td><td class="small">${r.scene}</td></tr>`).join('');
+  $('#svadvice').innerHTML = R.filter(r => r.advice).map(r => `<li><b style="font-weight:600">${r.dept}</b>:${r.advice.replace(/\n+/g, ' ')}</li>`).join('');
+  const ccTok = cla.reduce((s, r) => s + r.tokens, 0), ccUsd = cla.reduce((s, r) => s + (r.usd || 0), 0), cuPaid = paid.filter(r => !cla.includes(r));
+  const cuRate = cuPaid.reduce((s, r) => s + r.usd, 0) / (cuPaid.reduce((s, r) => s + r.tokens, 0) / 1e6);
+  F.push({k: yi(totTok), t: `填报:${SV.coders} 名编程人员全部在用 Cursor,月耗 ${yi(totTok)} token`, p: `Cursor 覆盖 ${pct(curUsers / SV.coders, 0)},另有驱动开发部 ${cla.reduce((s, r) => s + r.users, 0)} 人用 Claude(Opus)。已填费用的部门里,Cursor 每百万 token 约 $${cuRate.toFixed(2)},Claude 约 $${(ccUsd / (ccTok / 1e6)).toFixed(2)}。各部门反馈最多的是速度慢和占电脑资源,多个部门提出改用国内便宜、速度快的模型。`});
+  $('#findings').innerHTML = F.map(f=>`<div class="fd${f.w?' w':''}"><div class="k">${f.k}</div><h3>${f.t}</h3><p>${f.p}</p></div>`).join('');
+}
+
+// AI token(LiteLLM 网关)
+const TK = DATA.token;
+if (TK) {
+  $('#toksec').hidden = false;
+  const usd = v => '$' + Math.round(v).toLocaleString('en-US');
+  const tt = TK.total;
+  $('#toksub').textContent = `${TK.window.from} ~ ${TK.window.to} · 范围为全公司网关用户(本页其余部分为研发中心终端)`;
+  $('#tokkpi').innerHTML = [[usd(tt.spend), '网关费用', `日均 ${usd(tt.spend / TK.window.days)}`], [((tt.in_tok + tt.out_tok)/1e9).toFixed(0) + ' B', 'token 总量', `缓存命中 ${pct(tt.cache_hit,0)}`],
+    [(tt.req/1e4).toFixed(0) + ' 万', '请求次数', `成功率 ${pct(tt.succ)}`], [String(tt.users), '实际使用人数', `人均 ${usd(tt.spend / tt.users / 2)}/月`]]
+    .map(([v, k, d]) => `<div class="lg"><div><div class="v">${v}</div><div class="n">${k} · ${d}</div></div></div>`).join('');
+  const forms = TK.forms.filter(f=>f.form!=='未标注用途');
+  $('#formbars').innerHTML = forms.map(f=>bar(f.form, f.spend, forms[0].spend, 'var(--s1)', usd(f.spend), `${f.form}:${usd(f.spend)}(${pct(f.spend/tt.spend)})<br>${f.users} 人 · 缓存命中 ${pct(f.cache_hit,0)}`)).join('');
+  const fams = TK.families.filter(f=>f.spend>=100);
+  $('#fambars').innerHTML = fams.map(f=>bar(f.fam, f.spend, fams[0].spend, f.domestic?'var(--s2)':'var(--s1)', usd(f.spend), `${f.fam}:${usd(f.spend)}(${pct(f.spend/tt.spend)})<br>${f.users} 人 · 每百万 token $${f.per_mtok.toFixed(2)} · 缓存 ${pct(f.cache_hit,0)}`)).join('');
+  const wk = TK.weeks.map(w=>{ const g = k => w[k] || 0; const c = g('Claude Opus') + g('Claude Sonnet'), d = g('GLM(智谱)') + g('DeepSeek') + g('Kimi'), o = g('Gemini') + g('其他(图像/视频/向量)'); return {w: w.week.slice(5).replace('-','/'), c, d, o, t: c + d + o}; });
+  const wmax = Math.max(...wk.map(w=>w.t));
+  $('#weekbars').innerHTML = wk.map(w=>`<div class="br" data-tip="${w.w} 周:${usd(w.t)}<br>Claude ${usd(w.c)} · 国产 ${usd(w.d)}(${pct(w.d/w.t,0)})<br>Gemini 及其他 ${usd(w.o)}"><span class="t num">${w.w}</span><span class="track" style="display:flex;gap:2px;background:transparent">${[[w.c,'var(--s1)'],[w.d,'var(--s2)'],[w.o,'var(--s3)']].filter(x=>x[0]>0).map(([v,c],i,arr)=>`<span style="display:block;height:100%;width:${v/wmax*100}%;background:${c};border-radius:${i===arr.length-1?'0 4px 4px 0':'0'}"></span>`).join('')}</span><span class="val">${usd(w.t)}</span></div>`).join('');
+  $('#deptbody').innerHTML = TK.depts.filter(d=>d.spend>=500).map(d=>`<tr><td>${d.dept==='未匹配'?'未匹配到部门 <span class="small muted">(离职、外部或邮箱不一致)</span>':d.dept}</td><td class="r num">${d.users}</td><td class="r num">${usd(d.spend)}</td><td class="r num">${pct(d.spend/tt.spend)}</td><td class="r num">${usd(d.spend/d.users/2)}</td></tr>`).join('');
+  const cc = TK.tools.find(x=>x.tool==='Claude Code'), cli = TK.forms.find(f=>f.form==='CLI 编程 Agent');
+  const ccLocal = (C('ai_code').tools.find(x=>/^Claude/.test(x.tool)) || {hours:0}).hours;
+  const w0 = wk[0], wl = wk[wk.length-1], peak = wk.reduce((a,b)=>b.t>a.t?b:a);
+  F.push({k: usd(tt.spend), t:'网关 token 费用以命令行 Agent 为主', p:`61 天网关费用 ${usd(tt.spend)}、${((tt.in_tok+tt.out_tok)/1e9).toFixed(0)}B token。命令行编程 Agent 占 ${pct(cli.spend/tt.spend,0)},其中 Claude Code ${usd(cc.spend)}、${cc.users} 人在用;它跑在终端里,本机进程只记到 ${fmtH(ccLocal)},所以只看终端时长会低估 AI 的实际使用。`},
+         {k: pct(wl.d/wl.t,0), t:'国产模型已成为网关主力', w:false, p:`周费用峰值 ${peak.w} 那周 ${usd(peak.t)},最近一周 ${usd(wl.t)};国产模型(GLM、DeepSeek、Kimi)占比从首周 ${pct(w0.d/w0.t,0)} 升到 ${pct(wl.d/wl.t,0)}。缓存命中 ${pct(tt.cache_hit,0)} 是降低成本的主要因素。`});
+  $('#findings').innerHTML = F.map(f=>`<div class="fd${f.w?' w':''}"><div class="k">${f.k}</div><h3>${f.t}</h3><p>${f.p}</p></div>`).join('');
+}
+// AI 模型费用(Bedrock,科技)
+const BD = DATA.bedrock;
+if (BD) {
+  $('#bedsec').hidden = false;
+  const usd = v => '$' + Math.round(v).toLocaleString('en-US');
+  const tot = BD.reduce((s, m) => s + m.spend, 0), dom = BD.filter(m => m.domestic).reduce((s, m) => s + m.spend, 0);
+  const vs = Object.values(BD.reduce((a, m) => { (a[m.vendor] ||= {v: m.vendor, s: 0, d: m.domestic, n: []}).s += m.spend; a[m.vendor].n.push(m.model); return a; }, {})).sort((a, b) => b.s - a.s);
+  const top2 = BD[0].spend + BD[1].spend;
+  const BT = DATA.bedrock_total || {};
+  if (BT.days) $('#bedsub').textContent = `${BT.from} ~ ${BT.to}(${BT.days} 天)· 科技提供的按模型费用,美元`;
+  const mo = v => BT.days ? v / BT.days * 30 : v;
+  $('#bedkpi').innerHTML = [[usd(tot), '模型费用合计', BT.days ? `折合每月 ${usd(mo(tot))} · 日均 ${usd(tot / BT.days)}` : `${BD.length} 个模型`], ...(BT.tokens ? [[(BT.tokens / 1e9).toFixed(1) + ' B', 'token 总量', `每百万 token $${(tot / (BT.tokens / 1e6)).toFixed(2)}`], [(BT.requests / 1e4).toFixed(1) + ' 万', '请求次数', `${BT.days ? '日均 ' + Math.round(BT.requests / BT.days).toLocaleString('en-US') + ' 次 · ' : ''}每次约 ${(BT.tokens / BT.requests / 1e4).toFixed(1)} 万 token · $${(tot / BT.requests).toFixed(3)}`]] : []), [pct(top2 / tot, 0), '前两个模型占比', `${BD[0].model}、${BD[1].model}`], [pct(dom / tot, 0), '国产模型占比', usd(dom)]]
+    .map(([v, k, d]) => `<div class="lg"><div><div class="v">${v}</div><div class="n">${k} · ${d}</div></div></div>`).join('');
+  $('#bedbars').innerHTML = BD.map(m => bar(m.model, m.spend, BD[0].spend, m.domestic ? 'var(--s2)' : 'var(--s1)', usd(m.spend), `${m.model}(${m.vendor})<br>${usd(m.spend)} · 占 ${pct(m.spend / tot)}`)).join('');
+  $('#bedvbars').innerHTML = vs.map(v => bar(v.v, v.s, vs[0].s, v.d ? 'var(--s2)' : 'var(--s1)', `${usd(v.s)} · ${pct(v.s / tot, 0)}`, `${v.v}:${usd(v.s)}<br>${v.n.join('<br>')}`)).join('');
+  const small = BD.filter(m => /gpt-oss-20b|gemma-3-12b|ministral/.test(m.model)).reduce((s, m) => s + m.spend, 0);
+  F.push({k: usd(tot), t: `Bedrock 模型费用 ${usd(tot)},${pct(top2 / tot, 0)} 集中在两个模型`, p: `${BT.tokens ? `${BT.days ? BT.days + ' 天' : ''}共 ${(BT.tokens / 1e9).toFixed(1)}B token、${(BT.requests / 1e4).toFixed(1)} 万次请求,平均每百万 token $${(tot / (BT.tokens / 1e6)).toFixed(2)}${BT.days ? `,折合每月约 ${usd(mo(tot))}` : ''}。` : ''}${BD[0].model}(${usd(BD[0].spend)})和 ${BD[1].model}(${usd(BD[1].spend)})合计 ${usd(top2)};Claude Sonnet 两个版本合计 ${usd(BD.filter(m => m.vendor === 'Anthropic').reduce((s, m) => s + m.spend, 0))}。国产模型(Kimi、Qwen)只占 ${pct(dom / tot, 0)}。`},
+         {k: usd(small), t: '小模型费用偏高,需核对调用量', w: true, p: `gpt-oss-20b、Gemma 3 12B、Ministral 8B 单价很低,但合计花了 ${usd(small)},说明调用量非常大,可能是批量任务或循环调用,建议按 key 查调用来源。`});
+  $('#findings').innerHTML = F.map(f=>`<div class="fd${f.w?' w':''}"><div class="k">${f.k}</div><h3>${f.t}</h3><p>${f.p}</p></div>`).join('');
+}
+document.querySelectorAll('[data-tip]').forEach(el=>{ el.addEventListener('mousemove', e=>showTip(e, el.dataset.tip)); el.addEventListener('mouseleave', hideTip); });
+
+// 事业部
+if (DATA.units && DATA.units.length) {
+  $('#unitsec').hidden = false;
+  $('#ubody').innerHTML = DATA.units.slice().sort((a,b)=>b.total_hours-a.total_hours).map(u=>{ const d = {cats:Object.entries(u.cats).map(([key,hours])=>({key,hours}))};
+    return `<tr><td><b style="font-weight:600">${u.unit}</b></td><td class="r num">${fmtH(u.total_hours)}</td><td class="r num">${pct(u.rd_share)}</td><td class="r num">${pct(u.cats.ai_code/u.total_hours)}</td><td class="r num">${pct(aiShare(d),0)}</td>
+    <td class="small">${u.top.filter(t=>!['飞书','Chrome','Edge','Excel / WPS 表格','企业微信','微信','Word','PowerPoint / WPS 演示','PDF 阅读编辑','WPS','其他浏览器'].includes(t[0])).slice(0,3).map(t=>`${t[0]} <span class="num muted">${fmtH(t[1])}</span>`).join('、')}</td></tr>`; }).join('');
+}
+
+// 研发用途条形图
+const rdCats = cats.filter(c=>c.rd).sort((a,b)=>b.hours-a.hours);
+const maxShare = rdCats[0].share;
+$('#cats').innerHTML = rdCats.map(c=>`<div class="crow" tabindex="0" role="button" data-k="${c.key}" aria-label="${c.name} ${pct(c.share)}">
+  <div class="lbl"><b>${c.name}</b><span>${c.use}</span></div>
+  <div class="track"><div class="fill" style="width:${c.share/maxShare*100}%"></div></div>
+  <div class="val">${pct(c.share,2)}<small>${fmtH(c.hours)} · 研发内 ${pct(c.hours/RD)}</small></div></div>`).join('');
+$('#cats').querySelectorAll('.crow').forEach(el=>{
+  const c = C(el.dataset.k);
+  el.addEventListener('mousemove', e=>showTip(e, `<b>${c.name}</b><br>前三:${c.tools.slice(0,3).map(t=>t.tool+' '+pct(t.share,2)).join('、')}`));
+  el.addEventListener('mouseleave', hideTip);
+  const go = ()=>{ setFilter(c.key); document.getElementById('chips').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth', block:'start'}); };
+  el.addEventListener('click', go); el.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
+});
+
+// 明细表 + 筛选
+let filter = 'all';
+const chipDefs = [{key:'all', name:'全部研发工具'}, ...rdCats];
+$('#chips').innerHTML = chipDefs.map(c=>`<button class="chip" id="chip-${c.key}" data-k="${c.key}" aria-pressed="false">${c.name}</button>`).join('');
+$('#chips').addEventListener('click', e=>{ const b = e.target.closest('.chip'); if(b) setFilter(b.dataset.k); });
+const maxTool = Math.max(...rdCats.flatMap(c=>c.tools).map(t=>t.share));
+function setFilter(k){
+  filter = k;
+  document.querySelectorAll('.chip').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.k===k)));
+  const list = k==='all' ? rdCats : [C(k)];
+  let n = 0;
+  $('#tbody').innerHTML = list.map(c=>{
+    n += c.tools.length;
+    return `<tr class="grp"><td colspan="6">${c.name} <span class="muted num" style="font-weight:400">· ${fmtH(c.hours)} · ${pct(c.share,2)}</span></td></tr>` +
+      c.tools.map(t=>`<tr><td><b style="font-weight:600">${t.tool}</b>${/推测/.test(t.tool)?'<span class="tag">待确认</span>':''}</td><td class="muted">${t.use}</td>
+        <td class="r num">${fmtH(t.hours)}</td>
+        <td class="r"><div class="mini"><i style="width:${Math.max(2,t.share/maxTool*80)}px"></i><span class="num">${pct(t.share,2)}</span></div></td>
+        <td class="r num">${pct(t.hours/RD)}</td><td class="procs">${t.procs.join(' · ')}</td></tr>`).join('');
+  }).join('');
+  $('#tcount').textContent = `${k==='all'?'全部 '+rdCats.length+' 类':C(k).name} · ${n} 个工具(同一工具的不同版本/进程已合并)`;
+  try{ localStorage.setItem('rdtools-filter', k); }catch(e){}
+}
+let saved = 'all'; try{ saved = localStorage.getItem('rdtools-filter') || 'all'; }catch(e){}
+setFilter(chipDefs.some(c=>c.key===saved) ? saved : 'all');
+
+// 非研发
+$('#nbody').innerHTML = cats.filter(c=>!c.rd).sort((a,b)=>b.hours-a.hours).map(c=>`<tr><td><b style="font-weight:600">${c.name}</b><div class="small muted">${c.use}</div></td>
+  <td class="small">${c.tools.slice(0,6).map(t=>`${t.tool} <span class="num muted">${pct(t.share,2)}</span>`).join('、')}</td>
+  <td class="r num">${fmtH(c.hours)}</td><td class="r num">${pct(c.share,2)}</td></tr>`).join('');
+
+</script>
+
+</body>
+</html>

@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>08 · 第⑤层 · 长期记忆与交接班</title>
+<title>07 · 第⑤层 · 长期记忆与交接班</title>
 <link rel="stylesheet" href="../../../assets/fonts.css">
 <link rel="stylesheet" href="../../../assets/base.css">
 <link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
 <link rel="stylesheet" href="../../../assets/animations/animations.css">
 <style>
 .mem{border:1px solid var(--border);border-radius:10px;padding:11px 14px;background:var(--bg-soft)}
-.mem b{font-size:14.5px}
-.mem .mono{font-size:11.5px;color:var(--text-3)}
-.mem p{font-size:12px;line-height:1.5;color:var(--text-2);margin-top:5px}
-.t{font-size:13px}
+.mem b{font-size:16.5px}
+.mem .mono{font-size:13.5px;color:var(--text-3)}
+.mem p{font-size:14px;line-height:1.5;color:var(--text-2);margin-top:5px}
+.t{font-size:15px}
 .t th,.t td{padding:7px 12px}
 .t td:first-child{font-weight:600}
-.t th{font-size:12.5px}
-.big{font-size:28px;font-weight:700;line-height:1.4}
+.t th{font-size:14.5px}
+.big{font-size:30px;font-weight:700;line-height:1.4}
 .big b{color:var(--accent-2)}
 </style>
 </head>
@@ -26,12 +26,12 @@
 
 <section class="slide" data-title="第⑤层 · 长期记忆与交接班" style="padding:44px 96px 52px">
   <p class="kicker">第⑤层 / Long-running Memory · 长期记忆</p>
-  <p class="big mt-s anim-fade-up" data-anim="fade-up">AI 按"班次"干活，每个新班次从零开始——<b>靠交接班制度保持连续</b>。</p>
-  <p class="dim mt-s" style="font-size:14px">Anthropic 的类比：一支轮班的工程队伍，每位新工程师到岗时对上一班毫无记忆。上下文窗口装不下的项目，必须有"外部记忆"承载进度。</p>
+  <p class="big mt-s anim-fade-up" data-anim="fade-up">AI 按"班次"干活，每个新班次从零开始：<b>靠交接班制度保持连续</b>。</p>
+  <p class="dim mt-s" style="font-size:16px">Anthropic 的类比：一支轮班的工程队伍，每位新工程师到岗时对上一班毫无记忆。上下文窗口装不下的项目，必须有"外部记忆"承载进度。</p>
   <div class="grid g4 mt-m anim-stagger-list" data-anim-target style="gap:13px">
     <div class="mem">
       <b>功能清单</b><span class="mono"> feature_list.json</span>
-      <p>初始化班把需求拆成 200+ 条可验证条目，初始全部"未通过"——<b>完工标准先于开工写死</b></p>
+      <p>初始化班把需求拆成 200+ 条可验证条目，初始全部"未通过"。<b>完工标准先于开工写死</b></p>
     </div>
     <div class="mem">
       <b>进度日志</b><span class="mono"> claude-progress.txt</span>
@@ -56,7 +56,7 @@
       <tr><td>每班重学怎么跑</td><td>写 init.sh 一键启动脚本</td><td>开班先跑冒烟测试，确认基线没坏再动工</td></tr>
     </tbody>
   </table>
-  <div class="deck-footer"><span class="dim2">Anthropic 工程方法 · 2026-10</span><span class="slide-number" data-current="8" data-total="12"></span></div>
+  <div class="deck-footer"><span class="dim2">Anthropic 工程方法 · 2026-10</span><span class="slide-number" data-current="8" data-total="10"></span></div>
   <div class="notes">出处：Anthropic《Effective Harnesses for Long-running Agents》（2025-11）。四个记忆文件对应四个管理机制：功能清单=验收标准前置、进度日志=交接班记录、git=可回滚的存证、笔记=知识资产。右下表格是最有说服力的部分——每种失败模式都有对应的制度设计，这就是"驾驭工程"的含义：不指望 AI 自觉，靠环境设计让它没办法犯这类错。</div>
 </section>
 

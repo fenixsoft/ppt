@@ -9,27 +9,29 @@
 <link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
 <link rel="stylesheet" href="../../../assets/animations/animations.css">
 <style>
-.t{font-size:14px}
+.t{font-size:16px}
 .t th,.t td{padding:8px 12px}
 .t td.num,.t th.num{text-align:right;font-variant-numeric:tabular-nums}
-.big{font-size:30px;font-weight:700;line-height:1.35;color:var(--text-1)}
+.big{font-size:33px;font-weight:700;line-height:1.35;color:var(--text-1)}
 .big b{color:var(--accent-2)}
-.ev-tag{display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px}
-.src{font-size:12px;color:var(--text-3);margin-top:6px}
+.ev-tag{display:inline-block;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px}
+.src{font-size:14px;color:var(--text-3);margin-top:6px}
 </style>
 </head>
 <body>
 <div class="deck">
 
 <section class="slide" data-title="结论一 · 协作挤占研发" style="padding:48px 96px 56px">
-  <p class="kicker">结论一 / 效率问题</p>
+  <p class="kicker">结论一 / 信息效率问题</p>
   <div class="grid g2 mt-s" style="align-items:stretch;gap:28px">
     <div class="stack anim-fade-left" data-anim="fade-left">
-      <p class="big">沟通开销已超过研发本身——<b>飞书 + 浏览器吃掉 41%~48%</b> 的活动时长，研发工具只有 32%~39%。</p>
-      <ul style="font-size:16px;line-height:1.75" class="dim">
-        <li>飞书<b>一家</b>就占 21.4%~27.7%：研发中心员工花在飞书上的时间比花在<b>所有研发工具加起来</b>还多</li>
-        <li>深度工作时间被会议与消息切碎，AI 编程提效被协作开销抵消</li>
-        <li>浏览器 19%~20% 中混有在线研发系统（代码仓库 / CI / 看板），当前口径无法区分"研发"与"摸鱼"</li>
+      <p class="big">获取信息的开销已超过研发本身</p>
+      <ul style="font-size:18px;line-height:1.75" class="dim">
+        <li><b>飞书（向人获取信息） + 浏览器（向机器获取信息）占 41%~48%</b> 的活动时长，研发工具只有 32%~39%。</li>
+        <li>飞书占 21.4%~27.7%，一个明显偏离均值的极端的样本：科技的数字维修事业部花在飞书上的时间比花在<b>所有研发工具加起来</b>还多</li>
+        <li>浏览器 19%~20% 中混有在线研发系统（代码仓库 / CI / 看板），当前口径将这部分信息均归为“查找信息”</li>
+        <li>影响：深度工作时间被会议与消息切碎，AI 编程提效被协作开销抵消</li>
+        <li>结论：人与人之间的沟通、人查找资料获取信息等行为，在 Vibecoding 阶段无法避免，需要由 AutoD 的模式来消除。另一方面也说明，即使 AutoD 模式只计算 8 小时时间，也比 Vibecoding 阶段效率提升一倍以上的空间</li>
       </ul>
     </div>
     <div class="card anim-fade-right" data-anim="fade-right" style="padding:20px 24px">
@@ -42,14 +44,14 @@
           <tr><td>航空</td><td class="num" style="color:var(--bad)"><b>27.7%</b></td><td class="num">19.9%</td><td class="num">32.3%</td><td class="num">4.6%</td></tr>
         </tbody>
       </table>
-      <div class="mt-m" style="font-size:14.5px;line-height:1.65;border-top:1px solid var(--border);padding-top:12px">
+      <div class="mt-m" style="font-size:16.5px;line-height:1.65;border-top:1px solid var(--border);padding-top:12px">
         <p><b>极端样本：</b>科技·数字维修事业部 飞书 <span class="mono">32,487h</span> vs Cursor <span class="mono">9,925h</span> = <b style="color:var(--bad)">3.3 倍</b></p>
-        <p class="mt-s">科技·智慧光储充事业部：浏览器占 <span class="mono">32.0%</span>，研发工具仅 25.2%</p>
+        <p class="mt-s">科技·智慧能源事业部：飞书 <span class="mono">16,760h</span>，占该单位活动时长 <span class="mono">33.0%</span></p>
       </div>
       <p class="src">来源：原始数据 · 科技 / 塞防 / 航空（第 3~5 页）</p>
     </div>
   </div>
-  <div class="deck-footer"><span class="dim2">集团研发工具调研 · 2026-10</span><span class="slide-number" data-current="6" data-total="14"></span></div>
+  <div class="deck-footer"><span class="dim2">集团研发工具调研 · 2026-10</span><span class="slide-number" data-current="6" data-total="15"></span></div>
   <div class="notes">这是三个口径下最一致的信号：三家研发中心的飞书占比都超过两成。注意口径包含非研发岗位终端，但塞防、航空整体就是研发中心口径。建议 E（协作减负）对应本页。</div>
 </section>
 

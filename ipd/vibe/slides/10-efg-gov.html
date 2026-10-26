@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>10 · 落地E·F·G 协作合规度量</title>
+<link rel="stylesheet" href="../../../assets/fonts.css">
+<link rel="stylesheet" href="../../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../../assets/animations/animations.css">
+<style>
+.rec-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.rec-badge{width:34px;height:34px;border-radius:6px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:19px;flex:none}
+.rec-badge.red{background:var(--bad)}
+.rec-badge.grey{background:var(--accent-3)}
+.t-est{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--accent-2);background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:3px 9px;white-space:nowrap}
+.rec-list{font-size:16px;line-height:1.62;margin:10px 0 0;padding-left:18px}
+.rec-list li+li{margin-top:5px}
+.ev{background:var(--surface-2);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:9px 13px;font-size:14.5px;line-height:1.58;color:var(--text-2)}
+.ev b{color:var(--text-1)}
+.src{font-size:13px;color:var(--text-3);margin-top:4px}
+.mono{font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<section class="slide" data-title="落地E·F·G 协作合规度量" style="padding:42px 96px 50px">
+  <p class="kicker">落地方案</p>
+  <h2 class="h2" style="font-size:41px">处理红线问题，以看板形式牵引同事 AI 使用习惯</h2>
+  <div class="grid g3 mt-m" style="align-items:stretch;gap:22px">
+    <div class="card anim-fade-left" data-anim="fade-left">
+      <div class="rec-head"><div class="rec-badge red">A</div><h3 style="margin:0;font-size:22px">安全/合规红线</h3><span class="t-est">1 周</span></div>
+      <ul class="rec-list">
+        <li>Cadence 破解器<b>一周内下架</b>：如确实必要，使用正版或国产 EDA 替代，尤其上市期间应避免风险</li>
+        <li>封禁个人订阅转 API 类工具（EasyCLIProxyAPI），消费级 AI 对话统一切换到企业网关</li>
+        <li>第三方远控（AnyDesk/向日葵）确认是否允许，如允许，更换为企业级方案</li>
+      </ul>
+      <div class="ev mt-m"><b>数据依据：</b>破解安装器三家均出现（合计 6.4h）；EasyCLIProxyAPI 15.7h（科技）；消费级 AI 对话 2,012h；AnyDesk/向日葵 塞防 384h + 航空 300h。<span class="src">出处：原始数据 P3/P4/P5</span></div>
+    </div>
+    <div class="card anim-fade-up" data-anim="fade-up">
+      <div class="rec-head"><div class="rec-badge grey">B</div><h3 style="margin:0;font-size:22px">AI 编码北极星度量机制</h3><span class="t-est">1 周建成 · 按季度公示</span></div>
+      <ul class="rec-list">
+        <li><b>第 1 周</b>建成度量看板：<b>编码中 AI 比例</b>季度复测 + 三家排名（口径不变）</li>
+        <li>辅助指标同板发布：人均 AI 编程时长、网关成功率、缓存命中率</li>
+        <li><b>每季度</b>发集团效能季报</li>
+      </ul>
+      <div class="ev mt-m"><b>数据依据：</b>现状 <span class="mono">56.7%</span>（科技）/ <span class="mono">45.1%</span>（塞防）/ <span class="mono">38.2%</span>（航空）；网关质量基线：成功率 <span class="mono">96.4%</span>、缓存命中 <span class="mono">88.0%</span>（航空）。<span class="src">出处：原始数据 P3/P4/P5</span></div>
+    </div>
+    <div class="card anim-fade-right" data-anim="fade-right">
+      <div class="rec-head"><div class="rec-badge">C</div><h3 style="margin:0;font-size:22px">搭建集团内部的 AI 知识库</h3><span class="t-est">已有基础</span></div>
+      <ul class="rec-list">
+        <li>以赛防已建成的 <b>LLMWiki</b> 为基础，考虑以此为基础，<b>集团层面统一 AI 知识库</b></li>
+        <li>沉淀模型选型 / 提示词 / 工具接入指南 / 项目经验，AI 与人工共用一站式检索</li>
+        <li>压缩"向人问、向机器找"的开销，信息获取是当前第一效率瓶颈</li>
+      </ul>
+      <div class="ev mt-m"><b>数据依据：</b>塞防填报原文（平台 AI 效能部）即提出"<b>搭建的内部知识库</b>、研发提效应用等"诉求；结论一已认定获取信息开销超过研发本身——飞书 + 浏览器占 <span class="mono">41%~48%</span>。<span class="src">出处：原始数据 P5 · 结论一 P6</span></div>
+    </div>
+  </div>
+  <div class="deck-footer"><span class="dim2">集团研发工具调研 · 2026-10</span><span class="slide-number" data-current="14" data-total="15"></span></div>
+  <div class="notes">A 我给自己定的线是一周清零——成本几乎为零，规避的是法务与数据安全事故。B 是验收机制：四周建成看板，之后每个季度用同一把尺子复测三家——其余五项动作有没有效，由 B 说了算，而不是靠感觉。最后是 C，它不必从零起步：赛防 LLMWiki 已经建起来了，把它提升到集团层面就行；同事自己在填报里点的就是"搭建的内部知识库"——诉求和现成基础正好对上，它省的是获取信息的时间，结论一说得很清楚，这笔开销已经超过研发本身。</div>
+</section>
+
+</div>
+<script src="../../../assets/runtime.js"></script>
+</body>
+</html>

@@ -10,16 +10,16 @@
 <link rel="stylesheet" href="../../../assets/animations/animations.css">
 <style>
 .kpi{text-align:center;padding:16px 10px}
-.kpi .v{font-size:44px;font-weight:800;color:var(--accent-2);font-variant-numeric:tabular-nums}
-.kpi .l{font-size:13px;color:var(--text-2)}
-.t{font-size:14px}
+.kpi .v{font-size:48px;font-weight:800;color:var(--accent-2);font-variant-numeric:tabular-nums}
+.kpi .l{font-size:15px;color:var(--text-2)}
+.t{font-size:16px}
 .t th,.t td{padding:8px 12px}
 .t td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .t th.num{text-align:right}
-.td-note{font-size:12px;color:var(--text-3)}
-.ev-tag{display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px}
-.src{font-size:12px;color:var(--text-3);margin-top:6px}
-.big{font-size:30px;font-weight:700;line-height:1.35}
+.td-note{font-size:14px;color:var(--text-3)}
+.ev-tag{display:inline-block;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px}
+.src{font-size:14px;color:var(--text-3);margin-top:6px}
+.big{font-size:33px;font-weight:700;line-height:1.35}
 .big b{color:var(--accent-2)}
 </style>
 </head>
@@ -31,11 +31,10 @@
   <div class="grid g2 mt-s" style="align-items:stretch;gap:28px">
     <div class="stack anim-fade-left" data-anim="fade-left">
       <p class="big">AI 编程已进主力工作流，但三家差距明显：<b>编码中 AI 比例 57% / 45% / 38%</b>，同一集团差 19 个百分点。</p>
-      <ul style="font-size:15.5px;line-height:1.7" class="dim mt-m">
-        <li>好的一面：科技 97% 的 AI 编程时长集中在 Cursor（13,936h）；航空网关口径 CLI 编程 Agent 已有 <b>218 人</b>在用</li>
-        <li>差的一面：传统低效工具仍占主力位——Notepad++ 是科技<b>第一大"IDE"</b>（4,065h，无 LSP、无 AI）</li>
+      <ul style="font-size:17.5px;line-height:1.7" class="dim mt-m">
+        <li><b>好的一面</b>：科技 97% 的 AI 编程时长集中在 Cursor（13,936h）；航空网关口径 CLI 编程 Agent 已有 <b>218 人</b>在用</li>
+        <li><b>差的一面</b>：传统低效工具仍占比很大，Notepad++ 是科技<b>第一大传统 IDE</b>（4,065h，无 LSP、无 AI）</li>
         <li>远程开发摩擦大：科技 <b>11.4%</b> 活动时长耗在远程桌面里（Horizon 15,324h + RDP 6,712h），研发环境在远端</li>
-        <li>覆盖缺口：塞防驱动开发部 Claude 仅 <b>5/10 人</b>在使用，一半编程人员未接入</li>
       </ul>
     </div>
     <div class="card anim-fade-right" data-anim="fade-right" style="padding:20px 24px">
@@ -45,21 +44,21 @@
         <div class="kpi" style="background:var(--surface-2);border-radius:6px"><div class="v">45.1%</div><div class="l">塞防</div></div>
         <div class="kpi" style="background:var(--surface-2);border-radius:6px"><div class="v">38.2%</div><div class="l">航空</div></div>
       </div>
-      <p class="td-note" style="margin-top:8px">编码中 AI 比例 = AI 编程工具 ÷（AI 编程工具 + 传统 IDE）</p>
+      <p class="td-note" style="margin-top:8px">编码中 AI 比例 = AI 编程工具 ÷（AI 编程工具 + 传统 IDE/编辑器），科技 14,355h ÷ 25,303h = 56.7%</p>
       <table class="t mt-m" style="width:100%">
-        <thead><tr><th>传统工具仍占主力（科技）</th><th class="num">时长</th></tr></thead>
+        <thead><tr><th>传统工具仍占主力（以科技为例）</th><th class="num">时长</th></tr></thead>
         <tbody>
           <tr><td>Notepad++<span class="td-note">（轻量编辑器）</span></td><td class="num mono">4,065h</td></tr>
           <tr><td>Beyond Compare<span class="td-note">（文件比对）</span></td><td class="num mono">539h</td></tr>
           <tr><td>Source Insight<span class="td-note">（源码阅读）</span></td><td class="num mono">347h</td></tr>
-          <tr><td>远程桌面合计<span class="td-note">（Horizon+RDP 等）</span></td><td class="num mono">22,256h</td></tr>
+          <tr><td>……</span></td><td class="num mono">……</td></tr>
         </tbody>
       </table>
       <p class="src">来源：原始数据 · 科技 / 塞防 / 航空（第 3~5 页）</p>
     </div>
   </div>
-  <div class="deck-footer"><span class="dim2">集团研发工具调研 · 2026-10</span><span class="slide-number" data-current="7" data-total="14"></span></div>
-  <div class="notes">科技的做法（Cursor 全员主力化）是成本最低的横向复制对象。航空 38% 与其业务形态有关（EDA/结构设计占比高），但 Notepad++ 这类无 AI 编辑器上的 4,000+ 小时是明确的可迁移空间。建议 D（基础设施去摩擦）和 G（北极星指标）对应本页。</div>
+  <div class="deck-footer"><span class="dim2">集团研发工具调研 · 2026-10</span><span class="slide-number" data-current="7" data-total="15"></span></div>
+  <div class="notes">科技的做法（Cursor 全员主力化）是成本最低的横向复制对象。航空 38% 与其业务形态有关（EDA/结构设计占比高），但 Notepad++ 这类无 AI 编辑器上的 4,000+ 小时是明确的可迁移空间。建议 C（工具收敛与统一底座）、D（基础设施去摩擦）和 G（北极星指标）对应本页。注意：驱动开发部 10 人已全员在用 Cursor（Gemini/GPT/Kimi），Claude 仅 5 人——别说成“一半人没用 AI”，这条是模型路线渗透数据，支撑建议 C 的统一底座推广。</div>
 </section>
 
 </div>

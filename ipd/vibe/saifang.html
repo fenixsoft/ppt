@@ -26,18 +26,18 @@
   --accent:#3987e5; --accent-soft:#1d3350; --bar-track:#232c36; --warn:#f0b04a; --warn-soft:#3a2c14;
   --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s0:#5b6672; color-scheme:dark}
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 56px}
 .wrap{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:36px}
 h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.25}
-h1{font-size:30px;font-weight:700;letter-spacing:-.01em}
-h2{font-size:20px;font-weight:600}
-h3{font-size:15px;font-weight:600}
-.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+h1{font-size:33px;font-weight:700;letter-spacing:-.01em}
+h2{font-size:22px;font-weight:600}
+h3{font-size:17px;font-weight:600}
+.eyebrow{font-family:var(--f-mono);font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
 .num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
-.muted{color:var(--ink-2)} .small{font-size:13px}
+.muted{color:var(--ink-2)} .small{font-size:15px}
 header{display:flex;flex-direction:column;gap:10px}
-.meta{display:flex;flex-wrap:wrap;gap:6px 22px;color:var(--ink-2);font-size:13px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 22px;color:var(--ink-2);font-size:15px}
 .meta b{color:var(--ink);font-weight:600}
 section{display:flex;flex-direction:column;gap:16px}
 .sec-head{display:flex;flex-direction:column;gap:4px}
@@ -49,54 +49,54 @@ section{display:flex;flex-direction:column;gap:16px}
 .legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px 20px;margin-top:16px}
 .lg{display:flex;gap:10px;align-items:flex-start}
 .sw{width:12px;height:12px;border-radius:3px;margin-top:5px;flex:none}
-.lg .v{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:20px;font-weight:500;line-height:1.2}
-.lg .n{font-size:13px;color:var(--ink-2)}
+.lg .v{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:22px;font-weight:500;line-height:1.2}
+.lg .n{font-size:15px;color:var(--ink-2)}
 /* 发现 */
 .findings{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
 .fd{padding:16px 18px;border-left:3px solid var(--accent);background:var(--panel);border-radius:0 8px 8px 0;min-width:0}
 .fd.w{border-left-color:var(--warn)}
-.fd p{margin:6px 0 0;color:var(--ink-2);font-size:14px}
-.fd .k{font-family:var(--f-mono);font-size:22px;font-weight:500;color:var(--ink)}
+.fd p{margin:6px 0 0;color:var(--ink-2);font-size:16px}
+.fd .k{font-family:var(--f-mono);font-size:24px;font-weight:500;color:var(--ink)}
 /* 分类条形图 */
 .cats{display:flex;flex-direction:column;gap:2px}
 .crow{display:grid;grid-template-columns:minmax(150px,210px) 1fr 130px;gap:14px;align-items:center;padding:9px 6px;border-radius:6px;cursor:pointer}
 .crow:hover,.crow:focus-visible{background:var(--accent-soft);outline:none}
 .crow .lbl{min-width:0}
-.crow .lbl b{font-weight:600;font-size:14px}
-.crow .lbl span{display:block;font-size:12px;color:var(--ink-3);line-height:1.4}
+.crow .lbl b{font-weight:600;font-size:16px}
+.crow .lbl span{display:block;font-size:14px;color:var(--ink-3);line-height:1.4}
 .track{height:14px;background:var(--bar-track);border-radius:0 4px 4px 0;position:relative}
 .fill{height:100%;background:var(--accent);border-radius:0 4px 4px 0}
-.crow .val{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:13px}
-.crow .val small{display:block;color:var(--ink-3);font-size:11px}
+.crow .val{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:15px}
+.crow .val small{display:block;color:var(--ink-3);font-size:13px}
 /* 筛选 */
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--panel);color:var(--ink-2);padding:5px 12px;border-radius:999px;cursor:pointer}
+.chip{font:inherit;font-size:15px;border:1px solid var(--rule);background:var(--panel);color:var(--ink-2);padding:5px 12px;border-radius:999px;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 .chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 /* 表格 */
 .tablewrap{overflow-x:auto;border:1px solid var(--rule);border-radius:10px;background:var(--panel)}
-table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:16px}
 th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
-th{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:500;background:var(--panel);position:sticky;top:0}
+th{font-family:var(--f-mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:500;background:var(--panel);position:sticky;top:0}
 td.r,th.r{text-align:right;white-space:nowrap} th{white-space:nowrap}
-tr.grp td{background:var(--bar-track);font-weight:600;font-size:13px}
+tr.grp td{background:var(--bar-track);font-weight:600;font-size:15px}
 .mini{display:flex;align-items:center;gap:8px;justify-content:flex-end}
 .mini i{display:block;height:8px;background:var(--accent);border-radius:0 3px 3px 0}
-.tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:999px;background:var(--warn-soft);color:var(--warn);margin-left:6px;vertical-align:1px}
-.procs{font-family:var(--f-mono);font-size:11.5px;color:var(--ink-3);word-break:break-all}
-ul.notes{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;color:var(--ink-2);font-size:14px;max-width:75ch}
-.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12.5px;padding:7px 10px;border-radius:6px;z-index:20;max-width:280px;line-height:1.45}
+.tag{display:inline-block;font-size:13px;padding:1px 7px;border-radius:999px;background:var(--warn-soft);color:var(--warn);margin-left:6px;vertical-align:1px}
+.procs{font-family:var(--f-mono);font-size:13.5px;color:var(--ink-3);word-break:break-all}
+ul.notes{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;color:var(--ink-2);font-size:16px;max-width:75ch}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-size:14.5px;padding:7px 10px;border-radius:6px;z-index:20;max-width:280px;line-height:1.45}
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
 .bars{display:flex;flex-direction:column;gap:8px}
-.br{display:grid;grid-template-columns:minmax(110px,170px) 1fr 110px;gap:12px;align-items:center;font-size:13.5px}
+.br{display:grid;grid-template-columns:minmax(110px,170px) 1fr 110px;gap:12px;align-items:center;font-size:15.5px}
 .br .t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.br .val{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:12.5px;color:var(--ink-2)}
-.lg2{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12.5px;color:var(--ink-2);margin-top:12px}
+.br .val{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:14.5px;color:var(--ink-2)}
+.lg2{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14.5px;color:var(--ink-2);margin-top:12px}
 .lg2 i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
 tr.me td{background:var(--accent-soft)}
 @media (max-width:640px){
   .br{grid-template-columns:96px 1fr 84px}
-  h1{font-size:24px}
+  h1{font-size:26px}
   .crow{grid-template-columns:1fr 92px;row-gap:6px}
   .crow .track{grid-column:1/-1;grid-row:2}
 }
@@ -146,6 +146,16 @@ tr.me td{background:var(--accent-soft)}
       <thead><tr><th>部门</th><th>工具</th><th>使用模型</th><th class="r">编程人数</th><th class="r">使用人数</th><th class="r">月 token</th><th class="r">月费用</th><th>主要场景</th></tr></thead>
       <tbody id="svbody"></tbody></table></div>
     <div class="panel"><h3 style="margin-bottom:10px">改进建议与资源需求</h3><ul class="notes" id="svadvice"></ul></div>
+  </section>
+
+  <section id="bedsec" hidden>
+    <div class="sec-head"><h2>AI 模型费用(AWS Bedrock)</h2><div class="muted small" id="bedsub">科技提供的按模型费用,美元</div></div>
+    <div class="panel"><div class="legend" id="bedkpi" style="margin-top:0"></div></div>
+    <div class="grid2">
+      <div class="panel"><h3 style="margin-bottom:14px">按模型的费用</h3><div class="bars" id="bedbars"></div>
+        <div class="lg2"><span><i style="background:var(--s1)"></i>海外模型</span><span><i style="background:var(--s2)"></i>国产模型</span></div></div>
+      <div class="panel"><h3 style="margin-bottom:14px">按厂商的费用</h3><div class="bars" id="bedvbars"></div></div>
+    </div>
   </section>
 
   <section id="toksec" hidden>
@@ -316,6 +326,26 @@ if (TK) {
   const w0 = wk[0], wl = wk[wk.length-1], peak = wk.reduce((a,b)=>b.t>a.t?b:a);
   F.push({k: usd(tt.spend), t:'网关 token 费用以命令行 Agent 为主', p:`61 天网关费用 ${usd(tt.spend)}、${((tt.in_tok+tt.out_tok)/1e9).toFixed(0)}B token。命令行编程 Agent 占 ${pct(cli.spend/tt.spend,0)},其中 Claude Code ${usd(cc.spend)}、${cc.users} 人在用;它跑在终端里,本机进程只记到 ${fmtH(ccLocal)},所以只看终端时长会低估 AI 的实际使用。`},
          {k: pct(wl.d/wl.t,0), t:'国产模型已成为网关主力', w:false, p:`周费用峰值 ${peak.w} 那周 ${usd(peak.t)},最近一周 ${usd(wl.t)};国产模型(GLM、DeepSeek、Kimi)占比从首周 ${pct(w0.d/w0.t,0)} 升到 ${pct(wl.d/wl.t,0)}。缓存命中 ${pct(tt.cache_hit,0)} 是降低成本的主要因素。`});
+  $('#findings').innerHTML = F.map(f=>`<div class="fd${f.w?' w':''}"><div class="k">${f.k}</div><h3>${f.t}</h3><p>${f.p}</p></div>`).join('');
+}
+// AI 模型费用(Bedrock,科技)
+const BD = DATA.bedrock;
+if (BD) {
+  $('#bedsec').hidden = false;
+  const usd = v => '$' + Math.round(v).toLocaleString('en-US');
+  const tot = BD.reduce((s, m) => s + m.spend, 0), dom = BD.filter(m => m.domestic).reduce((s, m) => s + m.spend, 0);
+  const vs = Object.values(BD.reduce((a, m) => { (a[m.vendor] ||= {v: m.vendor, s: 0, d: m.domestic, n: []}).s += m.spend; a[m.vendor].n.push(m.model); return a; }, {})).sort((a, b) => b.s - a.s);
+  const top2 = BD[0].spend + BD[1].spend;
+  const BT = DATA.bedrock_total || {};
+  if (BT.days) $('#bedsub').textContent = `${BT.from} ~ ${BT.to}(${BT.days} 天)· 科技提供的按模型费用,美元`;
+  const mo = v => BT.days ? v / BT.days * 30 : v;
+  $('#bedkpi').innerHTML = [[usd(tot), '模型费用合计', BT.days ? `折合每月 ${usd(mo(tot))} · 日均 ${usd(tot / BT.days)}` : `${BD.length} 个模型`], ...(BT.tokens ? [[(BT.tokens / 1e9).toFixed(1) + ' B', 'token 总量', `每百万 token $${(tot / (BT.tokens / 1e6)).toFixed(2)}`], [(BT.requests / 1e4).toFixed(1) + ' 万', '请求次数', `${BT.days ? '日均 ' + Math.round(BT.requests / BT.days).toLocaleString('en-US') + ' 次 · ' : ''}每次约 ${(BT.tokens / BT.requests / 1e4).toFixed(1)} 万 token · $${(tot / BT.requests).toFixed(3)}`]] : []), [pct(top2 / tot, 0), '前两个模型占比', `${BD[0].model}、${BD[1].model}`], [pct(dom / tot, 0), '国产模型占比', usd(dom)]]
+    .map(([v, k, d]) => `<div class="lg"><div><div class="v">${v}</div><div class="n">${k} · ${d}</div></div></div>`).join('');
+  $('#bedbars').innerHTML = BD.map(m => bar(m.model, m.spend, BD[0].spend, m.domestic ? 'var(--s2)' : 'var(--s1)', usd(m.spend), `${m.model}(${m.vendor})<br>${usd(m.spend)} · 占 ${pct(m.spend / tot)}`)).join('');
+  $('#bedvbars').innerHTML = vs.map(v => bar(v.v, v.s, vs[0].s, v.d ? 'var(--s2)' : 'var(--s1)', `${usd(v.s)} · ${pct(v.s / tot, 0)}`, `${v.v}:${usd(v.s)}<br>${v.n.join('<br>')}`)).join('');
+  const small = BD.filter(m => /gpt-oss-20b|gemma-3-12b|ministral/.test(m.model)).reduce((s, m) => s + m.spend, 0);
+  F.push({k: usd(tot), t: `Bedrock 模型费用 ${usd(tot)},${pct(top2 / tot, 0)} 集中在两个模型`, p: `${BT.tokens ? `${BT.days ? BT.days + ' 天' : ''}共 ${(BT.tokens / 1e9).toFixed(1)}B token、${(BT.requests / 1e4).toFixed(1)} 万次请求,平均每百万 token $${(tot / (BT.tokens / 1e6)).toFixed(2)}${BT.days ? `,折合每月约 ${usd(mo(tot))}` : ''}。` : ''}${BD[0].model}(${usd(BD[0].spend)})和 ${BD[1].model}(${usd(BD[1].spend)})合计 ${usd(top2)};Claude Sonnet 两个版本合计 ${usd(BD.filter(m => m.vendor === 'Anthropic').reduce((s, m) => s + m.spend, 0))}。国产模型(Kimi、Qwen)只占 ${pct(dom / tot, 0)}。`},
+         {k: usd(small), t: '小模型费用偏高,需核对调用量', w: true, p: `gpt-oss-20b、Gemma 3 12B、Ministral 8B 单价很低,但合计花了 ${usd(small)},说明调用量非常大,可能是批量任务或循环调用,建议按 key 查调用来源。`});
   $('#findings').innerHTML = F.map(f=>`<div class="fd${f.w?' w':''}"><div class="k">${f.k}</div><h3>${f.t}</h3><p>${f.p}</p></div>`).join('');
 }
 document.querySelectorAll('[data-tip]').forEach(el=>{ el.addEventListener('mousemove', e=>showTip(e, el.dataset.tip)); el.addEventListener('mouseleave', hideTip); });

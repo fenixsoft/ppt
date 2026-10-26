@@ -9,13 +9,13 @@
 <link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
 <link rel="stylesheet" href="../../../assets/animations/animations.css">
 <style>
-.t{font-size:13.5px}
+.t{font-size:15.5px}
 .t th,.t td{padding:7px 10px}
 .t td.num,.t th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.ev-tag{display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px}
+.ev-tag{display:inline-block;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px}
 .ev-tag.red{background:var(--bad)}
-.src{font-size:12px;color:var(--text-3);margin-top:6px}
-.big{font-size:29px;font-weight:700;line-height:1.38}
+.src{font-size:14px;color:var(--text-3);margin-top:6px}
+.big{font-size:32px;font-weight:700;line-height:1.38}
 .big b{color:var(--accent-2)}
 li b.red{color:var(--bad)}
 </style>
@@ -27,12 +27,12 @@ li b.red{color:var(--bad)}
   <p class="kicker">结论四 / 工具与合规</p>
   <div class="grid g2 mt-s" style="align-items:stretch;gap:28px">
     <div class="stack anim-fade-left" data-anim="fade-left">
-      <p class="big">集团 <b>17 种 AI 编程工具并存</b>、三家各建各的 Harness；同时<b class="red">合规红线已被踩到</b>：Cadence 破解安装器三家全部出现。</p>
-      <ul style="font-size:15px;line-height:1.68" class="dim mt-m">
-        <li>单家在用 10~14 种，大量工具用量不足 50h 仍在"野生试点"，无收敛机制</li>
+      <p class="big">集团 <b>17 种 AI 编程工具并存</b>、三家各建各的 Harness；另外存在合规风险</p>
+      <ul style="font-size:17px;line-height:1.68" class="dim mt-m">
+        <li>单家在用 10~14 种，部分工具用量不足 50h，无收敛机制</li>
         <li>重复建设：塞防定制 Skyfend Harness、各家魔改 DeepSeek Harness；LiteLLM 网关仅航空一家建了</li>
-        <li><b class="red">破解风险：</b>"阿狸狗破戒大师"（Cadence 盗版破解安装器）科技 3.0h / 塞防 3.0h / 航空 0.4h</li>
-        <li><b class="red">数据出域：</b>EasyCLIProxyAPI 把个人 Claude/Gemini/Codex 订阅转成 API（科技 15.7h）</li>
+        <li><b class="red">合规风险：</b>Cadence 盗版破解安装器：科技 3.0h / 塞防 3.0h / 航空 0.4h。上市公司使用盗版 EDA 存在被暴露风险</li>
+        <li><b class="red">数据出域：</b>EasyCLIProxyAPI 把个人 Claude/Gemini/Codex 订阅转成 API（科技 15.7h，我没想明白这是图什么）</li>
         <li>消费级 AI 对话处理工作内容 2,012h 未受控（豆包 / ChatGPT / 元宝 / Kimi 等）</li>
         <li>自研单点：EcuSimulator 6,169h（占科技全部活动 3.15%），高价值但无 AI 化、无集团共享</li>
       </ul>
@@ -47,7 +47,7 @@ li b.red{color:var(--bad)}
           <tr><td>主力集中度（Cursor 占 AI 编程）</td><td class="num mono">97.1%</td><td class="num mono">87.9%</td><td class="num mono">51.5%</td></tr>
         </tbody>
       </table>
-      <div class="mt-l" style="font-size:13.5px;line-height:1.7">
+      <div class="mt-l" style="font-size:15.5px;line-height:1.7">
         <span class="ev-tag red">数据支撑 · 合规风险</span>
         <table class="t mt-m" style="width:100%">
           <thead><tr><th>风险项</th><th>证据（原始数据页）</th></tr></thead>
@@ -56,14 +56,13 @@ li b.red{color:var(--bad)}
             <tr><td>个人订阅转 API 代理</td><td>科技 EasyCLIProxyAPI 15.7h</td></tr>
             <tr><td>第三方远控（AnyDesk/向日葵）</td><td>塞防 384h + 航空 300h</td></tr>
             <tr><td>消费级 AI 对话</td><td>三家合计 2,012h</td></tr>
-            <tr><td>非工作类</td><td>BOSS直聘 43h（航空）、游戏 30h</td></tr>
           </tbody>
         </table>
       </div>
       <p class="src">来源：原始数据 · 科技 / 塞防 / 航空（第 3~5 页）</p>
     </div>
   </div>
-  <div class="deck-footer"><span class="dim2">集团研发工具调研 · 2026-10</span><span class="slide-number" data-current="9" data-total="14"></span></div>
+  <div class="deck-footer"><span class="dim2">集团研发工具调研 · 2026-10</span><span class="slide-number" data-current="9" data-total="15"></span></div>
   <div class="notes">碎片化是效率问题（重复试点、经验不沉淀），合规是红线问题（法务与数据安全），两类要分开处理：前者靠收敛与共建，后者本月就要清。建议 C（工具收敛）和 F（合规红线）对应本页。</div>
 </section>
 

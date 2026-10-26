@@ -3,24 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>07 · 第④层 · 智能体分工</title>
+<title>06 · 第④层 · 智能体分工</title>
 <link rel="stylesheet" href="../../../assets/fonts.css">
 <link rel="stylesheet" href="../../../assets/base.css">
 <link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
 <link rel="stylesheet" href="../../../assets/animations/animations.css">
 <style>
 .agent{border:1px solid var(--border);border-radius:10px;padding:13px 16px;background:var(--bg-soft)}
-.agent b{font-size:15.5px}
-.agent .en{font-size:11.5px;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase;margin-left:6px}
-.agent p{font-size:12.5px;line-height:1.55;color:var(--text-2);margin-top:6px}
+.agent b{font-size:17.5px}
+.agent .en{font-size:13.5px;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase;margin-left:6px}
+.agent p{font-size:14.5px;line-height:1.55;color:var(--text-2);margin-top:6px}
 .lead{display:flex;align-items:center;gap:14px;border:2px solid var(--accent);border-radius:10px;padding:12px 20px;background:var(--bg-soft)}
-.lead b{font-size:17px}
-.lead p{font-size:13.5px;color:var(--text-2)}
+.lead b{font-size:19px}
+.lead p{font-size:15.5px;color:var(--text-2)}
 .data{display:flex;gap:24px;align-items:center;border-left:3px solid var(--accent);padding:12px 18px;background:var(--bg-soft)}
-.data .kpi{font-size:34px;font-weight:700;color:var(--accent-2);white-space:nowrap;font-variant-numeric:tabular-nums}
-.data p{font-size:14px;line-height:1.65;color:var(--text-2)}
+.data .kpi{font-size:37px;font-weight:700;color:var(--accent-2);white-space:nowrap;font-variant-numeric:tabular-nums}
+.data p{font-size:16px;line-height:1.65;color:var(--text-2)}
 .data p b{color:var(--text-1)}
-.big{font-size:29px;font-weight:700;line-height:1.4}
+.big{font-size:32px;font-weight:700;line-height:1.4}
+.big b{color:var(--accent-2)}
 </style>
 </head>
 <body>
@@ -34,9 +35,10 @@
     <b>Orchestrator Claude</b>
     <p>拆解任务、分派工种、汇总结果——只收摘要与证据位置，不被细节淹没</p>
   </div>
-  <div class="grid g3 mt-s anim-stagger-list" data-anim-target style="gap:14px">
+  <div class="grid g4 mt-s anim-stagger-list" data-anim-target style="gap:14px">
     <div class="agent"><b>探索</b><span class="en">Explore</span><p>读代码、理清架构、找调用链</p></div>
     <div class="agent"><b>计划</b><span class="en">Plan</span><p>架构草案、ADR 草稿、权衡清单</p></div>
+    <div class="agent"><b>实现</b><span class="en">Implement</span><p>按计划写代码、改配置、调接口</p></div>
     <div class="agent"><b>测试</b><span class="en">Test</span><p>单元测试、覆盖率、边界用例</p></div>
     <div class="agent"><b>评审</b><span class="en">Review</span><p>bug、风格、安全、潜在隐患</p></div>
     <div class="agent"><b>重构</b><span class="en">Refactor</span><p>小范围重构、抽象、清理</p></div>
@@ -45,14 +47,14 @@
   <div class="data mt-m">
     <span class="kpi">+90.2%</span>
     <p>Anthropic 多智能体研究系统的内部评估：orchestrator-worker（指挥官-工人）模式比单体智能体高 <b>90.2%</b>。
-    分工成败取决于<b>委派质量</b>——目标、输出格式、可用工具、任务边界，<b>四要素缺一就会重复劳动或漏活</b>（实测：模糊指令会让多个子智能体做同一件事）。</p>
+    分工成败取决于<b>委派质量</b>，目标、输出格式、可用工具、任务边界，<b>四要素缺一就会重复劳动或漏活</b>（实测：模糊指令会让多个子智能体做同一件事）。</p>
   </div>
-  <div class="mt-m" style="border-left:3px solid var(--accent);padding:10px 18px;background:var(--bg-soft);font-size:14.5px;line-height:1.7;color:var(--text-2)">
-    <b style="color:var(--text-1)">管理含义：</b>上下文隔离是刻意设计——各干各的互不干扰，指挥官只看汇总。
+  <div class="mt-m" style="border-left:3px solid var(--accent);padding:10px 18px;background:var(--bg-soft);font-size:16.5px;line-height:1.7;color:var(--text-2)">
+    <b style="color:var(--text-1)">管理含义：</b>上下文隔离是刻意设计，各干各的互不干扰，指挥官只看汇总。
     <b style="color:var(--text-1)">"委派四要素"就是给 AI 团队的岗位说明书模板</b>：组织设计原理在智能体身上同样成立，写不清岗位说明书的团队，AI 也带不好。
   </div>
-  <div class="deck-footer"><span class="dim2">Anthropic 工程方法 · 2026-10</span><span class="slide-number" data-current="7" data-total="12"></span></div>
-  <div class="notes">六个工种正好对应研发团队的自然分工，听众会有代入感。90.2% 出自 Anthropic 多智能体研究系统官方博客（2025-06）。委派四要素值得停一下：Anthropic 实测里，含糊的委派让两个子智能体重复调研同一课题——和管理里"两个部门做同一件事"一模一样。组织能力会直接复刻到 AI 编排上。</div>
+  <div class="deck-footer"><span class="dim2">Anthropic 工程方法 · 2026-10</span><span class="slide-number" data-current="7" data-total="10"></span></div>
+  <div class="notes">七个工种正好对应研发团队的自然分工，听众会有代入感。90.2% 出自 Anthropic 多智能体研究系统官方博客（2025-06）。委派四要素值得停一下：Anthropic 实测里，含糊的委派让两个子智能体重复调研同一课题——和管理里"两个部门做同一件事"一模一样。组织能力会直接复刻到 AI 编排上。</div>
 </section>
 
 </div>

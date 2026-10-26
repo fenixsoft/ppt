@@ -62,18 +62,63 @@
   function initCanvasFit(deck) {
     if (document.body.getAttribute('data-fit') === 'fluid') return;
 
+    /* Margins own the centring; body's flex centre would fight them (it
+       centres the untransformed 1920x1080 layout box). */
+    document.body.style.display = 'block';
+
     const w = parseInt(deck.getAttribute('data-w'), 10) || 1920;
     const h = parseInt(deck.getAttribute('data-h'), 10) || 1080;
     deck.style.setProperty('--deck-w', w + 'px');
     deck.style.setProperty('--deck-h', h + 'px');
 
+    /* Browser zoom (Ctrl +/-) shrinks the CSS viewport and raises
+     * devicePixelRatio in the same proportion. Left alone, fit() would cancel
+     * the viewport change exactly and zoom would do nothing visible. Instead:
+     *   scale = viewport-fit x (dpr / dpr0)
+     * Above the load-time zoom the canvas now grows past the viewport and
+     * scrolls (base.css: body overflow:auto + .deck margin:auto); below, it
+     * letterboxes again; Ctrl+0 restores the exact fit. The baseline is
+     * whatever zoom the page was LOADED at, so permanently-zoomed browsers
+     * are unaffected. Only the top window applies the factor — an embedded
+     * deck-frame's element box already carries the shell's zoom, and applying
+     * it twice would double-scale and nest scrollbars. Moving the window
+     * between monitors with different OS display scaling reads as zoom;
+     * Chrome exposes no cleaner signal. Scale is floored to 3 decimals so the
+     * transformed canvas can't overshoot its box by a fraction and summon a
+     * phantom scrollbar at exact fit. */
+    const isTop = window.parent === window;
+    const dpr0 = window.devicePixelRatio || 1;
+
     function fit() {
-      const scale = Math.min(window.innerWidth / w, window.innerHeight / h);
+      const zoom = isTop ? (window.devicePixelRatio || 1) / dpr0 : 1;
+      const scale = Math.floor(
+        Math.min(window.innerWidth / w, window.innerHeight / h) * zoom * 1000
+      ) / 1000;
       deck.style.setProperty('--deck-scale', String(scale));
+      /* Centre the transformed box with real margins (origin is top left):
+         positive margin = letterbox when the canvas fits, zero = flush when
+         browser zoom has grown it past the viewport and body scrolls. */
+      const mx = Math.max(0, (window.innerWidth - w * scale) / 2);
+      const my = Math.max(0, (window.innerHeight - h * scale) / 2);
+      deck.style.margin = my + 'px ' + mx + 'px';
     }
     fit();
     window.addEventListener('resize', fit);
     if (window.visualViewport) window.visualViewport.addEventListener('resize', fit);
+    /* dpr can also change without a viewport resize (OS display-scale switch);
+     * matchMedia is the only change API — re-arm it after every fire. */
+    (function watchDpr() {
+      if (!window.matchMedia) return;
+      const mq = window.matchMedia('(resolution: ' + (window.devicePixelRatio || 1) + 'dppx)');
+      const onChange = function () {
+        if (mq.removeEventListener) mq.removeEventListener('change', onChange);
+        else if (mq.removeListener) mq.removeListener(onChange);
+        fit();
+        watchDpr();
+      };
+      if (mq.addEventListener) mq.addEventListener('change', onChange);
+      else if (mq.addListener) mq.addListener(onChange);
+    })();
     /* Webfonts can land after first paint; re-fit once they do. */
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit).catch(function(){});
   }
