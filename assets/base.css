@@ -50,10 +50,13 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text-1);
 /* Viewport host: centres the fixed-size design canvas and letterboxes the rest.
    Every px in a slide therefore means the same thing in the browser, in the
    presenter preview, in the overview thumbnail and in a headless render.
-   overflow:auto (not hidden) is what makes browser zoom useful: runtime.js
-   lets Ctrl +/- grow the canvas past the viewport, and body is the scroll
-   container that pans it. At exact fit nothing overflows, so no scrollbar. */
-body{width:100%;height:100%;overflow:auto;
+   overflow:hidden (2026-10-27): runtime.js holds the canvas at exact viewport
+   fit at every zoom level, so nothing ever overflows — and a presentation
+   must never grow scrollbars. (It was briefly overflow:auto so Ctrl +/-
+   could pan a zoomed canvas; every post-load dpr change — zooming, dragging
+   the window to a differently-scaled monitor — summoned both scrollbars,
+   and that was reverted by request.) */
+body{width:100%;height:100%;overflow:hidden;
   display:flex;align-items:center;justify-content:center}
 img,svg,video{max-width:100%;display:block}
 a{color:var(--accent);text-decoration:none}
@@ -86,8 +89,9 @@ code,kbd,pre,samp{font-family:var(--font-mono)}
    default, which reads far too small once the canvas is fitted to a laptop. */
 .deck{font-size:18px}
 
-/* Opt out: fluid canvas, exactly what the deck did before. */
-body[data-fit="fluid"]{display:block}
+/* Opt out: fluid canvas, exactly what the deck did before — real document
+   flow, so scrolling (and thus overflow:auto) comes back with it. */
+body[data-fit="fluid"]{display:block;overflow:auto}
 body[data-fit="fluid"] .deck{width:100vw;height:100vh;transform:none}
 .slide{
   position:absolute;inset:0;

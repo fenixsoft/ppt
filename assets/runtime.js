@@ -71,33 +71,24 @@
     deck.style.setProperty('--deck-w', w + 'px');
     deck.style.setProperty('--deck-h', h + 'px');
 
-    /* Browser zoom (Ctrl +/-) shrinks the CSS viewport and raises
-     * devicePixelRatio in the same proportion. Left alone, fit() would cancel
-     * the viewport change exactly and zoom would do nothing visible. Instead:
-     *   scale = viewport-fit x (dpr / dpr0)
-     * Above the load-time zoom the canvas now grows past the viewport and
-     * scrolls (base.css: body overflow:auto + .deck margin:auto); below, it
-     * letterboxes again; Ctrl+0 restores the exact fit. The baseline is
-     * whatever zoom the page was LOADED at, so permanently-zoomed browsers
-     * are unaffected. Only the top window applies the factor — an embedded
-     * deck-frame's element box already carries the shell's zoom, and applying
-     * it twice would double-scale and nest scrollbars. Moving the window
-     * between monitors with different OS display scaling reads as zoom;
-     * Chrome exposes no cleaner signal. Scale is floored to 3 decimals so the
-     * transformed canvas can't overshoot its box by a fraction and summon a
-     * phantom scrollbar at exact fit. */
-    const isTop = window.parent === window;
-    const dpr0 = window.devicePixelRatio || 1;
-
+    /* Browser zoom is deliberately neutralised (2026-10-27). fit() used to
+     * multiply the scale by dpr/dpr0 so Ctrl +/- grew the canvas past the
+     * viewport for panning — but any post-load dpr change (zooming in, or
+     * dragging the window to a monitor with different OS display scaling)
+     * then summoned horizontal AND vertical scrollbars, which is worse than
+     * zoom being inert. Pure viewport fit keeps the canvas inside the window
+     * at every zoom level: zooming in shrinks the CSS viewport and raises
+     * dpr in the same proportion, so the on-screen size barely moves and
+     * nothing ever overflows. base.css: body overflow:hidden backs this up
+     * so no rounding edge can paint a scrollbar either. Scale is floored to
+     * 3 decimals so the transformed canvas can't overshoot its box. */
     function fit() {
-      const zoom = isTop ? (window.devicePixelRatio || 1) / dpr0 : 1;
       const scale = Math.floor(
-        Math.min(window.innerWidth / w, window.innerHeight / h) * zoom * 1000
+        Math.min(window.innerWidth / w, window.innerHeight / h) * 1000
       ) / 1000;
       deck.style.setProperty('--deck-scale', String(scale));
       /* Centre the transformed box with real margins (origin is top left):
-         positive margin = letterbox when the canvas fits, zero = flush when
-         browser zoom has grown it past the viewport and body scrolls. */
+         positive margin = letterbox. */
       const mx = Math.max(0, (window.innerWidth - w * scale) / 2);
       const my = Math.max(0, (window.innerHeight - h * scale) / 2);
       deck.style.margin = my + 'px ' + mx + 'px';
