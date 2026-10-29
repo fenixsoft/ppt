@@ -152,9 +152,9 @@
           localStorage.setItem(CFG.storeKey,
             JSON.stringify({ exp: Date.now() + CFG.days * 864e5 }));
         } catch (e) { /* fail-open：无存储则本次会话放行 */ }
-        document.documentElement.className =
-          document.documentElement.className.replace(' ppt-gate-pending', '');
-        lock.remove();
+        /* 整页重载：以已认证状态重走启动流程。原位摘遮罩在部分真实环境
+         * （缩放/扩展/全屏态）不可靠，reload 后 gate 直接放行，确定性最高 */
+        location.reload();
       } else {
         lock.querySelector('.ppt-gate-err').textContent = '用户名或密码不正确';
         card.classList.remove('ppt-gate-shake');
