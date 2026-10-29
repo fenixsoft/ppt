@@ -573,6 +573,7 @@
       /* Named so pages can hand keys back via preview-key (below) */
       function handleKey(e) {
         if (e.metaKey || e.ctrlKey || e.altKey) return;
+        if (e.target && e.target.closest && e.target.closest('input, textarea, select, [contenteditable]')) return;
         switch (e.key) {
           case 'ArrowRight': case ' ': case 'PageDown': case 'Enter': go(idx + 1); e.preventDefault(); break;
           case 'ArrowLeft': case 'PageUp': case 'Backspace': go(idx - 1); e.preventDefault(); break;
@@ -1689,6 +1690,7 @@
 
     document.addEventListener('keydown', function (e) {
       if (e.metaKey||e.ctrlKey||e.altKey) return;
+      if (e.target && e.target.closest && e.target.closest('input, textarea, select, [contenteditable]')) return;
       switch (e.key) {
         case 'ArrowRight': case ' ': case 'PageDown': case 'Enter': go(idx+1); e.preventDefault(); break;
         case 'ArrowLeft': case 'PageUp': case 'Backspace': go(idx-1); e.preventDefault(); break;

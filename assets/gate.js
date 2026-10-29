@@ -132,6 +132,11 @@
       '<p class="ppt-gate-hint">本站内容仅限内部使用 · 请勿外传</p>' +
       '</form>';
     document.body.appendChild(lock);
+    /* 键盘截停：表单按键在 lock 处（冒泡相）就地消化，runtime 等全局
+     * 快捷键（f 全屏、Backspace 翻页并 preventDefault 等）一律收不到 */
+    ['keydown', 'keyup', 'keypress'].forEach(function (t) {
+      lock.addEventListener(t, function (e) { e.stopPropagation(); });
+    });
     lock.querySelector('[name=u]').focus();
 
     lock.querySelector('form').addEventListener('submit', function (ev) {
