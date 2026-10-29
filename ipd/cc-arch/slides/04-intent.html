@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<script>/* ppt-gate 内容页守卫 */try{var g=JSON.parse(localStorage.getItem("ppt_gate"));if(!(g&&g.exp>Date.now())){document.documentElement.style.visibility="hidden";location.replace("../index.html?auth=1")}}catch(e){}</script>
+<title>04 · 第①层 · 人的意图层</title>
+<link rel="stylesheet" href="../../../assets/fonts.css">
+<link rel="stylesheet" href="../../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../../assets/animations/animations.css">
+<style>
+.role{border:1px solid var(--border);border-radius:10px;padding:18px 20px;background:var(--bg-soft)}
+.role.hl{border:2px solid var(--accent)}
+.role .tag{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-2);font-weight:700}
+.role h4{font-size:19px;margin-top:6px}
+.role p{font-size:15.5px;line-height:1.6;color:var(--text-2);margin-top:8px}
+.role .so{margin-top:10px;padding-top:9px;border-top:1px dashed var(--border);font-size:15px;color:var(--text-2)}
+.role .so b{color:var(--text-1)}
+.band{border-left:3px solid var(--accent);padding:12px 18px;background:var(--bg-soft);font-size:16.5px;line-height:1.7;color:var(--text-2)}
+.band b{color:var(--text-1)}
+.big{font-size:32px;font-weight:700;line-height:1.4;max-width:1400px}
+.big b{color:var(--accent-2)}
+/* —— 右上角全景定位框：第 3 页架构图缩略（原图配色） —— */
+.minimap{position:absolute;top:28px;right:44px;z-index:5;width:334px;
+  border:1px solid #e6dfca;border-radius:14px;background:#f9f4ea;
+  box-shadow:var(--shadow);padding:22px 14px 11px}
+.minimap .cols{display:flex;align-items:stretch;height:70px}
+.mm-col{position:relative;flex:1;min-width:0;border:1px solid var(--hb);border-radius:7px;
+  background:var(--cbg);padding:4px 5px;display:flex;flex-direction:column;gap:5px;
+  --hc:#8a9099;--hb:#d9dce1;--cbg:#f4f5f7}
+.mm-col.c1{--hc:#e8722c;--hb:#f0cfa9;--cbg:#fdf6ee}
+.mm-col.c2{--hc:#24407a;--hb:#c9d5ea;--cbg:#f5f8fc}
+.mm-col.c3{--hc:#2f9e52;--hb:#c4e5cc;--cbg:#f2f9f4}
+.mm-col.wide{flex:1.5}
+.mm-col .hd{display:block;background:var(--hc);color:#fff;border-radius:4px;
+  font-size:12.5px;line-height:1.6;text-align:center;padding:0 2px;white-space:nowrap;overflow:hidden}
+.mm-col .bars{flex:1;display:flex;flex-direction:column;justify-content:space-evenly}
+.mm-col .bars i{display:block;height:6px;border-radius:3px;background:#fff;border:1px solid var(--hb)}
+.mm-rows{flex:1;display:flex;flex-direction:column;gap:5px}
+.mm-rows .cells{flex:1;display:grid;gap:5px}
+.mm-rows .cells.a{grid-template-columns:repeat(4,1fr)}
+.mm-rows .cells.b{grid-template-columns:repeat(2,1fr)}
+.mm-rows .cells i{border-radius:3px;background:#fff;border:1px solid var(--hb)}
+.mm-arr{align-self:center;color:#e8722c;font-size:11px;padding:0 2px}
+.mm-col.on{border-color:var(--hc);box-shadow:inset 0 0 0 1.5px var(--hc),0 3px 10px rgba(30,44,79,.16)}
+.mm-col.on::before{content:"本页";position:absolute;top:-16px;left:50%;transform:translateX(-50%);
+  background:var(--hc);color:#fff;font-size:12.5px;font-weight:700;line-height:1.4;
+  padding:1px 9px;border-radius:999px;white-space:nowrap}
+.mm-env{position:relative;margin:7px 0 0 27%;border:1px solid #d9dce1;border-radius:6px;
+  background:#edeef1;font-size:12px;line-height:1.6;color:#6b7078;text-align:center;padding:1px 30px}
+.mm-env.on{border-color:#24407a;box-shadow:inset 0 0 0 1.5px #24407a;background:#fff;
+  color:#24407a;font-weight:700}
+.mm-env.on::before{content:"本页";position:absolute;top:50%;right:5px;transform:translateY(-50%);
+  background:#24407a;color:#fff;font-size:12.5px;font-weight:700;line-height:1.4;
+  padding:0 9px;border-radius:999px;white-space:nowrap}
+.mm-principle{margin-top:6px;height:4px;border-radius:2px;background:#1e2c4f}
+.minimap .cap{margin-top:7px;font-size:12px;letter-spacing:.05em;color:#a49c88}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<section class="slide" data-title="第①层 · 人的意图层" style="padding:48px 96px 56px">
+  <div class="minimap anim-fade-up" data-anim="fade-up" aria-hidden="true">
+    <div class="cols">
+      <div class="mm-col c1 on"><span class="hd">①意图</span><span class="bars"><i></i><i></i><i></i></span></div>
+      <span class="mm-arr">▸</span>
+      <div class="mm-col c2"><span class="hd">②驾驭</span><span class="bars"><i></i><i></i><i></i><i></i></span></div>
+      <span class="mm-arr">▸</span>
+      <div class="mm-col c3"><span class="hd">③循环</span><span class="bars"><i></i><i></i><i></i></span></div>
+      <span class="mm-arr">▸</span>
+      <div class="mm-col wide"><span class="hd">④分工·记忆</span><span class="mm-rows"><span class="cells a"><i></i><i></i><i></i><i></i></span><span class="cells b"><i></i><i></i></span></span></div>
+    </div>
+    <div class="mm-env">执行环境</div>
+    <div class="mm-principle"></div>
+    <div class="cap">第 3 页全景图 · 本页位置</div>
+  </div>
+  <p class="kicker">第①层 / Human Intent Layer · 人的意图层</p>
+  <p class="big mt-s anim-fade-up" data-anim="fade-up">人只输入两样东西：说清"<b>要什么</b>"，把住结果"<b>对不对</b>"。</p>
+  <div class="grid g4 mt-m anim-stagger-list" data-anim-target>
+    <div class="role hl">
+      <span class="tag">产品 / 业务</span>
+      <h4>目标与验收</h4>
+      <p>目标、优先级、成功标准、验收标准</p>
+      <div class="so">决定 AI 做出来的东西<b>"对不对"</b></div>
+    </div>
+    <div class="role hl">
+      <span class="tag">架构 / PM</span>
+      <h4>路标与边界</h4>
+      <p>架构决策记录（ADR）、系统边界、风险分级、权衡取舍</p>
+      <div class="so">决定 AI"<b>按哪条路走</b>"，把代价高的弯路提前拦下</div>
+    </div>
+    <div class="role">
+      <span class="tag">人类评审</span>
+      <h4>放行与否决</h4>
+      <p>安全、隐私、合规、重大设计、发布批准</p>
+      <div class="so">高风险节点上<b>说"不"</b>的权力，不可委托给 AI</div>
+    </div>
+    <div class="role">
+      <span class="tag">运维 / SRE</span>
+      <h4>底线与回退</h4>
+      <p>SLO、回滚预案、生产环境门禁</p>
+      <div class="so">线上事故的<b>最后防线</b>，定义"什么状态必须回滚"</div>
+    </div>
+  </div>
+  <div class="band mt-l">
+    <b>管理含义：</b>意图层的产出（目标、边界、风险分级）是后续全部自动化环节的"<b>宪法</b>"。
+    写不清楚的意图，AI 会替你脑补，错误往往在最后一公里才暴露，返工成本最高。
+    <b>组织要做的是把"定义与裁决"变成显式岗位产出物，而不是靠开会口头对齐。</b>
+  </div>
+  <div class="deck-footer"><span class="dim2">Anthropic 工程方法 · 2026-10</span><span class="slide-number" data-current="4" data-total="10"></span></div>
+  <div class="notes">四种角色对应四类产出物，全是"决策"而非"操作"。可以类比：这层就像董事会与经营班子的分工——定战略、定边界、握否决权，不亲自执行。强调"意图=宪法"：后面所有自动化都以这层写出来的东西为准绳，所以它的质量上限就是整个体系的质量上限。</div>
+</section>
+
+</div>
+<script src="../../../assets/runtime.js"></script>
+</body>
+</html>

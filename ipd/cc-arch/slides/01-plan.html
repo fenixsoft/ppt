@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<script>/* ppt-gate 内容页守卫 */try{var g=JSON.parse(localStorage.getItem("ppt_gate"));if(!(g&&g.exp>Date.now())){document.documentElement.style.visibility="hidden";location.replace("../index.html?auth=1")}}catch(e){}</script>
+<title>01 · AutoD 落地进展及后续计划</title>
+<link rel="stylesheet" href="../../../assets/fonts.css">
+<link rel="stylesheet" href="../../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../../assets/animations/animations.css">
+<style>
+/* —— 落地计划表：沿用集团调研 deck 的 .t 表格惯例 —— */
+.t{font-size:19px;width:100%;table-layout:fixed;border-collapse:collapse}
+.t th,.t td{padding:16px 18px;text-align:left;vertical-align:top}
+.t thead th{font-size:15px;font-weight:600;letter-spacing:.1em;color:var(--text-3);
+  border-bottom:2px solid var(--border-strong);padding:10px 18px}
+.t th:nth-child(1){width:64px}
+.t th:nth-child(2){width:auto}
+.t th:nth-child(3){width:150px}
+.t th:nth-child(4){width:34%}
+.t tbody td{border-bottom:1px solid var(--border)}
+.t tbody tr:last-child td{border-bottom:none}
+.t td.no{font-weight:600;font-variant-numeric:tabular-nums;color:var(--text-3)}
+.t td.item{font-weight:400;line-height:1.55}
+.t td.item.strong{font-weight:700}
+.t td.date{font-weight:700;font-variant-numeric:tabular-nums;color:var(--accent-2);white-space:nowrap}
+.t td.note{font-size:16.5px;color:var(--text-2);line-height:1.6}
+.t td.note .done{color:var(--good);font-weight:600}
+/* —— 目标：三行编号列表 —— */
+.goals{list-style:none;counter-reset:g;margin:0;padding:0;font-size:18px;color:var(--text-2)}
+.goals li{counter-increment:g;position:relative;padding:11px 0 11px 46px;line-height:1.65}
+.goals li+li{border-top:1px dashed var(--border)}
+.goals li::before{content:counter(g);position:absolute;left:6px;top:16px;width:26px;height:26px;
+  border-radius:50%;background:var(--accent);color:var(--accent-ink);
+  font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.goals b{color:var(--accent-2)}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<section class="slide" data-title="AutoDevelopment 落地进展及后续计划" style="padding:48px 96px 56px">
+  <p class="kicker anim-fade-up" data-anim="fade-up">AutoD 落地 · 进展与后续计划</p>
+  <p class="big mt-s anim-fade-up" data-anim="fade-up" style="animation-delay:.08s;max-width:1400px">按 10.25 董事长交流修正打法：<b>小步快跑、急用先行</b>，先把 MVP 做出来，再逐步扩充应用场景。</p>
+
+  <ul class="goals mt-s anim-stagger-list" data-anim-target style="animation-delay:.22s">
+    <li>已商定以 EIS 为试验局点，争取<b>一周内</b>跑通首个端到端（从需求到产品）研发流程，看到效果</li>
+    <li>按照 Anthropic 人与 AI 协同开发工程架构进行复制</li>
+    <li>黑灯工厂：研发流程 24 小时运转，研发效能的度量从面向人类的“X 人团队、XX 人月工作量”到面向 AI 的“X 个 Agent 实例、消耗 XX Tokens”</li>
+  </ul>
+
+  <p class="eyebrow mt-l anim-fade-up" data-anim="fade-up" style="animation-delay:.3s">落地计划 · 2026 年 11 月</p>
+  <table class="t mt-s anim-fade-up" data-anim="fade-up" style="animation-delay:.36s">
+    <thead><tr><th>#</th><th>执行事项</th><th>时间节点</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="no">1</td>
+        <td class="item">搭建 AutoD 流水线，部署 EIS 产品为试点</td>
+        <td class="date">11.1</td>
+        <td class="note"><span class="done">流水线搭建已顺利完成</span>，EIS 10.30 后投入</td>
+      </tr>
+      <tr>
+        <td class="no">2</td>
+        <td class="item strong">E2E 跑通首个 EIS 纯后端需求</td>
+        <td class="date">11.9</td>
+        <td class="note">1 周</td>
+      </tr>
+      <tr>
+        <td class="no">3</td>
+        <td class="item">扩展至带界面的前端场景</td>
+        <td class="date">11.16</td>
+        <td class="note">1 周</td>
+      </tr>
+      <tr>
+        <td class="no">4</td>
+        <td class="item">人与 AI 对抗，充分验证可行性后，全面接入 EIS 研发生产环境</td>
+        <td class="date">11.30</td>
+        <td class="note">2 周</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="deck-footer"><span class="dim2">Anthropic 工程方法 · 2026-10</span><span class="slide-number" data-current="1" data-total="8"></span></div>
+  <div class="notes">这页交代节奏：10.25 与董事长对齐后，打法改为 MVP 先行。11.1 流水线就绪（已完成），EIS 10.30 后投入试点；11.2 起一周跑通首个后端需求，再花一周扩展前端场景；11.23 前用两周做人与 AI 对抗验证，可行即全面接入生产环境。三个目标各一句话：一周内见效果、严格复制 Anthropic 架构、黑灯工厂式 24 小时运转——工作量度量从人月改成 Tokens。若被问"为什么调整计划"：小步快跑是为了最快拿到可见的结果，再扩大战果。</div>
+</section>
+
+</div>
+<script src="../../../assets/runtime.js"></script>
+</body>
+</html>

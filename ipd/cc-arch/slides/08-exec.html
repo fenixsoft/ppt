@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<script>/* ppt-gate 内容页守卫 */try{var g=JSON.parse(localStorage.getItem("ppt_gate"));if(!(g&&g.exp>Date.now())){document.documentElement.style.visibility="hidden";location.replace("../index.html?auth=1")}}catch(e){}</script>
 <title>08 · 执行环境 · 沙箱与生产门禁</title>
 <link rel="stylesheet" href="../../../assets/fonts.css">
 <link rel="stylesheet" href="../../../assets/base.css">
@@ -18,8 +20,43 @@
 .stage .guard b{color:var(--accent-2)}
 .arr{display:flex;align-items:center;padding:0 12px;color:var(--text-3);font-size:24px}
 .prod{border:2px solid var(--accent)}
-.big{font-size:32px;font-weight:700;line-height:1.4}
+.big{font-size:32px;font-weight:700;line-height:1.4;max-width:1400px}
 .big b{color:var(--accent-2)}
+/* —— 右上角全景定位框：第 3 页架构图缩略（原图配色） —— */
+.minimap{position:absolute;top:28px;right:44px;z-index:5;width:334px;
+  border:1px solid #e6dfca;border-radius:14px;background:#f9f4ea;
+  box-shadow:var(--shadow);padding:22px 14px 11px}
+.minimap .cols{display:flex;align-items:stretch;height:70px}
+.mm-col{position:relative;flex:1;min-width:0;border:1px solid var(--hb);border-radius:7px;
+  background:var(--cbg);padding:4px 5px;display:flex;flex-direction:column;gap:5px;
+  --hc:#8a9099;--hb:#d9dce1;--cbg:#f4f5f7}
+.mm-col.c1{--hc:#e8722c;--hb:#f0cfa9;--cbg:#fdf6ee}
+.mm-col.c2{--hc:#24407a;--hb:#c9d5ea;--cbg:#f5f8fc}
+.mm-col.c3{--hc:#2f9e52;--hb:#c4e5cc;--cbg:#f2f9f4}
+.mm-col.wide{flex:1.5}
+.mm-col .hd{display:block;background:var(--hc);color:#fff;border-radius:4px;
+  font-size:12.5px;line-height:1.6;text-align:center;padding:0 2px;white-space:nowrap;overflow:hidden}
+.mm-col .bars{flex:1;display:flex;flex-direction:column;justify-content:space-evenly}
+.mm-col .bars i{display:block;height:6px;border-radius:3px;background:#fff;border:1px solid var(--hb)}
+.mm-rows{flex:1;display:flex;flex-direction:column;gap:5px}
+.mm-rows .cells{flex:1;display:grid;gap:5px}
+.mm-rows .cells.a{grid-template-columns:repeat(4,1fr)}
+.mm-rows .cells.b{grid-template-columns:repeat(2,1fr)}
+.mm-rows .cells i{border-radius:3px;background:#fff;border:1px solid var(--hb)}
+.mm-arr{align-self:center;color:#e8722c;font-size:11px;padding:0 2px}
+.mm-col.on{border-color:var(--hc);box-shadow:inset 0 0 0 1.5px var(--hc),0 3px 10px rgba(30,44,79,.16)}
+.mm-col.on::before{content:"本页";position:absolute;top:-16px;left:50%;transform:translateX(-50%);
+  background:var(--hc);color:#fff;font-size:12.5px;font-weight:700;line-height:1.4;
+  padding:1px 9px;border-radius:999px;white-space:nowrap}
+.mm-env{position:relative;margin:7px 0 0 27%;border:1px solid #d9dce1;border-radius:6px;
+  background:#edeef1;font-size:12px;line-height:1.6;color:#6b7078;text-align:center;padding:1px 30px}
+.mm-env.on{border-color:#24407a;box-shadow:inset 0 0 0 1.5px #24407a;background:#fff;
+  color:#24407a;font-weight:700}
+.mm-env.on::before{content:"本页";position:absolute;top:50%;right:5px;transform:translateY(-50%);
+  background:#24407a;color:#fff;font-size:12.5px;font-weight:700;line-height:1.4;
+  padding:0 9px;border-radius:999px;white-space:nowrap}
+.mm-principle{margin-top:6px;height:4px;border-radius:2px;background:#1e2c4f}
+.minimap .cap{margin-top:7px;font-size:12px;letter-spacing:.05em;color:#a49c88}
 .band{border-left:3px solid var(--accent);padding:12px 18px;background:var(--bg-soft);font-size:16.5px;line-height:1.7;color:var(--text-2)}
 .band b{color:var(--text-1)}
 </style>
@@ -28,6 +65,20 @@
 <div class="deck">
 
 <section class="slide" data-title="执行环境 · 沙箱与生产门禁" style="padding:48px 96px 56px">
+  <div class="minimap anim-fade-up" data-anim="fade-up" aria-hidden="true">
+    <div class="cols">
+      <div class="mm-col c1"><span class="hd">①意图</span><span class="bars"><i></i><i></i><i></i></span></div>
+      <span class="mm-arr">▸</span>
+      <div class="mm-col c2"><span class="hd">②驾驭</span><span class="bars"><i></i><i></i><i></i><i></i></span></div>
+      <span class="mm-arr">▸</span>
+      <div class="mm-col c3"><span class="hd">③循环</span><span class="bars"><i></i><i></i><i></i></span></div>
+      <span class="mm-arr">▸</span>
+      <div class="mm-col wide"><span class="hd">④分工·记忆</span><span class="mm-rows"><span class="cells a"><i></i><i></i><i></i><i></i></span><span class="cells b"><i></i><i></i></span></span></div>
+    </div>
+    <div class="mm-env on">执行环境</div>
+    <div class="mm-principle"></div>
+    <div class="cap">第 3 页全景图 · 本页位置</div>
+  </div>
   <p class="kicker">第⑤层 / Execution Environment / 执行环境</p>
   <p class="big mt-s anim-fade-up" data-anim="fade-up">AI 永远在沙箱里干活；<b>越靠近生产，人的介入越集中在高风险决策点</b>。</p>
   <div class="row mt-l anim-fade-up" data-anim="fade-up" style="align-items:stretch">
