@@ -11,11 +11,14 @@
   'use strict';
   var CFG = {
     salt: 'ppt-gate-v1',
-    hash: '51287b9aad8b208cdddca68c506048f7cc651a9632734ee6d67d25a769b120fb',           // sha256(salt|user|pass)，由 gate-set-auth.py 写入
     days: 7,                      // 记住天数
-    storeKey: 'ppt_gate'
+    storeKey: 'ppt_gate',
+    accounts: [                   // 由 scripts/gate-set-auth.py 维护（add/remove/list）
+      { u: 'icyfenix', h: 'd2d673301e52425d71ba8bdc59ba8882c0ee38374a805178ddd47c223d210a60' },
+      { u: 'user', h: 'b8672c7ea80368e3f94a3ae2a48028a29b1a85c412a385a89a68e1fe2cd04be8' },
+    ],
   };
-  if (CFG.hash === 'REPLACE_ME') return; // 未配置口令前不设防
+  if (!CFG.accounts.length) return; // 未配置账号前不设防
 
   /* ---------- 存储（fail-open） ---------- */
   function readExp() {
@@ -136,7 +139,10 @@
       var u = lock.querySelector('[name=u]').value.trim();
       var p = lock.querySelector('[name=p]').value;
       var card = lock.querySelector('.ppt-gate-card');
-      if (sha256Utf8(CFG.salt + '|' + u + '|' + p) === CFG.hash) {
+      var ok = CFG.accounts.some(function (a) {
+        return a.u === u && sha256Utf8(CFG.salt + '|' + u + '|' + p) === a.h;
+      });
+      if (ok) {
         try {
           localStorage.setItem(CFG.storeKey,
             JSON.stringify({ exp: Date.now() + CFG.days * 864e5 }));
