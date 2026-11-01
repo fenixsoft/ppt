@@ -16,7 +16,7 @@
 .t th,.t td{padding:16px 18px;text-align:left;vertical-align:top}
 .t thead th{font-size:15px;font-weight:600;letter-spacing:.1em;color:var(--text-3);
   border-bottom:2px solid var(--border-strong);padding:10px 18px}
-.t th:nth-child(1){width:64px}
+.t th:nth-child(1){width:110px}
 .t th:nth-child(2){width:auto}
 .t th:nth-child(3){width:150px}
 .t th:nth-child(4){width:34%}
@@ -28,6 +28,11 @@
 .t td.date{font-weight:700;font-variant-numeric:tabular-nums;color:var(--accent-2);white-space:nowrap}
 .t td.note{font-size:16.5px;color:var(--text-2);line-height:1.6}
 .t td.note .done{color:var(--good);font-weight:600}
+/* —— 层级：一级条目浅灰底成组，二级条目白底向右缩进两格 —— */
+.t tr.parent td{background:var(--surface-2);border-bottom:none}
+.t tr.sub td{padding:11px 18px}
+.t tr.sub td.no{padding-left:54px;font-weight:400;font-size:16.5px}
+.t tr.sub td.item{padding-left:54px;font-size:18px;color:var(--text-2)}
 /* —— 目标：三行编号列表 —— */
 .goals{list-style:none;counter-reset:g;margin:0;padding:0;font-size:18px;color:var(--text-2)}
 .goals li{counter-increment:g;position:relative;padding:11px 0 11px 46px;line-height:1.65}
@@ -42,42 +47,60 @@
 <div class="deck">
 
 <section class="slide" data-title="AutoDevelopment 落地进展及后续计划" style="padding:48px 96px 56px">
-  <p class="kicker anim-fade-up" data-anim="fade-up">AutoD 落地 · 进展与后续计划</p>
+  <p class="kicker anim-fade-up" data-anim="fade-up">AutoDevelopment 落地 · 进展与后续计划</p>
   <p class="big mt-s anim-fade-up" data-anim="fade-up" style="animation-delay:.08s;max-width:1400px">按 10.25 董事长交流修正打法：<b>小步快跑、急用先行</b>，先把 MVP 做出来，再逐步扩充应用场景。</p>
 
   <ul class="goals mt-s anim-stagger-list" data-anim-target style="animation-delay:.22s">
     <li>已商定以 EIS 为试验局点，争取<b>一周内</b>跑通首个端到端（从需求到产品）研发流程，看到效果</li>
-    <li>按照 Anthropic 人与 AI 协同开发工程架构进行复制</li>
-    <li>黑灯工厂：研发流程 24 小时运转，研发效能的度量从面向人类的“X 人团队、XX 人月工作量”到面向 AI 的“X 个 Agent 实例、消耗 XX Tokens”</li>
+    <li>按照 Anthropic 人与 AI 协同的工程架构进行复制</li>
+    <li>黑灯工厂：研发流程 24 小时运转，研发效能的度量从面向人的 “<b>X 人团队、XX 人月工作量</b>” 到面向 AI 的 “<b>X 个 Agent 实例、消耗 XX Tokens</b>”</li>
   </ul>
 
-  <p class="eyebrow mt-l anim-fade-up" data-anim="fade-up" style="animation-delay:.3s">落地计划 · 2026 年 11 月</p>
+  <p class="eyebrow mt-l anim-fade-up" data-anim="fade-up" style="animation-delay:.3s">落地计划 · 2026 年 11–12 月</p>
   <table class="t mt-s anim-fade-up" data-anim="fade-up" style="animation-delay:.36s">
     <thead><tr><th>#</th><th>执行事项</th><th>时间节点</th><th>说明</th></tr></thead>
     <tbody>
-      <tr>
+      <tr class="parent">
         <td class="no">1</td>
-        <td class="item">搭建 AutoD 流水线，部署 EIS 产品为试点</td>
-        <td class="date">11.1</td>
-        <td class="note"><span class="done">流水线搭建已顺利完成</span>，EIS 10.30 后投入</td>
+        <td class="item strong">以 EIS 为实验局，跑通 AutoD 流水线</td>
+        <td class="date">11.2–11.30</td>
+        <td class="note">小步快跑、急用先行</td>
       </tr>
-      <tr>
-        <td class="no">2</td>
-        <td class="item strong">E2E 跑通首个 EIS 纯后端需求</td>
+      <tr class="sub">
+        <td class="no">1.1</td>
+        <td class="item">搭建 AutoD 流水线，部署 EIS 产品为试点</td>
+        <td class="date">11.2</td>
+        <td class="note"><span class="done">流水线 MVP 版搭建已完成</span>，EIS 10.30 后投入</td>
+      </tr>
+      <tr class="sub">
+        <td class="no">1.2</td>
+        <td class="item">E2E 跑通首个 EIS 纯后端需求</td>
         <td class="date">11.9</td>
         <td class="note">1 周</td>
       </tr>
-      <tr>
-        <td class="no">3</td>
-        <td class="item">扩展至带界面的前端场景</td>
+      <tr class="sub">
+        <td class="no">1.3</td>
+        <td class="item">扩展至带前端、跨服务等全量场景</td>
         <td class="date">11.16</td>
         <td class="note">1 周</td>
       </tr>
-      <tr>
-        <td class="no">4</td>
+      <tr class="sub">
+        <td class="no">1.4</td>
         <td class="item">人与 AI 对抗，充分验证可行性后，全面接入 EIS 研发生产环境</td>
         <td class="date">11.30</td>
         <td class="note">2 周</td>
+      </tr>
+      <tr class="parent">
+        <td class="no">2</td>
+        <td class="item strong">推动公司其他软件平台（Avant Hub、SkyShield）导入 AutoD 流水线</td>
+        <td class="date">12月</td>
+        <td class="note">复制 EIS 试点经验</td>
+      </tr>
+      <tr class="parent">
+        <td class="no">3</td>
+        <td class="item strong">启动其他领域数字员工建设</td>
+        <td class="date">12月内</td>
+        <td class="note">复制 Anthropic 协同架构</td>
       </tr>
     </tbody>
   </table>

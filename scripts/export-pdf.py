@@ -65,6 +65,12 @@ def manifest_slides(manifest: Path) -> list[str]:
     return files
 
 
+GATE_BYPASS = (
+    "try{localStorage.setItem('ppt_gate',"
+    "JSON.stringify({user:'pdf-export',exp:4102444800000}))}catch(e){}"
+)  # 本地导出绕过站点门禁守卫（gate 只在前端，导出浏览器实例内置已授权态）
+
+
 async def settle(page):
     """等 webfont 与内嵌 iframe（原型页等）的字体就绪，再留动画落定时间。"""
     await page.evaluate("document.fonts.ready")
@@ -84,6 +90,7 @@ async def export_paginated(browser, deck: Path, files: list[str], parts: list[Pa
             sys.exit(f"error: 清单中的页面文件不存在: {src}")
         page = await browser.new_page(viewport={"width": PAGE_W, "height": PAGE_H})
         try:
+            await page.add_init_script(GATE_BYPASS)
             await page.goto(src.as_uri(), wait_until="networkidle")
             await settle(page)
             # 修正页码：单页文件里 runtime 写成 1/1，源文件还可能有陈旧烘焙值
@@ -115,6 +122,7 @@ def count_legacy_slides(deck: Path) -> int:
 async def export_legacy(browser, deck: Path, out: Path):
     page = await browser.new_page(viewport={"width": PAGE_W, "height": PAGE_H})
     try:
+        await page.add_init_script(GATE_BYPASS)
         await page.goto((deck / "index.html").as_uri(), wait_until="networkidle")
         await settle(page)
         # 整份打印，print 样式按 break-after:page 一页一张 slide
