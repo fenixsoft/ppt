@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-base="../../../assets/themes/" data-themes="corporate-clean,tokyo-night,nord,catppuccin-mocha,dracula">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<script>/* ppt-gate 内容页守卫 */try{var g=JSON.parse(localStorage.getItem("ppt_gate"));if(!(g&&g.exp>Date.now())){document.documentElement.style.visibility="hidden";location.replace("../index.html?auth=1")}}catch(e){}</script>
+<title>02 · Vibe Coding 现状问题闭环</title>
+<link rel="stylesheet" href="../../../assets/fonts.css">
+<link rel="stylesheet" href="../../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
+<link rel="stylesheet" href="../../../assets/animations/animations.css">
+<style>
+/* —— 问题闭环表：沿用 01-plan 的 .t 两级表格惯例 —— */
+.t{font-size:20px;width:100%;table-layout:fixed;border-collapse:collapse}
+.t th,.t td{padding:18px 20px;text-align:left;vertical-align:top}
+.t thead th{font-size:15px;font-weight:600;letter-spacing:.1em;color:var(--text-3);
+  border-bottom:2px solid var(--border-strong);padding:12px 20px}
+.t th:nth-child(1){width:110px}
+.t th:nth-child(2){width:auto}
+.t th:nth-child(3){width:170px}
+.t th:nth-child(4){width:30%}
+.t tbody td{border-bottom:1px solid var(--border)}
+.t tbody tr:last-child td{border-bottom:none}
+.t td.no{font-weight:600;font-variant-numeric:tabular-nums;color:var(--text-3)}
+.t td.item{font-weight:400;line-height:1.6}
+.t td.item.strong{font-weight:700}
+.t td.date{font-weight:700;font-variant-numeric:tabular-nums;color:var(--accent-2);white-space:nowrap}
+.t td.note{font-size:17.5px;color:var(--text-2);line-height:1.6}
+/* —— 层级：一级条目（问题）浅灰底成组，二级条目（解决方案）白底向右缩进两格 —— */
+.t tr.parent td{background:var(--surface-2);border-bottom:none}
+.t tr.sub td{padding:13px 20px}
+.t tr.sub td.no{padding-left:56px;font-weight:400;font-size:17.5px}
+.t tr.sub td.item{padding-left:56px;font-size:19px;color:var(--text-2)}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<section class="slide" data-title="Vibe Coding 现状问题闭环" style="padding:52px 96px 56px">
+  <p class="kicker anim-fade-up" data-anim="fade-up">闭环 · 10.27 研发 Vibe Coding 现状</p>
+  <p class="big mt-s anim-fade-up" data-anim="fade-up" style="animation-delay:.08s;max-width:1400px">针对 10.27 梳理的研发现状问题，从<b>编程工具、信息查找、算力管理</b>三方面逐项闭环。</p>
+
+  <p class="eyebrow mt-l anim-fade-up" data-anim="fade-up" style="animation-delay:.2s">解决方案与时间节点 · 2026 年 11 月</p>
+  <table class="t mt-s anim-fade-up" data-anim="fade-up" style="animation-delay:.26s">
+    <thead><tr><th>#</th><th>执行事项</th><th>时间节点</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr class="parent">
+        <td class="no">1</td>
+        <td class="item strong">解决编程工具问题</td>
+        <td class="date"></td>
+        <td class="note">三家公司的研发现状类似，可共用一套模版</td>
+      </tr>
+      <tr class="sub">
+        <td class="no">1.1</td>
+        <td class="item">收编编程工具：从当前 17 款收敛为两套模版：Vibe Coding 模版（Cursor + Claude Code）、AutoD 模版（Claude Code）</td>
+        <td class="date">11.9</td>
+        <td class="note">17 款 → 2 套模版</td>
+      </tr>
+      <tr class="parent">
+        <td class="no">2</td>
+        <td class="item strong">建设统一信息平台，解决信息查找问题</td>
+        <td class="date"></td>
+        <td class="note">降低研发的信息沟通成本</td>
+      </tr>
+      <tr class="sub">
+        <td class="no">2.1</td>
+        <td class="item">W3 提供统一信息搜索</td>
+        <td class="date">11月内</td>
+        <td class="note">参考华为 W3 搜索的架构</td>
+      </tr>
+      <tr class="sub">
+        <td class="no">2.2</td>
+        <td class="item">以 LLMWiki 形式建设统一信息源</td>
+        <td class="date">11月内</td>
+        <td class="note">同时面向 AI 与人类</td>
+      </tr>
+      <tr class="parent">
+        <td class="no">3</td>
+        <td class="item strong">算力管理的流程、使用台账</td>
+        <td class="date"></td>
+        <td class="note"></td>
+      </tr>
+      <tr class="sub">
+        <td class="no">3.1</td>
+        <td class="item">算力管理（规划、采购、分配、回收）的流程</td>
+        <td class="date">11.9 初稿<br>11.14 定稿</td>
+        <td class="note">与 @Richard 协同</td>
+      </tr>
+      <tr class="sub">
+        <td class="no">3.2</td>
+        <td class="item">算力使用台账：归属到产品、人的算力成本，收益分析（产出了哪些内容）</td>
+        <td class="date">11.20</td>
+        <td class="note">大部分信息可自动归结</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="deck-footer"><span class="dim2">Anthropic 工程方法 · 2026-10</span><span class="slide-number" data-current="2" data-total="9"></span></div>
+  <div class="notes">这页是对 10.27 研发 Vibe Coding 现状调研的三类问题逐项闭环。工具侧：三家公司研发现状类似，不必各搞一套——当前 17 款编程工具统一收敛为两套模版，Vibe Coding 模版（Cursor + Claude Code）与 AutoD 模版（Claude Code），11.9 完成。信息侧：双管齐下，一是 W3 提供统一信息搜索，参考华为 W3 搜索的架构；二是以 LLMWiki 形式建设同时面向 AI 和人类的统一信息源，都在 11 月内交付。算力侧：管理流程（规划、采购、分配、回收）由 Richard 牵头，11.9 出初稿、11.14 定稿；使用台账 11.20 前建成——算力成本归属到产品和人，并做收益分析看产出了哪些内容，台账大部分信息可自动归结，不给研发增加额外负担。若被问"为什么这三件事优先"：工具统一是推广 AutoD 的前提，信息查找是研发日常最高频的痛点，算力台账让 AI 投入的成本收益可度量。</div>
+</section>
+
+</div>
+<script src="../../../assets/runtime.js"></script>
+</body>
+</html>

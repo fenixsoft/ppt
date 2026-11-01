@@ -5,21 +5,21 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <script>/* ppt-gate 内容页守卫 */try{var g=JSON.parse(localStorage.getItem("ppt_gate"));if(!(g&&g.exp>Date.now())){document.documentElement.style.visibility="hidden";location.replace("../index.html?auth=1")}}catch(e){}</script>
-<title>08 · 执行环境 · 沙箱与生产门禁</title>
+<title>05 · 第①层 · 人的意图层</title>
 <link rel="stylesheet" href="../../../assets/fonts.css">
 <link rel="stylesheet" href="../../../assets/base.css">
 <link rel="stylesheet" id="theme-link" href="../../../assets/themes/corporate-clean.css">
 <link rel="stylesheet" href="../../../assets/animations/animations.css">
 <style>
-.stage{flex:1;border:1px solid var(--border);border-radius:12px;padding:20px 22px;background:var(--bg-soft);position:relative}
-.stage .no{position:absolute;top:-13px;left:18px;background:var(--accent);color:var(--accent-ink);border-radius:999px;font-size:14px;font-weight:700;padding:3px 12px;letter-spacing:.06em}
-.stage h4{font-size:20px;margin-top:4px}
-.stage .en{font-size:14px;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase}
-.stage p{font-size:15.5px;line-height:1.65;color:var(--text-2);margin-top:8px}
-.stage .guard{margin-top:10px;padding-top:9px;border-top:1px dashed var(--border);font-size:15px;color:var(--text-2)}
-.stage .guard b{color:var(--accent-2)}
-.arr{display:flex;align-items:center;padding:0 12px;color:var(--text-3);font-size:24px}
-.prod{border:2px solid var(--accent)}
+.role{border:1px solid var(--border);border-radius:10px;padding:18px 20px;background:var(--bg-soft)}
+.role.hl{border:2px solid var(--accent)}
+.role .tag{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-2);font-weight:700}
+.role h4{font-size:19px;margin-top:6px}
+.role p{font-size:15.5px;line-height:1.6;color:var(--text-2);margin-top:8px}
+.role .so{margin-top:10px;padding-top:9px;border-top:1px dashed var(--border);font-size:15px;color:var(--text-2)}
+.role .so b{color:var(--text-1)}
+.band{border-left:3px solid var(--accent);padding:12px 18px;background:var(--bg-soft);font-size:16.5px;line-height:1.7;color:var(--text-2)}
+.band b{color:var(--text-1)}
 .big{font-size:32px;font-weight:700;line-height:1.4;max-width:1400px}
 .big b{color:var(--accent-2)}
 /* —— 右上角全景定位框：第 3 页架构图缩略（原图配色） —— */
@@ -57,17 +57,15 @@
   padding:0 9px;border-radius:999px;white-space:nowrap}
 .mm-principle{margin-top:6px;height:4px;border-radius:2px;background:#1e2c4f}
 .minimap .cap{margin-top:7px;font-size:12px;letter-spacing:.05em;color:#a49c88}
-.band{border-left:3px solid var(--accent);padding:12px 18px;background:var(--bg-soft);font-size:16.5px;line-height:1.7;color:var(--text-2)}
-.band b{color:var(--text-1)}
 </style>
 </head>
 <body>
 <div class="deck">
 
-<section class="slide" data-title="执行环境 · 沙箱与生产门禁" style="padding:48px 96px 56px">
+<section class="slide" data-title="第①层 · 人的意图层" style="padding:48px 96px 56px">
   <div class="minimap anim-fade-up" data-anim="fade-up" aria-hidden="true">
     <div class="cols">
-      <div class="mm-col c1"><span class="hd">①意图</span><span class="bars"><i></i><i></i><i></i></span></div>
+      <div class="mm-col c1 on"><span class="hd">①意图</span><span class="bars"><i></i><i></i><i></i></span></div>
       <span class="mm-arr">▸</span>
       <div class="mm-col c2"><span class="hd">②驾驭</span><span class="bars"><i></i><i></i><i></i><i></i></span></div>
       <span class="mm-arr">▸</span>
@@ -75,43 +73,45 @@
       <span class="mm-arr">▸</span>
       <div class="mm-col wide"><span class="hd">④分工·记忆</span><span class="mm-rows"><span class="cells a"><i></i><i></i><i></i><i></i></span><span class="cells b"><i></i><i></i></span></span></div>
     </div>
-    <div class="mm-env on">执行环境</div>
+    <div class="mm-env">执行环境</div>
     <div class="mm-principle"></div>
     <div class="cap">第 3 页全景图 · 本页位置</div>
   </div>
-  <p class="kicker">第⑤层 / Execution Environment / 执行环境</p>
-  <p class="big mt-s anim-fade-up" data-anim="fade-up">AI 永远在沙箱里干活；<b>越靠近生产，人的介入越集中在高风险决策点</b>。</p>
-  <div class="row mt-l anim-fade-up" data-anim="fade-up" style="align-items:stretch">
-    <div class="stage">
-      <span class="no">试验区</span>
-      <p class="en">Repo + Filesystem</p>
-      <h4>代码库与文件系统</h4>
-      <p>AI 的全部工作对象都在仓库内：改动可追踪、可回滚、可评审</p>
-      <div class="guard">破坏力：<b>零</b>。改错了大不了回滚</div>
+  <p class="kicker">第①层 / Human Intent Layer · 人的意图层</p>
+  <p class="big mt-s anim-fade-up" data-anim="fade-up">以下<b>四项职责</b>是需要人类承担的，AI 无法替代</p>
+  <div class="grid g4 mt-m anim-stagger-list" data-anim-target>
+    <div class="role hl">
+      <span class="tag">产品 / 业务</span>
+      <h4>定目标</h4>
+      <p>目标、优先级、成功标准、验收标准</p>
+      <div class="so">决定 AI 做出来的东西<b>"对不对"</b></div>
     </div>
-    <div class="arr">→</div>
-    <div class="stage">
-      <span class="no">隔离区</span>
-      <p class="en">Shell / Container / Worktree</p>
-      <h4>容器与隔离工作树</h4>
-      <p>试错被限制在容器内；多任务各用各的工作树，互不踩脚</p>
-      <div class="guard">破坏力：<b>有界</b>。爆炸半径 = 一个容器</div>
+    <div class="role hl">
+      <span class="tag">架构 / PM</span>
+      <h4>定边界</h4>
+      <p>架构决策记录（ADR）、系统边界、风险分级、权衡取舍</p>
+      <div class="so">决定 AI"<b>按哪条路走</b>"，把代价高的弯路提前拦下</div>
     </div>
-    <div class="arr">→</div>
-    <div class="stage prod">
-      <span class="no">生产区</span>
-      <p class="en">Preview / Staging / Prod</p>
-      <h4>预发与生产</h4>
-      <p>发布必须过门禁：数据变更、权限变更、上线动作</p>
-      <div class="guard">破坏力：<b>真实</b>。人守在这里，逐项放行</div>
+    <div class="role">
+      <span class="tag">人类评审 / CMC</span>
+      <h4>承担责任</h4>
+      <p>安全、隐私、合规、重大设计、发布批准</p>
+      <div class="so">高风险节点上<b>说"不"</b>的权力，不可委托给 AI</div>
+    </div>
+    <div class="role">
+      <span class="tag">运维 / SRE</span>
+      <h4>问题兜底</h4>
+      <p>SLO、回滚预案、生产环境门禁</p>
+      <div class="so">线上事故的<b>最后防线</b>，定义"什么状态必须回滚"</div>
     </div>
   </div>
   <div class="band mt-l">
-    <b>管理含义：</b>风险控制不靠"相信 AI 守规矩"，靠<b>环境分层</b>——破坏力被容器和门禁逐层截留。
-    人不是不在环上，而是<b>只在环上的关键点位</b>：高风险决策。这同时就是问责链的落点——出问题时，能说清是谁批的、批了什么。
+    <b>管理含义：</b>意图层的产出（目标、边界、风险分级）是后续全部自动化环节的"<b>宪法</b>"。
+    写不清楚的意图，AI 会替你脑补，错误往往在最后一公里才暴露，返工成本最高。
+    <b>组织要做的是把"定义与裁决"变成显式岗位产出物，而不是靠开会口头对齐。</b>
   </div>
-  <div class="deck-footer"><span class="dim2">Anthropic 工程方法 · 2026-10</span><span class="slide-number" data-current="9" data-total="10"></span></div>
-  <div class="notes">三区模型的本质是"爆炸半径管理"：试验区零风险、隔离区有界风险、生产区真实风险+人工门禁。图上红字"Human review only at high-risk decisions"就是这个意思。对管理层的关键句：人在环上的唯一点位=高风险决策=问责落点，这三个"点"是同一个点。</div>
+  <div class="deck-footer"><span class="dim2">Anthropic 工程方法 · 2026-10</span><span class="slide-number" data-current="4" data-total="10"></span></div>
+  <div class="notes">四种角色对应四类产出物，全是"决策"而非"操作"。可以类比：这层就像董事会与经营班子的分工——定战略、定边界、握否决权，不亲自执行。强调"意图=宪法"：后面所有自动化都以这层写出来的东西为准绳，所以它的质量上限就是整个体系的质量上限。</div>
 </section>
 
 </div>
